@@ -4,12 +4,12 @@ import 'package:sqflite/sqflite.dart';
 import '../../../core/database/database_helper.dart';
 
 class DatabaseInitState extends ChangeNotifier {
-  Future<Database> _dbFuture = QuranDatabaseService.instance.db;
+  Future<Database> _dbFuture = DatabaseHelper.instance.db;
 
   Future<Database> get dbFuture => _dbFuture;
 
   void retry() {
-    _dbFuture = QuranDatabaseService.instance.reinstallFromAssets();
+    _dbFuture = DatabaseHelper.instance.reinstallFromAssets();
     notifyListeners();
   }
 }

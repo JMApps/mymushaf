@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymushaf/features/surah/presentation/pages/surah_name_page.dart';
 import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _mainPages = [
-      Container(),
+      const SurahNamePage(),
       Container(),
       Container(),
       Container(),
@@ -61,14 +62,14 @@ class _HomePageState extends State<HomePage> {
                 appColors.primary.withAlpha(0),
                 appColors.primary.withAlpha(15),
                 appColors.primary.withAlpha(35),
-                appColors.primary.withAlpha(55),
                 appColors.primary.withAlpha(75),
+                appColors.primary.withAlpha(95),
               ],
             ),
           ),
           child: Card(
             margin: AppPaddings.withoutTopMedium,
-            shape: AppShapes.medium,
+            shape: AppShapes.large,
             child: SalomonBottomBar(
               itemShape: AppShapes.large,
               selectedItemColor: appColors.primary,

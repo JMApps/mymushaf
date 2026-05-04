@@ -151,6 +151,24 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Настройки'**
   String get settings;
+
+  /// No description provided for @ayahsCount.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count, plural, one{{count} аят} few{{count} аята} many{{count} аятов} other{{count} аята}}'**
+  String ayahsCount(int count);
+
+  /// No description provided for @mecca.
+  ///
+  /// In ru, this message translates to:
+  /// **'Мекка'**
+  String get mecca;
+
+  /// No description provided for @medina.
+  ///
+  /// In ru, this message translates to:
+  /// **'Медина'**
+  String get medina;
 }
 
 class _AppLocalizationsDelegate

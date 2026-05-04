@@ -8,5 +8,13 @@
   "juz": "Джузы",
   "hizb": "Хизбы",
   "bookmarks": "Избранное",
-  "settings": "Настройки"
+  "settings": "Настройки",
+  "ayahsCount": "{count, plural, one{{count} аят} few{{count} аята} many{{count} аятов} other{{count} аята}}",
+  "@ayahsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "mecca": "Мекка",
+  "medina": "Медина"
 }

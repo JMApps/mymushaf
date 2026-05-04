@@ -1,0 +1,39 @@
+import 'package:flutter/material.dart';
+import 'package:mymushaf/core/theme/app_text_styles.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../core/theme/app_paddings.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../domain/entities/surah_name_entity.dart';
+import '../lists/surah_name_list.dart';
+import '../states/surah_name_state.dart';
+
+class SurahNamePage extends StatelessWidget {
+  const SurahNamePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final appLocale = AppLocalizations.of(context);
+    final isLoading = context.select<SurahNameState, bool>((s) => s.isLoading);
+    final error = context.select<SurahNameState, Object?>((s) => s.error);
+    final surahs = context.select<SurahNameState, List<SurahNameEntity>>((s) => s.surahs);
+
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        title: Text(
+          appLocale.appName,
+          style: AppTextStyles.mediumTextStyle,
+        ),
+      ),
+      body: switch ((isLoading, error)) {
+        (true, _) => const Center(child: CircularProgressIndicator.adaptive()),
+        (_, final e?) => Padding(
+          padding: AppPaddings.medium,
+          child: Center(child: Text('$e')),
+        ),
+        _ => SurahNameList(surahs: surahs),
+      },
+    );
+  }
+}

@@ -4,10 +4,10 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 
-class QuranDatabaseService {
-  QuranDatabaseService._();
+class DatabaseHelper {
+  DatabaseHelper._();
 
-  static final QuranDatabaseService instance = QuranDatabaseService._();
+  static final DatabaseHelper instance = DatabaseHelper._();
 
   static const String _dbFileName = 'mushaf_database.db';
   static const String _assetPath = 'assets/databases/$_dbFileName';

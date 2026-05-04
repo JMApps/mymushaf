@@ -34,4 +34,23 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settings => 'Настройки';
+
+  @override
+  String ayahsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count аята',
+      many: '$count аятов',
+      few: '$count аята',
+      one: '$count аят',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mecca => 'Мекка';
+
+  @override
+  String get medina => 'Медина';
 }

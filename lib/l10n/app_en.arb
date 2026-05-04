@@ -2,11 +2,14 @@
   "@@locale": "en",
   "appName": "My Mushaf",
   "initializingData": "Setting things up…",
-  "errorDbInit": "Database initialization error",
+  "errorDbInit": "Couldn't initialize the database",
   "retry": "Try again",
-  "surah": "Surah",
+  "surah": "Surahs",
   "juz": "Juz",
   "hizb": "Hizb",
   "bookmarks": "Bookmarks",
-  "settings": "Settings"
+  "settings": "Settings",
+  "ayahsCount": "{count, plural, one{{count} ayah} other{{count} ayahs}}",
+  "mecca": "Mecca",
+  "medina": "Medina"
 }
