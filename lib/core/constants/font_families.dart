@@ -1,0 +1,11 @@
+class FontFamilies {
+  FontFamilies._();
+
+  static const String kfgQPC = 'KFGQPC';
+  static const String surahHeader = 'Surah name v2';
+  static const String juzName = 'Juz name';
+
+  static String pageFont(int pageNumber) => 'p$pageNumber';
+
+  static String glyphForSurahNumber(int surahNumber) => String.fromCharCode(0xE000 + surahNumber);
+}

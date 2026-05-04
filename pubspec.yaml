@@ -51,12 +51,12 @@ flutter:
     - family: KFGQPC
       fonts:
         - asset: assets/fonts/KFGQPC_mastaleeq.ttf
+    - family: PT Sans
+      fonts:
+        - asset: assets/fonts/pt_sans_regular.ttf
     - family: Juz name
       fonts:
         - asset: assets/fonts/juz_name.ttf
     - family: Surah name v2
       fonts:
-        - asset: assets/fonts/surah_name_v4.ttf
-    - family: Surah name v4
-      fonts:
-        - asset: assets/fonts/surah_name_v4.ttf
+        - asset: assets/fonts/surah_name_v2.ttf
