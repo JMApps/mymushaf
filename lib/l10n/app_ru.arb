@@ -1,4 +1,5 @@
 {
   "@@locale": "ru",
-  "appName": "Мой Мусхаф"
+  "appName": "Мой Мусхаф",
+  "initializingData": "Инициализация данных…"
 }

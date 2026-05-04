@@ -1,4 +1,5 @@
 {
   "@@locale": "en",
-  "appName": "My Mushaf"
+  "appName": "My Mushaf",
+  "initializingData": "Setting things up…"
 }

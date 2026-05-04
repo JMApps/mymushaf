@@ -103,6 +103,12 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Мой Мусхаф'**
   String get appName;
+
+  /// No description provided for @initializingData.
+  ///
+  /// In ru, this message translates to:
+  /// **'Инициализация данных…'**
+  String get initializingData;
 }
 
 class _AppLocalizationsDelegate

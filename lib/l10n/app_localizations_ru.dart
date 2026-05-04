@@ -10,4 +10,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get appName => 'Мой Мусхаф';
+
+  @override
+  String get initializingData => 'Инициализация данных…';
 }

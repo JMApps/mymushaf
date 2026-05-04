@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'app_loader.dart';
 import 'core/theme/app_theme.dart';
 import 'features/settings/states/theme_state.dart';
-import 'home_page.dart';
 import 'l10n/app_localizations.dart';
 
 class RootPage extends StatelessWidget {
@@ -21,7 +21,7 @@ class RootPage extends StatelessWidget {
       theme: theme.lightTheme,
       darkTheme: theme.darkTheme,
       themeMode: themeState.themeMode,
-      home: const HomePage(),
+      home: const AppLoader(),
     );
   }
 }

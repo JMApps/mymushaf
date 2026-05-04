@@ -10,4 +10,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get appName => 'My Mushaf';
+
+  @override
+  String get initializingData => 'Setting things up…';
 }
