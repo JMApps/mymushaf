@@ -13,4 +13,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get initializingData => 'Setting things up…';
+
+  @override
+  String get errorDbInit => 'Database initialization error';
+
+  @override
+  String get retry => 'Try again';
 }

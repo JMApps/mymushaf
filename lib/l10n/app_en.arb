@@ -1,5 +1,7 @@
 {
   "@@locale": "en",
   "appName": "My Mushaf",
-  "initializingData": "Setting things up…"
+  "initializingData": "Setting things up…",
+  "errorDbInit": "Database initialization error",
+  "retry": "Try again"
 }

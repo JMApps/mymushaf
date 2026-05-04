@@ -13,4 +13,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get initializingData => 'Инициализация данных…';
+
+  @override
+  String get errorDbInit => 'Ошибка инициализации базы данных';
+
+  @override
+  String get retry => 'Повторить попытку';
 }

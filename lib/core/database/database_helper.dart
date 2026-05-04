@@ -134,7 +134,7 @@ class QuranDatabaseService {
     }
   }
 
-  Future<void> reinstallFromAssets() async {
+  Future<Database> reinstallFromAssets() async {
     final dbDir = await getDatabasesPath();
     final dbPath = p.join(dbDir, _dbFileName);
 
@@ -142,6 +142,6 @@ class QuranDatabaseService {
     await deleteDatabase(dbPath);
     await _installFreshFromAssets(dbPath);
 
-    await db;
+    return db;
   }
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/theme/app_theme.dart';
+import '../../settings/states/theme_state.dart';
+import '../../../l10n/app_localizations.dart';
 import 'app_loader.dart';
-import 'core/theme/app_theme.dart';
-import 'features/settings/states/theme_state.dart';
-import 'l10n/app_localizations.dart';
 
 class RootPage extends StatelessWidget {
   const RootPage({super.key});

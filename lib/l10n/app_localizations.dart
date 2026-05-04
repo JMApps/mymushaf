@@ -109,6 +109,18 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Инициализация данных…'**
   String get initializingData;
+
+  /// No description provided for @errorDbInit.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка инициализации базы данных'**
+  String get errorDbInit;
+
+  /// No description provided for @retry.
+  ///
+  /// In ru, this message translates to:
+  /// **'Повторить попытку'**
+  String get retry;
 }
 
 class _AppLocalizationsDelegate
