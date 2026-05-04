@@ -3,5 +3,10 @@
   "appName": "My Mushaf",
   "initializingData": "Setting things up…",
   "errorDbInit": "Database initialization error",
-  "retry": "Try again"
+  "retry": "Try again",
+  "surah": "Surah",
+  "juz": "Juz",
+  "hizb": "Hizb",
+  "bookmarks": "Bookmarks",
+  "settings": "Settings"
 }

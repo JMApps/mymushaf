@@ -5,7 +5,7 @@ class MainState extends ChangeNotifier {
 
   int get bottomNavigatorIndex => _bottomNavigatorIndex;
 
-  set bottomNavigatorIndex(int index) {
+  void setBottomNavigatorIndex(int index) {
     if (_bottomNavigatorIndex == index) return;
     _bottomNavigatorIndex = index;
     notifyListeners();

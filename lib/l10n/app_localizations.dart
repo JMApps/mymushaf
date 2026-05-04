@@ -121,6 +121,36 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Повторить попытку'**
   String get retry;
+
+  /// No description provided for @surah.
+  ///
+  /// In ru, this message translates to:
+  /// **'Суры'**
+  String get surah;
+
+  /// No description provided for @juz.
+  ///
+  /// In ru, this message translates to:
+  /// **'Джузы'**
+  String get juz;
+
+  /// No description provided for @hizb.
+  ///
+  /// In ru, this message translates to:
+  /// **'Хизбы'**
+  String get hizb;
+
+  /// No description provided for @bookmarks.
+  ///
+  /// In ru, this message translates to:
+  /// **'Избранное'**
+  String get bookmarks;
+
+  /// No description provided for @settings.
+  ///
+  /// In ru, this message translates to:
+  /// **'Настройки'**
+  String get settings;
 }
 
 class _AppLocalizationsDelegate
