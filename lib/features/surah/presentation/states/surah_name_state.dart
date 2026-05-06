@@ -21,6 +21,14 @@ class SurahNameState extends ChangeNotifier {
 
   Object? get error => _error;
 
+  String surahByVerseKey(String firstVerseKey, String ayahTitle) {
+    final parts = firstVerseKey.split(':');
+    final surahId = int.parse(parts[0]);
+    final ayah = parts[1];
+    final surah = _surahs[surahId - 1];
+    return '${surah.nameTranscriptionRu}, $ayahTitle $ayah';
+  }
+
   Future<void> _loadAllSurahs() async {
     _isLoading = true;
     notifyListeners();

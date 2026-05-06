@@ -125,8 +125,26 @@ abstract class AppLocalizations {
   /// No description provided for @surah.
   ///
   /// In ru, this message translates to:
-  /// **'Суры'**
+  /// **'Сура'**
   String get surah;
+
+  /// No description provided for @surahs.
+  ///
+  /// In ru, this message translates to:
+  /// **'Суры'**
+  String get surahs;
+
+  /// No description provided for @ayahs.
+  ///
+  /// In ru, this message translates to:
+  /// **'Аяты'**
+  String get ayahs;
+
+  /// No description provided for @ayah.
+  ///
+  /// In ru, this message translates to:
+  /// **'Аят'**
+  String get ayah;
 
   /// No description provided for @juz.
   ///

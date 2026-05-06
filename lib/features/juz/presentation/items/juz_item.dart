@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mymushaf/features/surah/presentation/states/surah_name_state.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_paddings.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -22,6 +24,7 @@ class JuzItem extends StatelessWidget {
     final appColors = Theme.of(context).colorScheme;
     final itemOddColor = appColors.secondary.withAlpha(25);
     final itemEvenColor = appColors.secondary.withAlpha(05);
+    final surahFirstVerseKey = context.select<SurahNameState, String>((s) => s.surahByVerseKey(juz.firstVerseKey, appLocale.ayah.toLowerCase()));
     return InkWell(
       splashColor: appColors.inversePrimary.withAlpha(75),
       focusColor: appColors.inversePrimary.withAlpha(55),
@@ -45,11 +48,10 @@ class JuzItem extends StatelessWidget {
                 crossAxisAlignment: .stretch,
                 children: [
                   Text(
-                    'Джуз ${juz.juzNumber}',
-                    style: TextStyle(
-                      color: appColors.primary,
-                      fontSize: 18.0,
-                    ),
+                    surahFirstVerseKey,
+                    style: AppTextStyles.mediumTextStyle,
+                    maxLines: 1,
+                    overflow: .ellipsis,
                   ),
                   Text(
                     appLocale.ayahsCount(juz.versesCount).toString(),

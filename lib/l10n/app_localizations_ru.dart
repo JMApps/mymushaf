@@ -21,7 +21,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get retry => 'Повторить попытку';
 
   @override
-  String get surah => 'Суры';
+  String get surah => 'Сура';
+
+  @override
+  String get surahs => 'Суры';
+
+  @override
+  String get ayahs => 'Аяты';
+
+  @override
+  String get ayah => 'Аят';
 
   @override
   String get juz => 'Джузы';

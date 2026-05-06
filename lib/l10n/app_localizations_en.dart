@@ -21,7 +21,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get retry => 'Try again';
 
   @override
-  String get surah => 'Surahs';
+  String get surah => 'Surah';
+
+  @override
+  String get surahs => 'Surahs';
+
+  @override
+  String get ayahs => 'Ayahs';
+
+  @override
+  String get ayah => 'Ayah';
 
   @override
   String get juz => 'Juz';
