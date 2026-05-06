@@ -9,7 +9,12 @@ import '../lists/surah_name_list.dart';
 import '../states/surah_name_state.dart';
 
 class SurahNamePage extends StatelessWidget {
-  const SurahNamePage({super.key});
+  const SurahNamePage({
+    super.key,
+    required this.scrollController,
+  });
+
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +37,10 @@ class SurahNamePage extends StatelessWidget {
           padding: AppPaddings.medium,
           child: Center(child: Text('$e')),
         ),
-        _ => SurahNameList(surahs: surahs),
+        _ => SurahNameList(
+          scrollController: scrollController,
+          surahs: surahs,
+        ),
       },
     );
   }

@@ -15,13 +15,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get initializingData => 'Setting things up…';
 
   @override
-  String get errorDbInit => 'Database initialization error';
+  String get errorDbInit => 'Couldn\'t initialize the database';
 
   @override
   String get retry => 'Try again';
 
   @override
-  String get surah => 'Surah';
+  String get surah => 'Surahs';
 
   @override
   String get juz => 'Juz';
@@ -41,8 +41,7 @@ class AppLocalizationsEn extends AppLocalizations {
       count,
       locale: localeName,
       other: '$count ayahs',
-      one: '1 ayah',
-      zero: 'No ayahs',
+      one: '$count ayah',
     );
     return '$_temp0';
   }

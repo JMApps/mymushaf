@@ -10,7 +10,7 @@ class SurahNameRepositoryImpl implements SurahNameRepository {
 
   @override
   Future<List<SurahNameEntity>> fetchAllSurahs() async {
-    final models = await _localDataSource.fetchAllSurahs();
-    return models.map((m) => m.surahNameToEntity()).toList();
+    final allSurahs = await _localDataSource.fetchAllSurahs();
+    return allSurahs.map((m) => m.surahNameToEntity()).toList();
   }
 }

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mymushaf/features/surah/presentation/pages/surah_name_page.dart';
 import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import '../../../core/theme/app_paddings.dart';
 import '../../../core/theme/app_shapes.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../juz/presentation/pages/juz_page.dart';
+import '../../surah/presentation/pages/surah_name_page.dart';
 import '../states/main_state.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,17 +17,47 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late final ScrollController _surahScrollController;
+  late final ScrollController _juzScrollController;
+
   late final List<Widget> _mainPages;
 
   @override
   void initState() {
     super.initState();
+
+    _surahScrollController = ScrollController();
+    _juzScrollController = ScrollController();
+
     _mainPages = [
-      const SurahNamePage(),
-      Container(),
-      Container(),
-      Container(),
+      SurahNamePage(scrollController: _surahScrollController),
+      const SizedBox.shrink(),
+      JuzPage(scrollController: _juzScrollController),
+      const SizedBox.shrink(),
     ];
+  }
+
+  @override
+  void dispose() {
+    _surahScrollController.dispose();
+    _juzScrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollCurrentTabToTop(int index) {
+    final controller = switch (index) {
+      0 => _surahScrollController,
+      2 => _juzScrollController,
+      _ => null,
+    };
+
+    if (controller == null || !controller.hasClients) return;
+
+    controller.animateTo(
+      0,
+      duration: const Duration(milliseconds: 450),
+      curve: Curves.easeOutCubic,
+    );
   }
 
   @override
@@ -36,18 +67,9 @@ class _HomePageState extends State<HomePage> {
     final appColors = Theme.of(context).colorScheme;
     return Scaffold(
       extendBody: true,
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 300),
-        transitionBuilder: (child, animation) {
-          return FadeTransition(
-            opacity: animation,
-            child: child,
-          );
-        },
-        child: IndexedStack(
-          key: ValueKey(currentNavigatorIndex),
-          children: _mainPages,
-        ),
+      body: IndexedStack(
+        index: currentNavigatorIndex,
+        children: _mainPages,
       ),
       bottomNavigationBar: MediaQuery.removePadding(
         context: context,
@@ -97,11 +119,7 @@ class _HomePageState extends State<HomePage> {
                 if (currentNavigatorIndex != index) {
                   context.read<MainState>().setBottomNavigatorIndex(index);
                 } else {
-                  // _scrollController.animateTo(
-                  //   0,
-                  //   duration: const Duration(milliseconds: 500),
-                  //   curve: Curves.easeOutQuart,
-                  // );
+                  _scrollCurrentTabToTop(index);
                 }
               },
             ),

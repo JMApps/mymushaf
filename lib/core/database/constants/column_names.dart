@@ -9,4 +9,9 @@ class ColumnNames {
   static const String ayahsCount = 'ayahs_count';
   static const String bismiLlahPre = 'bismillah_pre';
   static const String startPageNumber = 'start_page_number';
+
+  static const String juzNumber = 'juz_number';
+  static const String versesCount = 'verses_count';
+  static const String firstVerseKey = 'first_verse_key';
+  static const String lastVerseKey = 'last_verse_key';
 }
