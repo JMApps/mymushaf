@@ -1,0 +1,47 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../core/theme/app_paddings.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../domain/entities/juz_entity.dart';
+import '../lists/juz_list.dart';
+import '../states/juz_state.dart';
+
+class JuzPage extends StatelessWidget {
+  const JuzPage({
+    super.key,
+    required this.scrollController,
+  });
+
+  final ScrollController scrollController;
+
+  @override
+  Widget build(BuildContext context) {
+    final appLocale = AppLocalizations.of(context);
+    final isLoading = context.select<JuzState, bool>((s) => s.isLoading);
+    final error = context.select<JuzState, Object?>((s) => s.error);
+    final juzs = context.select<JuzState, List<JuzEntity>>((s) => s.juzs);
+
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        title: Text(
+          appLocale.appName,
+          style: AppTextStyles.mediumTextStyle,
+        ),
+      ),
+      body: switch ((isLoading, error)) {
+        (true, _) => const Center(child: CircularProgressIndicator.adaptive()),
+        (_, final e?) => Padding(
+          padding: AppPaddings.medium,
+          child: Center(child: Text('$e')),
+        ),
+        _ => JuzList(
+          scrollController: scrollController,
+          juzs: juzs,
+        ),
+      },
+    );
+  }
+}
