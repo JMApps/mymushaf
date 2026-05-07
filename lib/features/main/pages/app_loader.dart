@@ -5,6 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import '../../../core/di/app_dependencies.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../hizb/presentation/states/hizb_state.dart';
 import '../../juz/presentation/states/juz_state.dart';
 import '../../surah/presentation/states/surah_name_state.dart';
 import '../states/database_init_state.dart';
@@ -79,6 +80,9 @@ class _AppWithDbState extends State<_AppWithDb> {
         ),
         ChangeNotifierProvider(
           create: (_) => JuzState(_deps.juzRepository),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => HizbState(_deps.hizbRepository),
         ),
       ],
       child: const HomePage(),
