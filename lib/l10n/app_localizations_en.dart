@@ -36,6 +36,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get juz => 'Juz';
 
   @override
+  String get juzs => 'Juzs';
+
+  @override
   String get hizb => 'Hizb';
 
   @override

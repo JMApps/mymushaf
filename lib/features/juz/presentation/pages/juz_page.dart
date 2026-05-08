@@ -28,7 +28,7 @@ class JuzPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: false,
         title: Text(
-          appLocale.appName,
+          appLocale.juzs,
           style: AppTextStyles.medium,
         ),
         actions: const [

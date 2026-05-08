@@ -33,7 +33,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get ayah => 'Аят';
 
   @override
-  String get juz => 'Джузы';
+  String get juz => 'Джуз';
+
+  @override
+  String get juzs => 'Джузы';
 
   @override
   String get hizb => 'Хизб';

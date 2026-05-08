@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -13,11 +14,14 @@ class BookmarksPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final appLocale = AppLocalizations.of(context);
     return DefaultTabController(
-      length: 3,
+      length: AppConstants.bookmarkTabsLength,
       child: Scaffold(
         appBar: AppBar(
           centerTitle: false,
-          title: Text(appLocale.bookmarks),
+          title: Text(
+            appLocale.bookmarks,
+            style: AppTextStyles.medium,
+          ),
           actions: const [
             // CleanFavoritesButton(),
           ],

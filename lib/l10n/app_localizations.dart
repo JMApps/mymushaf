@@ -149,8 +149,14 @@ abstract class AppLocalizations {
   /// No description provided for @juz.
   ///
   /// In ru, this message translates to:
-  /// **'Джузы'**
+  /// **'Джуз'**
   String get juz;
+
+  /// No description provided for @juzs.
+  ///
+  /// In ru, this message translates to:
+  /// **'Джузы'**
+  String get juzs;
 
   /// No description provided for @hizb.
   ///

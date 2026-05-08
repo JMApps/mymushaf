@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mymushaf/features/bookmarks/presentation/pages/bookmarks_page.dart';
 import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import '../../../core/theme/app_paddings.dart';
 import '../../../core/theme/app_shapes.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../bookmarks/presentation/pages/bookmarks_page.dart';
 import '../../juz/presentation/pages/juz_page.dart';
 import '../../surah/presentation/pages/surah_name_page.dart';
 import '../states/main_state.dart';
@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
               items: [
                 SalomonBottomBarItem(
                   icon: const Icon(Icons.line_style_rounded),
-                  title: Text(appLocale.surah),
+                  title: Text(appLocale.surahs),
                 ),
                 SalomonBottomBarItem(
                   icon: const Icon(Icons.bookmark_rounded),
@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SalomonBottomBarItem(
                   icon: const Icon(Icons.circle_rounded),
-                  title: Text(appLocale.juz),
+                  title: Text(appLocale.juzs),
                 ),
                 SalomonBottomBarItem(
                   icon: const Icon(Icons.settings_rounded),
