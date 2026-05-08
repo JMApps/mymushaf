@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymushaf/features/juz/presentation/widgets/to_hizb_list_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_paddings.dart';
@@ -28,8 +29,11 @@ class JuzPage extends StatelessWidget {
         centerTitle: false,
         title: Text(
           appLocale.appName,
-          style: AppTextStyles.mediumTextStyle,
+          style: AppTextStyles.medium,
         ),
+        actions: const [
+          ToHizbsPageButton(),
+        ],
       ),
       body: switch ((isLoading, error)) {
         (true, _) => const Center(child: CircularProgressIndicator.adaptive()),

@@ -9,6 +9,7 @@
   "ayahs": "Ayahs",
   "ayah": "Ayah",  "juz": "Juz",
   "hizb": "Hizb",
+  "hizbs": "Hizbs",
   "bookmarks": "Bookmarks",
   "settings": "Settings",
   "ayahsCount": "{count, plural, one{{count} ayah} other{{count} ayahs}}",

@@ -59,7 +59,7 @@ class SurahNameItem extends StatelessWidget {
                       Flexible(
                         child: Text(
                           surah.nameTranscriptionRu,
-                          style: AppTextStyles.mediumTextStyle,
+                          style: AppTextStyles.medium,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -67,7 +67,7 @@ class SurahNameItem extends StatelessWidget {
                       Flexible(
                         child: Text(
                           ' (${surah.nameTranslationRu})',
-                          style: AppTextStyles.mediumTextStyle,
+                          style: AppTextStyles.medium,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -76,7 +76,7 @@ class SurahNameItem extends StatelessWidget {
                   ),
                   Text(
                     '${appLocale.ayahsCount(surah.ayahsCount).toString()} • ${surah.revelationPlace == 0 ? appLocale.mecca : appLocale.medina}',
-                    style: AppTextStyles.smallTextStyle,
+                    style: AppTextStyles.small,
                     maxLines: 1,
                     overflow: .ellipsis,
                   ),
@@ -86,7 +86,7 @@ class SurahNameItem extends StatelessWidget {
             const SizedBox(width: AppSpacing.medium),
             Text(
               surah.startPageNumber.toString(),
-              style: AppTextStyles.smallTextStyle.copyWith(
+              style: AppTextStyles.small.copyWith(
                 color: appColors.secondary,
               ),
             ),

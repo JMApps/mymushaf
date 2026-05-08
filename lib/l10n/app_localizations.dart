@@ -155,8 +155,14 @@ abstract class AppLocalizations {
   /// No description provided for @hizb.
   ///
   /// In ru, this message translates to:
-  /// **'Хизбы'**
+  /// **'Хизб'**
   String get hizb;
+
+  /// No description provided for @hizbs.
+  ///
+  /// In ru, this message translates to:
+  /// **'Хизбы'**
+  String get hizbs;
 
   /// No description provided for @bookmarks.
   ///

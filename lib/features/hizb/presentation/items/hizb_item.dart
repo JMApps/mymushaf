@@ -49,13 +49,13 @@ class HizbItem extends StatelessWidget {
                 children: [
                   Text(
                     surahFirstVerseKey,
-                    style: AppTextStyles.mediumTextStyle,
+                    style: AppTextStyles.medium,
                     maxLines: 1,
                     overflow: .ellipsis,
                   ),
                   Text(
                     appLocale.ayahsCount(hizb.versesCount).toString(),
-                    style: AppTextStyles.smallTextStyle,
+                    style: AppTextStyles.small,
                     maxLines: 1,
                     overflow: .ellipsis,
                   ),
@@ -65,7 +65,7 @@ class HizbItem extends StatelessWidget {
             const SizedBox(width: AppSpacing.medium),
             Text(
               hizb.startPageNumber.toString(),
-              style: AppTextStyles.smallTextStyle.copyWith(
+              style: AppTextStyles.small.copyWith(
                 color: appColors.secondary,
               ),
             ),

@@ -3,76 +3,33 @@ import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../../core/di/app_dependencies.dart';
-import '../../../core/theme/app_spacing.dart';
+import '../../../core/theme/app_theme.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../hizb/presentation/states/hizb_state.dart';
 import '../../juz/presentation/states/juz_state.dart';
+import '../../settings/states/theme_state.dart';
 import '../../surah/presentation/states/surah_name_state.dart';
-import '../states/database_init_state.dart';
 import 'home_page.dart';
 
-class AppLoader extends StatelessWidget {
-  const AppLoader({super.key});
+class AppLoader extends StatefulWidget {
+  const AppLoader({
+    super.key,
+    required this.db,
+  });
 
-  @override
-  Widget build(BuildContext context) {
-    final appLocale = AppLocalizations.of(context);
-    final dbState = context.watch<DatabaseInitState>();
-    return Scaffold(
-      body: FutureBuilder<Database>(
-        future: dbState.dbFuture,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Column(
-                mainAxisSize: .min,
-                children: [
-                  Text(appLocale.errorDbInit),
-                  const SizedBox(height: AppSpacing.medium),
-                  OutlinedButton(
-                    onPressed: context.read<DatabaseInitState>().retry,
-                    child: Text(appLocale.retry),
-                  ),
-                ],
-              ),
-            );
-          }
-
-          final db = snapshot.data;
-
-          if (db == null) {
-            return Center(
-              child: Column(
-                mainAxisSize: .min,
-                children: [
-                  const CircularProgressIndicator.adaptive(),
-                  const SizedBox(height: AppSpacing.medium),
-                  Text(appLocale.initializingData),
-                ],
-              ),
-            );
-          }
-
-          return _AppWithDb(db: db);
-        },
-      ),
-    );
-  }
-}
-
-class _AppWithDb extends StatefulWidget {
   final Database db;
-  const _AppWithDb({required this.db});
 
   @override
-  State<_AppWithDb> createState() => _AppWithDbState();
+  State<AppLoader> createState() => _AppLoaderState();
 }
 
-class _AppWithDbState extends State<_AppWithDb> {
+class _AppLoaderState extends State<AppLoader> {
   late final AppDependencies _deps = AppDependencies.build(widget.db);
 
   @override
   Widget build(BuildContext context) {
+    final themeState = context.watch<ThemeState>();
+    final theme = AppTheme(seedColor: themeState.seedColor);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -85,7 +42,16 @@ class _AppWithDbState extends State<_AppWithDb> {
           create: (_) => HizbState(_deps.hizbRepository),
         ),
       ],
-      child: const HomePage(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        onGenerateTitle: (context) => AppLocalizations.of(context).appName,
+        theme: theme.lightTheme,
+        darkTheme: theme.darkTheme,
+        themeMode: themeState.themeMode,
+        home: const HomePage(),
+      ),
     );
   }
 }

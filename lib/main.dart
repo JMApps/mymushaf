@@ -16,15 +16,9 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => MainState(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => DatabaseInitState(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => ThemeState(),
-        ),
+        ChangeNotifierProvider(create: (_) => DatabaseInitState()),
+        ChangeNotifierProvider(create: (_) => MainState()),
+        ChangeNotifierProvider(create: (_) => ThemeState()),
       ],
       child: const RootPage(),
     ),

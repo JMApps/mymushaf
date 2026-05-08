@@ -49,13 +49,13 @@ class JuzItem extends StatelessWidget {
                 children: [
                   Text(
                     surahFirstVerseKey,
-                    style: AppTextStyles.mediumTextStyle,
+                    style: AppTextStyles.medium,
                     maxLines: 1,
                     overflow: .ellipsis,
                   ),
                   Text(
                     appLocale.ayahsCount(juz.versesCount).toString(),
-                    style: AppTextStyles.smallTextStyle,
+                    style: AppTextStyles.small,
                     maxLines: 1,
                     overflow: .ellipsis,
                   ),
@@ -65,7 +65,7 @@ class JuzItem extends StatelessWidget {
             const SizedBox(width: AppSpacing.medium),
             Text(
               juz.startPageNumber.toString(),
-              style: AppTextStyles.smallTextStyle.copyWith(
+              style: AppTextStyles.small.copyWith(
                 color: appColors.secondary,
               ),
             ),

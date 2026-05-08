@@ -39,6 +39,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hizb => 'Hizb';
 
   @override
+  String get hizbs => 'Hizbs';
+
+  @override
   String get bookmarks => 'Bookmarks';
 
   @override

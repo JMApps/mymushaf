@@ -98,22 +98,33 @@ class DatabaseHelper {
     await txn.execute('''
     CREATE VIRTUAL TABLE IF NOT EXISTS fts_ayahs_arabic
     USING fts4(verse_key, text, tokenize=unicode61, notindexed=verse_key)
-    ''');
-    await txn.execute('''
-    INSERT INTO fts_ayahs_arabic(verse_key, text)
-    SELECT verse_key, text FROM Table_of_ayah_by_ayah_normalized
   ''');
 
-    // FTS4 для поиска по переводам.
-    await txn.execute('''
-      CREATE VIRTUAL TABLE IF NOT EXISTS fts_translations
-      USING fts4(ayah_key, ru_kuliev, ru_adel, kg, uz, az, tokenize=unicode61, notindexed=ayah_key)
+    final countArabic = Sqflite.firstIntValue(
+      await txn.rawQuery('SELECT COUNT(*) FROM fts_ayahs_arabic'),
+    );
+    if (countArabic == 0) {
+      await txn.execute('''
+      INSERT INTO fts_ayahs_arabic(verse_key, text)
+      SELECT verse_key, text FROM Table_of_ayah_by_ayah_normalized
     ''');
+    }
+
     await txn.execute('''
+    CREATE VIRTUAL TABLE IF NOT EXISTS fts_translations
+    USING fts4(ayah_key, ru_kuliev, ru_adel, kg, uz, az, tokenize=unicode61, notindexed=ayah_key)
+  ''');
+
+    final countTrans = Sqflite.firstIntValue(
+      await txn.rawQuery('SELECT COUNT(*) FROM fts_translations'),
+    );
+    if (countTrans == 0) {
+      await txn.execute('''
       INSERT INTO fts_translations(ayah_key, ru_kuliev, ru_adel, kg, uz, az)
       SELECT ayah_key, ayah_ru_kuliev, ayah_ru_adel, ayah_kg, ayah_uz, ayah_az
       FROM Table_of_translations
     ''');
+    }
   }
 
   Future<void> _copyAssetDbTo(String dbPath) async {

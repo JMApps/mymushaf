@@ -28,7 +28,7 @@ class SurahNamePage extends StatelessWidget {
         centerTitle: false,
         title: Text(
           appLocale.appName,
-          style: AppTextStyles.mediumTextStyle,
+          style: AppTextStyles.medium,
         ),
       ),
       body: switch ((isLoading, error)) {
