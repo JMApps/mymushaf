@@ -48,6 +48,27 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settings => 'Настройки';
 
   @override
+  String get delete => 'Удалить';
+
+  @override
+  String get deleteAllBookmarks => 'Удалить все избранное';
+
+  @override
+  String get listIsEmpty => 'Список пуст';
+
+  @override
+  String get pageShort => 'Стр.';
+
+  @override
+  String get recent => 'Последние';
+
+  @override
+  String get pages => 'Страницы';
+
+  @override
+  String get cancel => 'Отмена';
+
+  @override
   String ayahsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

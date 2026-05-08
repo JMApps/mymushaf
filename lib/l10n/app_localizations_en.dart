@@ -48,6 +48,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings => 'Settings';
 
   @override
+  String get delete => 'Delete';
+
+  @override
+  String get deleteAllBookmarks => 'Delete all bookmarks';
+
+  @override
+  String get listIsEmpty => 'List is empty';
+
+  @override
+  String get pageShort => 'p.';
+
+  @override
+  String get recent => 'Recent';
+
+  @override
+  String get pages => 'Pages';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
   String ayahsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

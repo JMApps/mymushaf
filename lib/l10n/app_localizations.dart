@@ -176,6 +176,48 @@ abstract class AppLocalizations {
   /// **'Настройки'**
   String get settings;
 
+  /// No description provided for @delete.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить'**
+  String get delete;
+
+  /// No description provided for @deleteAllBookmarks.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить все избранное'**
+  String get deleteAllBookmarks;
+
+  /// No description provided for @listIsEmpty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Список пуст'**
+  String get listIsEmpty;
+
+  /// No description provided for @pageShort.
+  ///
+  /// In ru, this message translates to:
+  /// **'Стр.'**
+  String get pageShort;
+
+  /// No description provided for @recent.
+  ///
+  /// In ru, this message translates to:
+  /// **'Последние'**
+  String get recent;
+
+  /// No description provided for @pages.
+  ///
+  /// In ru, this message translates to:
+  /// **'Страницы'**
+  String get pages;
+
+  /// No description provided for @cancel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отмена'**
+  String get cancel;
+
   /// No description provided for @ayahsCount.
   ///
   /// In ru, this message translates to:

@@ -29,6 +29,10 @@ class SurahNameState extends ChangeNotifier {
     return '${surah.nameTranscriptionRu}, $ayahTitle $ayah';
   }
 
+  SurahNameEntity? surahByNumber({required int surahNumber}) {
+    return _surahs[surahNumber];
+  }
+
   Future<void> _loadAllSurahs() async {
     _isLoading = true;
     notifyListeners();

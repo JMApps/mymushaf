@@ -13,10 +13,19 @@
   "hizbs": "Хизбы",
   "bookmarks": "Избранное",
   "settings": "Настройки",
+  "delete": "Удалить",
+  "deleteAllBookmarks": "Удалить все избранное",
+  "listIsEmpty": "Список пуст",
+  "pageShort": "Стр.",
+  "recent": "Последние",
+  "pages": "Страницы",
+  "cancel": "Отмена",
   "ayahsCount": "{count, plural, one{{count} аят} few{{count} аята} many{{count} аятов} other{{count} аята}}",
   "@ayahsCount": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "mecca": "Мекка",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymushaf/features/main/states/page_meta_state.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -32,6 +33,9 @@ class _AppLoaderState extends State<AppLoader> {
     final theme = AppTheme(seedColor: themeState.seedColor);
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (_) => PageMetaState(_deps.pageMetaRepository),
+        ),
         ChangeNotifierProvider(
           create: (_) => SurahNameState(_deps.surahNameRepository),
         ),

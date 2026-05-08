@@ -10,6 +10,7 @@ class ColumnNames {
   static const String bismiLlahPre = 'bismillah_pre';
   static const String startPageNumber = 'start_page_number';
 
+  static const String pageNumber = 'page_number';
   static const String juzNumber = 'juz_number';
   static const String hizbNumber = 'hizb_number';
   static const String versesCount = 'verses_count';

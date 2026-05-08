@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymushaf/features/bookmarks/presentation/pages/bookmarks_page.dart';
 import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
@@ -31,7 +32,7 @@ class _HomePageState extends State<HomePage> {
 
     _mainPages = [
       SurahNamePage(scrollController: _surahScrollController),
-      const SizedBox.shrink(),
+      const BookmarksPage(),
       JuzPage(scrollController: _juzScrollController),
       const SizedBox.shrink(),
     ];
