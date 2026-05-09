@@ -21,6 +21,7 @@
   "recent": "Recent",
   "pages": "Pages",
   "cancel": "Cancel",
+  "page": "Page",
   "ayahsCount": "{count, plural, one{{count} ayah} other{{count} ayahs}}",
   "mecca": "Mecca",
   "medina": "Medina"

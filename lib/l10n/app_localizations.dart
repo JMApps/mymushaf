@@ -224,6 +224,12 @@ abstract class AppLocalizations {
   /// **'Отмена'**
   String get cancel;
 
+  /// No description provided for @page.
+  ///
+  /// In ru, this message translates to:
+  /// **'Страница'**
+  String get page;
+
   /// No description provided for @removedFromFavorite.
   ///
   /// In ru, this message translates to:

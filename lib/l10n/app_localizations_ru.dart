@@ -72,6 +72,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get cancel => 'Отмена';
 
   @override
+  String get page => 'Страница';
+
+  @override
   String get removedFromFavorite => 'Удалено из изборанного';
 
   @override

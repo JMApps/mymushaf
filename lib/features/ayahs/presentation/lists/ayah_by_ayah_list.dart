@@ -55,7 +55,7 @@ class AyahByAyahList extends StatelessWidget {
     final lines = _buildLines(ayahs, headers, hasBasmallah);
 
     return ListView.builder(
-      padding: AppPaddings.small,
+      padding: AppPaddings.topMediumSmallOther,
       itemCount: lines.length,
       itemBuilder: (context, index) => switch (lines[index]) {
         SurahLine(surahNumber: final n) => SurahHeaderItem(surahNumber: n),

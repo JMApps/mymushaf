@@ -72,6 +72,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cancel => 'Cancel';
 
   @override
+  String get page => 'Page';
+
+  @override
   String get removedFromFavorite => 'Удалено из изборанного';
 
   @override

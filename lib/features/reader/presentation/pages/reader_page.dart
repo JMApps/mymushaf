@@ -4,43 +4,58 @@ import 'package:provider/provider.dart';
 import '../../../bookmarks/presentation/states/bookmarks_state.dart';
 import '../../../main/states/page_number_state.dart';
 import '../lists/reader_page_list.dart';
+import '../states/reader_app_bar_state.dart';
+import '../widgets/reader_app_bar.dart';
 
-class ReaderPage extends StatelessWidget {
+class ReaderPage extends StatefulWidget {
   final int initialPage;
 
   const ReaderPage({super.key, required this.initialPage});
 
   @override
+  State<ReaderPage> createState() => _ReaderPageState();
+}
+
+class _ReaderPageState extends State<ReaderPage> {
+  late final ReaderAppBarState _appBarState;
+
+  @override
+  void initState() {
+    super.initState();
+    _appBarState = context.read<ReaderAppBarState>();
+  }
+
+  @override
+  void dispose() {
+    _appBarState.restoreSystemUI();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return PopScope(
-      onPopInvokedWithResult: (didPop, result) {
-        context.read<BookmarksState>().addLastOpenedPage(
-          context.read<PageNumberState>().pageNumber,
+    return Builder(
+      builder: (context) {
+        return PopScope(
+          onPopInvokedWithResult: (didPop, result) {
+            context.read<BookmarksState>().addLastOpenedPage(
+              context.read<PageNumberState>().pageNumber,
+            );
+          },
+          child: Scaffold(
+            extendBody: true,
+            extendBodyBehindAppBar: true,
+            appBar: const PreferredSize(
+              preferredSize: Size.fromHeight(kToolbarHeight),
+              child: ReaderAppBar(),
+            ),
+            body: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () => context.read<ReaderAppBarState>().toggleShowAppBar(),
+              child: ReaderPageList(pageNumber: widget.initialPage),
+            ),
+          ),
         );
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Selector<PageNumberState, int>(
-            selector: (_, s) => s.pageNumber,
-            builder: (_, page, __) => Text('$page'),
-          ),
-          actions: [
-            Selector<PageNumberState, int>(
-              selector: (_, s) => s.pageNumber,
-              builder: (_, page, __) => Consumer<BookmarksState>(
-                builder: (context, bookmarksState, _) {
-                  final isFavorite = bookmarksState.isFavoritePage(page);
-                  return IconButton(
-                    onPressed: () => bookmarksState.toggleFavoritePage(pageNumber: page),
-                    icon: Icon(isFavorite ? Icons.bookmark : Icons.bookmark_border),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-        body: ReaderPageList(pageNumber: initialPage),
-      ),
     );
   }
 }
