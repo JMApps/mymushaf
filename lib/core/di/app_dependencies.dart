@@ -1,5 +1,8 @@
 import 'package:sqflite/sqflite.dart';
 
+import '../../features/ayahs/data/data_sources/ayah_by_ayah_data_source_impl.dart';
+import '../../features/ayahs/data/repositories/ayah_by_ayah_repository_impl.dart';
+import '../../features/ayahs/domain/repositories/ayah_by_ayah_repository.dart';
 import '../../features/hizb/data/data_sources/hizb_local_data_source_impl.dart';
 import '../../features/hizb/data/repositories/hizb_repository_impl.dart';
 import '../../features/hizb/domain/repositories/hizb_repository.dart';
@@ -9,6 +12,9 @@ import '../../features/juz/domain/repositories/juz_repository.dart';
 import '../../features/main/data/data_sources/page_meta_data_source_impl.dart';
 import '../../features/main/data/repositories/page_meta_repository_impl.dart';
 import '../../features/main/domain/repositories/page_meta_repository.dart';
+import '../../features/reader/data/data_source/layout_data_source_impl.dart';
+import '../../features/reader/data/repositories/layout_repository_impl.dart';
+import '../../features/reader/domain/repositories/layout_repository.dart';
 import '../../features/surah/data/data_sources/surah_local_data_source_impl.dart';
 import '../../features/surah/data/repositories/surah_name_repository_impl.dart';
 import '../../features/surah/domain/repositories/surah_name_repository.dart';
@@ -18,12 +24,16 @@ class AppDependencies {
   final SurahNameRepository surahNameRepository;
   final JuzRepository juzRepository;
   final HizbRepository hizbRepository;
+  final AyahByAyahRepository ayahByAyahRepository;
+  final LayoutRepository layoutRepository;
 
   const AppDependencies._({
     required this.pageMetaRepository,
     required this.surahNameRepository,
     required this.juzRepository,
     required this.hizbRepository,
+    required this.ayahByAyahRepository,
+    required this.layoutRepository,
   });
 
   factory AppDependencies.build(Database db) {
@@ -39,11 +49,19 @@ class AppDependencies {
     final hizbDataSource = HizbLocalDataSourceImpl(db);
     final hizbRepository = HizbRepositoryImpl(hizbDataSource);
 
+    final ayahByAyahLocalDataSource = AyahByAyahDataSourceImpl(db);
+    final ayahByAyahRepository = AyahByAyahRepositoryImpl(ayahByAyahLocalDataSource);
+
+    final layoutLocalDataSource = LayoutDataSourceImpl(db);
+    final layoutRepository = LayoutRepositoryImpl(layoutLocalDataSource);
+
     return AppDependencies._(
       pageMetaRepository: pageMetaRepository,
       surahNameRepository: surahRepository,
       juzRepository: juzRepository,
       hizbRepository: hizbRepository,
+      ayahByAyahRepository: ayahByAyahRepository,
+      layoutRepository: layoutRepository,
     );
   }
 }

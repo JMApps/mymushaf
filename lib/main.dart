@@ -8,6 +8,9 @@ import 'features/bookmarks/presentation/states/bookmarks_state.dart';
 import 'features/main/pages/root_page.dart';
 import 'features/main/states/database_init_state.dart';
 import 'features/main/states/main_state.dart';
+import 'features/main/states/page_number_state.dart';
+import 'features/settings/states/locale_settings_state.dart';
+import 'features/settings/states/reading_settings_state.dart';
 import 'features/settings/states/theme_state.dart';
 
 void main() async {
@@ -23,7 +26,10 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => DatabaseInitState()),
         ChangeNotifierProvider(create: (_) => MainState()),
+        ChangeNotifierProvider(create: (_) => PageNumberState()),
         ChangeNotifierProvider(create: (_) => ThemeState()),
+        ChangeNotifierProvider(create: (_) => LocaleSettingsState()),
+        ChangeNotifierProvider(create: (_) => ReadingSettingsState()),
         ChangeNotifierProvider(create: (_) => BookmarksState()),
       ],
       child: const RootPage(),
