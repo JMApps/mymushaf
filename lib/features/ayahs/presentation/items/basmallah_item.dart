@@ -1,0 +1,26 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../core/theme/app_paddings.dart';
+import '../../../settings/states/reading_settings_state.dart';
+
+class BasmallahItem extends StatelessWidget {
+  const BasmallahItem({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: AppPaddings.bottomMedium,
+      child: Text(
+        '\uFDFD',
+        textDirection: TextDirection.rtl,
+        style: TextStyle(
+          fontSize: context.watch<ReadingSettingsState>().ayahArabicTextSize + 5.0,
+          fontFamily: 'QCF BSML',
+          height: 1,
+        ),
+        textAlign: .center,
+      ),
+    );
+  }
+}

@@ -48,12 +48,15 @@ flutter:
     - assets/pageFonts/
 
   fonts:
-    - family: KFGQPC
+    - family: Uthmanic
       fonts:
-        - asset: assets/fonts/KFGQPC_mastaleeq.ttf
+        - asset: assets/fonts/uthmanic_hafs_v_22.ttf
     - family: PT Sans
       fonts:
         - asset: assets/fonts/pt_sans_regular.ttf
+    - family: QCF BSML
+      fonts:
+        - asset: assets/fonts/qcf_bsml.ttf
     - family: Juz name
       fonts:
         - asset: assets/fonts/juz_name.ttf
