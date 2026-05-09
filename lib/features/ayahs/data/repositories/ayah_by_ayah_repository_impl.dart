@@ -1,6 +1,6 @@
 import '../../domain/entities/ayah_by_ayah_entity.dart';
 import '../../domain/repositories/ayah_by_ayah_repository.dart';
-import '../data_sources/ayah_by_ayah_data_source.dart';
+import '../data_sources/ayah_by_ayah_local_data_source.dart';
 import '../mappers/ayah_by_ayah_mapper.dart';
 
 class AyahByAyahRepositoryImpl implements AyahByAyahRepository {

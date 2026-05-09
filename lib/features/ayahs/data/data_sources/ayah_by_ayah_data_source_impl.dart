@@ -3,7 +3,7 @@ import 'package:sqflite/sqflite.dart';
 import '../../../../core/database/constants/column_names.dart';
 import '../../../../core/database/constants/table_names.dart';
 import '../models/ayah_by_ayah_model.dart';
-import 'ayah_by_ayah_data_source.dart';
+import 'ayah_by_ayah_local_data_source.dart';
 
 class AyahByAyahDataSourceImpl implements AyahByAyahLocalDataSource {
   final Database _database;

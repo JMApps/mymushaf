@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../../../core/theme/app_paddings.dart';
 import '../../../reader/domain/entities/layout_entity.dart';
@@ -12,11 +13,13 @@ import '../states/ayah_by_ayah_state.dart';
 class AyahByAyahList extends StatefulWidget {
   final int pageNumber;
   final List<LayoutEntity> layouts;
+  final int? ayahPosition;
 
   const AyahByAyahList({
     super.key,
     required this.pageNumber,
     required this.layouts,
+    this.ayahPosition,
   });
 
   @override
@@ -24,6 +27,8 @@ class AyahByAyahList extends StatefulWidget {
 }
 
 class _AyahByAyahListState extends State<AyahByAyahList> {
+  final ItemScrollController _scrollController = ItemScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -44,9 +49,9 @@ class _AyahByAyahListState extends State<AyahByAyahList> {
 
     return Selector<AyahByAyahState, ({bool loading, Object? error, bool loaded})>(
       selector: (_, s) => (
-        loading: s.isPageLoading(page),
-        error: s.getPageError(page),
-        loaded: s.isPageLoaded(page),
+      loading: s.isPageLoading(page),
+      error: s.getPageError(page),
+      loaded: s.isPageLoaded(page),
       ),
       builder: (context, state, _) => switch (state) {
         (loading: true, error: _, loaded: _) => const Center(
@@ -72,22 +77,39 @@ class _AyahByAyahListState extends State<AyahByAyahList> {
 
     final items = <Widget>[];
     int? lastSurah;
+    int initialIndex = 0;
+
+    // Если на странице нет surahName в layout, добавляем заголовок первой суры
+    if (headers.isEmpty && ayahs.isNotEmpty) {
+      items.add(SurahHeaderItem(surahNumber: ayahs.first.surahNumber));
+      lastSurah = ayahs.first.surahNumber;
+    }
 
     for (var i = 0; i < ayahs.length; i++) {
       final ayah = ayahs[i];
 
-      if (ayah.surahNumber != lastSurah && headers.contains(ayah.surahNumber)) {
-        items.add(SurahHeaderItem(surahNumber: ayah.surahNumber));
-        if (hasBasmallah && ayah.surahNumber != 1 && ayah.surahNumber != 9) {
-          items.add(const BasmallahItem());
+      if (ayah.surahNumber != lastSurah) {
+        if (headers.contains(ayah.surahNumber)) {
+          items.add(SurahHeaderItem(surahNumber: ayah.surahNumber));
+          if (hasBasmallah && ayah.surahNumber != 1 && ayah.surahNumber != 9) {
+            items.add(const BasmallahItem());
+          }
+        } else {
+          items.add(SurahHeaderItem(surahNumber: ayah.surahNumber));
         }
         lastSurah = ayah.surahNumber;
+      }
+
+      if (widget.ayahPosition != null && ayah.ayahPosition == widget.ayahPosition) {
+        initialIndex = items.length;
       }
 
       items.add(AyahByAyahItem(ayahByAyahModel: ayah, index: i));
     }
 
-    return ListView.builder(
+    return ScrollablePositionedList.builder(
+      itemScrollController: _scrollController,
+      initialScrollIndex: initialIndex,
       padding: AppPaddings.medium,
       itemCount: items.length,
       itemBuilder: (context, index) => items[index],

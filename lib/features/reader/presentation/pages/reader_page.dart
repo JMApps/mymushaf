@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../main/states/page_number_state.dart';
 import '../lists/reader_page_list.dart';
 
 class ReaderPage extends StatelessWidget {
@@ -14,7 +16,7 @@ class ReaderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('$pageNumber'),
+        title: Text(context.select<PageNumberState, int>((s) => s.pageNumber).toString()),
       ),
       body: ReaderPageList(
         pageNumber: pageNumber,
