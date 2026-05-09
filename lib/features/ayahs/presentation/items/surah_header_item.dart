@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/constants/font_families.dart';
 import '../../../../core/theme/app_paddings.dart';
+import '../../../../core/theme/app_radius.dart';
 import '../../../surah/presentation/states/surah_name_state.dart';
 
 class SurahHeaderItem extends StatelessWidget {
@@ -18,16 +19,13 @@ class SurahHeaderItem extends StatelessWidget {
     final appColors = Theme.of(context).colorScheme;
     final String surahNameTranscription = context.read<SurahNameState>().surahByNumber(surahNumber: surahNumber)!.nameTranscriptionRu;
     return Container(
-      padding: AppPaddings.large,
+      padding: AppPaddings.medium,
       margin: AppPaddings.medium,
       width: double.infinity,
       alignment: .center,
       decoration: BoxDecoration(
-        image: DecorationImage(
-          colorFilter: .mode(appColors.primary, .srcIn),
-          image: const AssetImage('assets/pictures/s_header.png'),
-          fit: .scaleDown,
-        ),
+        color: appColors.inversePrimary.withAlpha(75),
+        borderRadius: AppRadius.medium
       ),
       child: Column(
         children: [

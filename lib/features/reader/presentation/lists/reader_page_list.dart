@@ -1,8 +1,12 @@
+// reader_page_list.dart
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_paddings.dart';
+import '../../../ayahs/presentation/states/ayah_by_ayah_state.dart';
+import '../../../bookmarks/presentation/states/bookmarks_state.dart';
 import '../../../main/states/page_number_state.dart';
 import '../items/read_item.dart';
 import '../states/layout_state.dart';
@@ -16,20 +20,36 @@ class ReaderPageList extends StatefulWidget {
   State<ReaderPageList> createState() => _ReaderPageListState();
 }
 
-class _ReaderPageListState extends State<ReaderPageList> {
+class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObserver {
   late final PageController _controller;
 
   @override
   void initState() {
     super.initState();
     _controller = PageController(initialPage: widget.pageNumber - 1);
-    context.read<LayoutState>().loadPage(widget.pageNumber);
+    WidgetsBinding.instance.addObserver(this);
+    _loadAll(widget.pageNumber);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.inactive || state == AppLifecycleState.paused) {
+      context.read<BookmarksState>().addLastOpenedPage(
+        context.read<PageNumberState>().pageNumber,
+      );
+    }
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _controller.dispose();
     super.dispose();
+  }
+
+  void _loadAll(int page) {
+    context.read<LayoutState>().loadPage(page);
+    context.read<AyahByAyahState>().loadPage(page);
   }
 
   @override
@@ -41,7 +61,7 @@ class _ReaderPageListState extends State<ReaderPageList> {
       onPageChanged: (index) {
         final page = index + 1;
         context.read<PageNumberState>().setPageNumber(page);
-        context.read<LayoutState>().loadPage(page);
+        _loadAll(page);
       },
       itemBuilder: (context, index) {
         final page = index + 1;

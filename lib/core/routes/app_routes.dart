@@ -21,7 +21,7 @@ class AppRoutes {
   static Map<String, Widget Function(BuildContext, dynamic)> routes = {
     NamesRouter.pageReader: (context, args) {
       final ReaderArgs readerArgs = ReaderArgs(pageNumber: args.pageNumber);
-      return ReaderPage(pageNumber: readerArgs.pageNumber);
+      return ReaderPage(initialPage: readerArgs.pageNumber);
     },
   };
 }

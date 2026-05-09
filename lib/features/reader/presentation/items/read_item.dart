@@ -10,7 +10,8 @@ class ReadItem extends StatelessWidget {
   final List<LayoutEntity> layouts;
 
   @override
-  Widget build(BuildContext context) {
-    return AyahByAyahList(pageNumber: pageNumber, layouts: layouts);
-  }
+  Widget build(BuildContext context) => AyahByAyahList(
+    pageNumber: pageNumber,
+    layouts: layouts,
+  );
 }

@@ -3,9 +3,11 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_paddings.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/theme/app_text_styles.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../main/domain/entities/page_meta_entity.dart';
 import '../../../surah/presentation/states/surah_name_state.dart';
+import '../states/bookmarks_state.dart';
 
 class FavoritePageItem extends StatelessWidget {
   const FavoritePageItem({
@@ -23,7 +25,9 @@ class FavoritePageItem extends StatelessWidget {
     final appColors = Theme.of(context).colorScheme;
     final itemOddColor = appColors.secondary.withAlpha(25);
     final itemEvenColor = appColors.secondary.withAlpha(05);
-    final surahNameTranscription = context.select<SurahNameState, String>((s) => s.surahByNumber(surahNumber: pageMetaModel.surahNumber)!.nameTranscriptionRu);
+    final surahNameTranscription = context.select<SurahNameState, String>(
+      (s) => s.surahByNumber(surahNumber: pageMetaModel.surahNumber)!.nameTranscriptionRu,
+    );
     return InkWell(
       onTap: () {},
       splashColor: appColors.inversePrimary,
@@ -36,13 +40,25 @@ class FavoritePageItem extends StatelessWidget {
         child: Row(
           children: [
             IconButton(
-              onPressed: null,
+              onPressed: () {
+                context.read<BookmarksState>().toggleFavoritePage(pageNumber: pageMetaModel.pageNumber);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    duration: const Duration(seconds: 1),
+                    backgroundColor: appColors.inversePrimary,
+                    content: Text(
+                      appLocale.removedFromFavorite,
+                      style: AppTextStyles.medium.copyWith(color: appColors.onSurface),
+                    ),
+                  ),
+                );
+              },
               padding: .zero,
               visualDensity: .compact,
               color: appColors.secondary,
               icon: Icon(
-                Icons.access_time_filled_rounded,
-                color: appColors.secondary,
+                Icons.bookmark_rounded,
+                color: appColors.primary,
               ),
             ),
             const SizedBox(width: AppSpacing.small),

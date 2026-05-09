@@ -21,6 +21,7 @@
   "recent": "Последние",
   "pages": "Страницы",
   "cancel": "Отмена",
+  "removedFromFavorite": "Удалено из изборанного",
   "ayahsCount": "{count, plural, one{{count} аят} few{{count} аята} many{{count} аятов} other{{count} аята}}",
   "@ayahsCount": {
     "placeholders": {

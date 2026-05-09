@@ -20,6 +20,7 @@ class AyahByAyahState extends ChangeNotifier {
     _pagesCache.clear();
     _errorMap.clear();
     _inFlight.clear();
+    _favoriteAyahs = const [];
     notifyListeners();
   }
 
@@ -69,6 +70,39 @@ class AyahByAyahState extends ChangeNotifier {
     };
     _pagesCache.removeWhere((page, _) => !keep.contains(page));
     _errorMap.removeWhere((page, _) => !keep.contains(page));
+  }
+
+  List<AyahByAyahEntity> _favoriteAyahs = const [];
+  bool _isFavoritesLoading = false;
+  Object? _favoritesError;
+
+  List<AyahByAyahEntity> get favoriteAyahs => _favoriteAyahs;
+
+  bool get isFavoritesLoading => _isFavoritesLoading;
+
+  Object? get favoritesError => _favoritesError;
+
+  Future<void> loadFavoriteAyahs(List<int> ayahIds) async {
+    if (ayahIds.isEmpty) {
+      _favoriteAyahs = const [];
+      _favoritesError = null;
+      return;
+    }
+
+    _isFavoritesLoading = true;
+    _favoritesError = null;
+
+    try {
+      _favoriteAyahs = await _ayahByAyahRepository.fetchAyahsByIds(
+        ayahIds: ayahIds,
+        translationColumn: translationsColumn,
+      );
+    } catch (e) {
+      _favoritesError = e;
+    } finally {
+      _isFavoritesLoading = false;
+      notifyListeners();
+    }
   }
 
   Future<List<AyahByAyahEntity>> searchAyahs({required String query}) {

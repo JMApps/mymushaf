@@ -4,7 +4,9 @@ import '../domain/entities/page_meta_entity.dart';
 import '../domain/repositories/page_meta_repository.dart';
 
 class PageMetaState extends ChangeNotifier {
-  PageMetaState(this._pageMetaRepository);
+  PageMetaState(this._pageMetaRepository) {
+    loadAllPagesMeta();
+  }
 
   final PageMetaRepository _pageMetaRepository;
 

@@ -224,6 +224,12 @@ abstract class AppLocalizations {
   /// **'Отмена'**
   String get cancel;
 
+  /// No description provided for @removedFromFavorite.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалено из изборанного'**
+  String get removedFromFavorite;
+
   /// No description provided for @ayahsCount.
   ///
   /// In ru, this message translates to:
