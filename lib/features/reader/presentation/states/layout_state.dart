@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../domain/entities/layout_entity.dart';
@@ -32,13 +32,14 @@ class LayoutState extends ChangeNotifier {
 
   Future<void> _loadPage(int pageNumber) async {
     if (_pagesCache.containsKey(pageNumber) || !_inFlight.add(pageNumber)) return;
-    notifyListeners();
 
     try {
       _pagesCache[pageNumber] = await _layoutRepository.fetchLayoutByPageNumber(pageNumber: pageNumber);
       _errorMap.remove(pageNumber);
-    } catch (e) {
+    } catch (e, s) {
       _errorMap[pageNumber] = e;
+      debugPrint(e.toString());
+      debugPrint(s.toString());
     } finally {
       _inFlight.remove(pageNumber);
       notifyListeners();

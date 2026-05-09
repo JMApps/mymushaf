@@ -21,6 +21,6 @@ class LayoutModel {
     lineNumber: map[ColumnNames.lineNumber] as int,
     lineType: LineType.fromDb(map[ColumnNames.lineType] as String),
     isCentered: (map[ColumnNames.isCentered] as int) == 1,
-    surahNumber: map[ColumnNames.surahNumber] as int?,
+    surahNumber: map[ColumnNames.numberSurah] as int?,
   );
 }

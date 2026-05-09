@@ -14,7 +14,7 @@ class LayoutDataSourceImpl implements LayoutLocalDataSource {
   Future<List<LayoutModel>> fetchLayoutByPageNumber({required int pageNumber}) async {
     final result = await _database.rawQuery(
       '''
-      SELECT ${ColumnNames.pageNumber}, ${ColumnNames.lineNumber}, ${ColumnNames.lineType}, ${ColumnNames.isCentered}, ${ColumnNames.surahNumber}
+      SELECT ${ColumnNames.pageNumber}, ${ColumnNames.lineNumber}, ${ColumnNames.lineType}, ${ColumnNames.isCentered}, ${ColumnNames.numberSurah}
       FROM ${TableNames.tableOfLayout}
       WHERE ${ColumnNames.pageNumber} = ?
       ORDER BY ${ColumnNames.lineNumber}
