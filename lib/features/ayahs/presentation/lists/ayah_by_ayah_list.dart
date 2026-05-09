@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../../../core/theme/app_paddings.dart';
 import '../../../reader/domain/entities/layout_entity.dart';
@@ -47,7 +46,7 @@ class AyahByAyahList extends StatelessWidget {
 
   Widget _buildList(BuildContext context) {
     final ayahs = context.read<AyahByAyahState>().getPageAyahs(pageNumber);
-    final readingSettings = context.watch<ReadingSettingsState>();
+    final readingSettingsState = context.watch<ReadingSettingsState>();
     final headers = {
       for (final l in layouts)
         if (l.lineType == LineType.surahName) l.surahNumber!,
@@ -55,28 +54,19 @@ class AyahByAyahList extends StatelessWidget {
     final hasBasmallah = layouts.any((l) => l.lineType == LineType.basmallah);
     final lines = _buildLines(ayahs, headers, hasBasmallah);
 
-    return ScrollablePositionedList.builder(
-      initialScrollIndex: _initialIndex(lines),
+    return ListView.builder(
       padding: AppPaddings.small,
       itemCount: lines.length,
       itemBuilder: (context, index) => switch (lines[index]) {
         SurahLine(surahNumber: final n) => SurahHeaderItem(surahNumber: n),
-        BasmallahLine() => const BasmallahItem(),
+        BasmallahLine() => BasmallahItem(readingSettingsState: readingSettingsState),
         AyahLine(ayah: final a, index: final i) => AyahByAyahItem(
           ayahByAyahModel: a,
-          readingSettingsState: readingSettings,
+          readingSettingsState: readingSettingsState,
           index: i,
         ),
       },
     );
-  }
-
-  int _initialIndex(List<PageLine> lines) {
-    if (ayahPosition == null) return 0;
-    for (var i = 0; i < lines.length; i++) {
-      if (lines[i] case AyahLine(ayah: final a) when a.ayahPosition == ayahPosition) return i;
-    }
-    return 0;
   }
 
   static List<PageLine> _buildLines(List<AyahByAyahEntity> ayahs, Set<int> headers, bool hasBasmallah) {

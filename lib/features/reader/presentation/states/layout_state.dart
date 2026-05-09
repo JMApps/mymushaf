@@ -36,10 +36,8 @@ class LayoutState extends ChangeNotifier {
     try {
       _pagesCache[pageNumber] = await _layoutRepository.fetchLayoutByPageNumber(pageNumber: pageNumber);
       _errorMap.remove(pageNumber);
-    } catch (e, s) {
+    } catch (e) {
       _errorMap[pageNumber] = e;
-      debugPrint(e.toString());
-      debugPrint(s.toString());
     } finally {
       _inFlight.remove(pageNumber);
       notifyListeners();

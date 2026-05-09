@@ -1,5 +1,3 @@
-// reader_page_list.dart
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,11 +20,17 @@ class ReaderPageList extends StatefulWidget {
 
 class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObserver {
   late final PageController _controller;
+  late final LayoutState _layoutState;
+  late final AyahByAyahState _ayahState;
+  late final PageNumberState _pageNumberState;
 
   @override
   void initState() {
     super.initState();
     _controller = PageController(initialPage: widget.pageNumber - 1);
+    _layoutState = context.read<LayoutState>();
+    _ayahState = context.read<AyahByAyahState>();
+    _pageNumberState = context.read<PageNumberState>();
     WidgetsBinding.instance.addObserver(this);
     _loadAll(widget.pageNumber);
   }
@@ -34,9 +38,7 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.inactive || state == AppLifecycleState.paused) {
-      context.read<BookmarksState>().addLastOpenedPage(
-        context.read<PageNumberState>().pageNumber,
-      );
+      context.read<BookmarksState>().addLastOpenedPage(_pageNumberState.pageNumber);
     }
   }
 
@@ -48,8 +50,8 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
   }
 
   void _loadAll(int page) {
-    context.read<LayoutState>().loadPage(page);
-    context.read<AyahByAyahState>().loadPage(page);
+    _layoutState.loadPage(page);
+    _ayahState.loadPage(page);
   }
 
   @override
@@ -60,7 +62,7 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
       itemCount: AppConstants.totalMushafPageCount,
       onPageChanged: (index) {
         final page = index + 1;
-        context.read<PageNumberState>().setPageNumber(page);
+        _pageNumberState.setPageNumber(page);
         _loadAll(page);
       },
       itemBuilder: (context, index) {
@@ -80,7 +82,7 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
             ),
             (loading: _, error: _, loaded: true) => ReadItem(
               pageNumber: page,
-              layouts: context.read<LayoutState>().getPageLayout(page),
+              layouts: _layoutState.getPageLayout(page),
             ),
             _ => const SizedBox.shrink(),
           },

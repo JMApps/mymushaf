@@ -6,6 +6,7 @@ class PageNumberState extends ChangeNotifier {
   int get pageNumber => _pageNumber;
 
   void setPageNumber(int pageNumber) {
+    if (_pageNumber == pageNumber) return;
     _pageNumber = pageNumber;
     notifyListeners();
   }
