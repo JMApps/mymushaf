@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:mymushaf/core/routes/names_router.dart';
+import 'package:mymushaf/features/reader/data/args/reader_args.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/constants/font_families.dart';
 import '../../../../core/theme/app_paddings.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../main/states/page_number_state.dart';
 import '../../domain/entities/surah_name_entity.dart';
 
 class SurahNameItem extends StatelessWidget {
@@ -26,7 +30,14 @@ class SurahNameItem extends StatelessWidget {
     return InkWell(
       splashColor: appColors.inversePrimary.withAlpha(75),
       focusColor: appColors.inversePrimary.withAlpha(55),
-      onTap: () async {},
+      onTap: () async {
+        context.read<PageNumberState>().setPageNumber(surah.startPageNumber);
+        Navigator.pushNamed(
+          context,
+          NamesRouter.pageReader,
+          arguments: ReaderArgs(pageNumber: surah.startPageNumber),
+        );
+      },
       child: Container(
         padding: AppPaddings.hrSmallVrLarge,
         decoration: BoxDecoration(

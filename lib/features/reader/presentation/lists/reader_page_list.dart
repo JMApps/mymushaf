@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:preload_page_view/preload_page_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/constants/app_constants.dart';
@@ -9,22 +8,22 @@ import '../items/read_item.dart';
 import '../states/layout_state.dart';
 
 class ReaderPageList extends StatefulWidget {
-  final int initialPage;
+  final int pageNumber;
 
-  const ReaderPageList({super.key, required this.initialPage});
+  const ReaderPageList({super.key, required this.pageNumber});
 
   @override
   State<ReaderPageList> createState() => _ReaderPageListState();
 }
 
 class _ReaderPageListState extends State<ReaderPageList> {
-  late final PreloadPageController _controller;
+  late final PageController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = PreloadPageController(initialPage: widget.initialPage - 1);
-    context.read<LayoutState>().loadPage(widget.initialPage);
+    _controller = PageController(initialPage: widget.pageNumber - 1);
+    context.read<LayoutState>().loadPage(widget.pageNumber);
   }
 
   @override
@@ -35,10 +34,10 @@ class _ReaderPageListState extends State<ReaderPageList> {
 
   @override
   Widget build(BuildContext context) {
-    return PreloadPageView.builder(
+    return PageView.builder(
       controller: _controller,
+      reverse: true,
       itemCount: AppConstants.totalMushafPageCount,
-      preloadPagesCount: 1,
       onPageChanged: (index) {
         final page = index + 1;
         context.read<PageNumberState>().setPageNumber(page);

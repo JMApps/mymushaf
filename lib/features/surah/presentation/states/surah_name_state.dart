@@ -30,7 +30,7 @@ class SurahNameState extends ChangeNotifier {
   }
 
   SurahNameEntity? surahByNumber({required int surahNumber}) {
-    return _surahs[surahNumber];
+    return _surahs[surahNumber - 1];
   }
 
   Future<void> _loadAllSurahs() async {

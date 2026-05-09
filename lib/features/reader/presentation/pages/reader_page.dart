@@ -12,8 +12,13 @@ class ReaderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ReaderPageList(
-      initialPage: pageNumber,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('$pageNumber'),
+      ),
+      body: ReaderPageList(
+        pageNumber: pageNumber,
+      ),
     );
   }
 }

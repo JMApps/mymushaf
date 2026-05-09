@@ -1,24 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../../../ayahs/presentation/lists/ayah_by_ayah_list.dart';
 import '../../domain/entities/layout_entity.dart';
 
-class ReadItem extends StatefulWidget {
-  const ReadItem({
-    super.key,
-    required this.pageNumber,
-    required this.layouts,
-  });
+class ReadItem extends StatelessWidget {
+  const ReadItem({super.key, required this.pageNumber, required this.layouts});
 
   final int pageNumber;
   final List<LayoutEntity> layouts;
 
   @override
-  State<ReadItem> createState() => _ReadItemState();
-}
-
-class _ReadItemState extends State<ReadItem> {
-  @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return AyahByAyahList(pageNumber: pageNumber, layouts: layouts);
   }
 }

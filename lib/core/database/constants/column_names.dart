@@ -2,6 +2,7 @@ class ColumnNames {
   ColumnNames._();
 
   static const String surahNumber = 'surah_number';
+  static const String numberSurah = 'number_surah';
   static const String nameTranscriptionRu = 'name_transcription_ru';
   static const String nameTranslationRu = 'name_translation_ru';
   static const String revelationOrder = 'revelation_order';
@@ -16,4 +17,17 @@ class ColumnNames {
   static const String versesCount = 'verses_count';
   static const String firstVerseKey = 'first_verse_key';
   static const String lastVerseKey = 'last_verse_key';
+
+  static const String ayahId = 'ayah_id';
+  static const String verseKey = 'verse_key';
+  static const String ayahNumber = 'ayah_number';
+  static const String ayah = 'ayah';
+  static const String ayahArabic = 'ayah_arabic';
+  static const String ayahTranslation = 'ayah_translation';
+  static const String ayahNormalized = 'ayah_normalized';
+  static const String ayahPageNumber = 'ayah_page_number';
+  static const String ayahPosition = 'ayah_position';
+  static const String lineNumber = 'line_number';
+  static const String lineType = 'line_type';
+  static const String isCentered = 'is_centered';
 }

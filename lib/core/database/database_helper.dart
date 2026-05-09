@@ -86,45 +86,33 @@ class DatabaseHelper {
 
   Future<void> _createIndexes(Transaction txn) async {
     await txn.execute(
-      'CREATE INDEX IF NOT EXISTS idx_glyphs_surah_ayah ON Table_of_glyphs(surah_number, ayah_number)',
+      'CREATE INDEX IF NOT EXISTS idx_glyphs_surah_ayah ON Table_of_glyph(surah_number, ayah_number)',
     );
-    await txn.execute('CREATE INDEX IF NOT EXISTS idx_glyphs_location ON Table_of_glyphs(location)');
-    await txn.execute('CREATE INDEX IF NOT EXISTS idx_layouts_page ON Table_of_layouts(page_number)');
+    await txn.execute('CREATE INDEX IF NOT EXISTS idx_glyphs_location ON Table_of_glyph(location)');
+    await txn.execute('CREATE INDEX IF NOT EXISTS idx_layouts_page ON Table_of_layout(page_number)');
     await txn.execute('CREATE INDEX IF NOT EXISTS idx_ayahs_verse_key ON Table_of_ayah_by_ayah(verse_key)');
-    await txn.execute('CREATE INDEX IF NOT EXISTS idx_translations_ayah_key ON Table_of_translations(ayah_key)');
+    await txn.execute('CREATE INDEX IF NOT EXISTS idx_translations_ayah_key ON Table_of_translation(ayah_key)');
   }
 
   Future<void> _createFts(Transaction txn) async {
     await txn.execute('''
-    CREATE VIRTUAL TABLE IF NOT EXISTS fts_ayahs_arabic
-    USING fts4(verse_key, text, tokenize=unicode61, notindexed=verse_key)
-  ''');
-
-    final countArabic = Sqflite.firstIntValue(
-      await txn.rawQuery('SELECT COUNT(*) FROM fts_ayahs_arabic'),
-    );
-    if (countArabic == 0) {
-      await txn.execute('''
-      INSERT INTO fts_ayahs_arabic(verse_key, text)
-      SELECT verse_key, text FROM Table_of_ayah_by_ayah_normalized
+      CREATE VIRTUAL TABLE IF NOT EXISTS fts_ayahs_arabic
+      USING fts4(ayah_normalized, tokenize=unicode61)
     ''');
-    }
+    await txn.execute('''
+      INSERT INTO fts_ayahs_arabic(rowid, ayah_normalized)
+      SELECT ayah_id, ayah_normalized FROM Table_of_ayah_by_ayah
+    ''');
 
     await txn.execute('''
-    CREATE VIRTUAL TABLE IF NOT EXISTS fts_translations
-    USING fts4(ayah_key, ru_kuliev, ru_adel, kg, uz, az, tokenize=unicode61, notindexed=ayah_key)
-  ''');
-
-    final countTrans = Sqflite.firstIntValue(
-      await txn.rawQuery('SELECT COUNT(*) FROM fts_translations'),
-    );
-    if (countTrans == 0) {
-      await txn.execute('''
-      INSERT INTO fts_translations(ayah_key, ru_kuliev, ru_adel, kg, uz, az)
-      SELECT ayah_key, ayah_ru_kuliev, ayah_ru_adel, ayah_kg, ayah_uz, ayah_az
-      FROM Table_of_translations
+      CREATE VIRTUAL TABLE IF NOT EXISTS fts_translations
+      USING fts4(ayah_ru_kuliev, ayah_ru_adel, ayah_kg, ayah_uz, ayah_az, tokenize=unicode61)
     ''');
-    }
+    await txn.execute('''
+      INSERT INTO fts_translations(rowid, ayah_ru_kuliev, ayah_ru_adel, ayah_kg, ayah_uz, ayah_az)
+      SELECT id, ayah_ru_kuliev, ayah_ru_adel, ayah_kg, ayah_uz, ayah_az
+      FROM Table_of_translation
+    ''');
   }
 
   Future<void> _copyAssetDbTo(String dbPath) async {
