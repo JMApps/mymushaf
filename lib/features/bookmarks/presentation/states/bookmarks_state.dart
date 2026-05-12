@@ -11,9 +11,9 @@ class BookmarksState extends ChangeNotifier {
 
   final Box<dynamic> _favoriteSettingsBox = Hive.box(AppSettingStrings.mainBookmarksBox);
 
-  List<int> _lastPageIds = [1];
-  List<int> _favoritePageIds = [1];
-  List<int> _favoriteAyahIds = [1];
+  List<int> _lastPageIds = [];
+  List<int> _favoritePageIds = [];
+  List<int> _favoriteAyahIds = [];
 
   List<int> get lastPageIds => List.unmodifiable(_lastPageIds);
   List<int> get favoritePageIds => List.unmodifiable(_favoritePageIds);
@@ -25,15 +25,15 @@ class BookmarksState extends ChangeNotifier {
   void _loadPersistedSettings() {
     final List<int> rawLastPages = _favoriteSettingsBox.get(
       AppSettingStrings.keyLastOpenedPages,
-      defaultValue: <int>[1],
+      defaultValue: <int>[],
     );
     final List<int> rawFavPages = _favoriteSettingsBox.get(
       AppSettingStrings.keyFavoritePages,
-      defaultValue: <int>[1],
+      defaultValue: <int>[],
     );
     final List<int> rawFavAyahs = _favoriteSettingsBox.get(
       AppSettingStrings.keyFavoriteAyahs,
-      defaultValue: <int>[1],
+      defaultValue: <int>[],
     );
 
     _lastPageIds = (rawLastPages as List).cast<int>().take(AppConstants.lastBookmarkPages).toList();

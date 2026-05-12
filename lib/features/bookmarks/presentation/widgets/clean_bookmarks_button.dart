@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_paddings.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../states/bookmarks_state.dart';
 
 class CleanFavoritesButton extends StatelessWidget {
   const CleanFavoritesButton({super.key});
@@ -35,7 +37,7 @@ class CleanFavoritesButton extends StatelessWidget {
                               TextButton(
                                 onPressed: () {
                                   Navigator.pop(context);
-                                  //context.read<FavoritesState>().clearAllFavorites();
+                                  context.read<BookmarksState>().clearAllFavorites();
                                 },
                                 child: Text(
                                   appLocale.delete,

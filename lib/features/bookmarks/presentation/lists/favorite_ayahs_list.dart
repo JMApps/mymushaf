@@ -45,7 +45,6 @@ class _FavoriteAyahsListState extends State<FavoriteAyahsList> {
   Widget build(BuildContext context) {
     final appLocale = AppLocalizations.of(context);
     final bottomHeight = kBottomNavigationBarHeight + AppSpacing.medium;
-
     return Selector<AyahByAyahState, ({bool loading, Object? error, List<AyahByAyahEntity> ayahs})>(
       selector: (_, s) => (
       loading: s.isFavoritesLoading,
@@ -61,7 +60,7 @@ class _FavoriteAyahsListState extends State<FavoriteAyahsList> {
           return Center(
             child: Padding(
               padding: AppPaddings.medium,
-              child: Text('$e', textAlign: TextAlign.center),
+              child: Text('$e', textAlign: .center),
             ),
           );
         }
@@ -73,7 +72,7 @@ class _FavoriteAyahsListState extends State<FavoriteAyahsList> {
               child: Text(
                 appLocale.listIsEmpty,
                 style: AppTextStyles.medium,
-                textAlign: TextAlign.center,
+                textAlign: .center,
               ),
             ),
           );

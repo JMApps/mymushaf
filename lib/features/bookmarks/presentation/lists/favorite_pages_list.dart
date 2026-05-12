@@ -20,30 +20,36 @@ class _FavoritePagesListState extends State<FavoritePagesList> {
   final ScrollController _controller = ScrollController();
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final appLocale = AppLocalizations.of(context);
     final bottomHeight = kBottomNavigationBarHeight + AppSpacing.medium;
-    return Consumer2<BookmarksState, PageMetaState>(
-      builder: (context, bookmarksState, pageMetaState, _) {
-        if (pageMetaState.isLoading) {
+    return Selector2<BookmarksState, PageMetaState, ({bool loading, Object? error, List pageMetas})>(
+      selector: (_, bookmarksState, pageMetaState) => (
+        loading: pageMetaState.isLoading,
+        error: pageMetaState.error,
+        pageMetas: pageMetaState.resolvePages(bookmarksState.favoritePageIds),
+      ),
+      builder: (context, state, _) {
+        if (state.loading) {
           return const Center(child: CircularProgressIndicator.adaptive());
         }
 
-        if (pageMetaState.error case final e?) {
+        if (state.error case final e?) {
           return Center(
             child: Padding(
               padding: AppPaddings.medium,
-              child: Text(
-                '$e',
-                textAlign: .center,
-              ),
+              child: Text('$e', textAlign: .center),
             ),
           );
         }
 
-        final favoritePages = pageMetaState.resolvePages(bookmarksState.favoritePageIds);
-
-        if (favoritePages.isEmpty) {
+        if (state.pageMetas.isEmpty) {
           return Center(
             child: Padding(
               padding: AppPaddings.medium,
@@ -61,14 +67,14 @@ class _FavoritePagesListState extends State<FavoritePagesList> {
           child: ListView.builder(
             controller: _controller,
             padding: EdgeInsets.only(bottom: bottomHeight),
-            itemCount: favoritePages.length,
+            itemCount: state.pageMetas.length,
             itemBuilder: (context, index) {
-              final pegaMetaModel = favoritePages[index];
+              final pageMetaModel = state.pageMetas[index];
               return FavoritePageItem(
-                pageMetaModel: pegaMetaModel,
+                pageMetaModel: pageMetaModel,
                 index: index,
               );
-            }
+            },
           ),
         );
       },

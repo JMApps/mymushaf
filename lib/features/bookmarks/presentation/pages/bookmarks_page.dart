@@ -7,6 +7,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../lists/favorite_ayahs_list.dart';
 import '../lists/favorite_pages_list.dart';
 import '../lists/last_favorite_pages_list.dart';
+import '../widgets/clean_bookmarks_button.dart';
 
 class BookmarksPage extends StatelessWidget {
   const BookmarksPage({super.key});
@@ -24,7 +25,7 @@ class BookmarksPage extends StatelessWidget {
             style: AppTextStyles.medium,
           ),
           actions: const [
-            // CleanFavoritesButton(),
+            CleanFavoritesButton(),
           ],
           bottom: TabBar(
             labelStyle: AppTextStyles.medium,

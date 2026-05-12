@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/constants/font_families.dart';
+import '../../../../core/routes/names_router.dart';
 import '../../../../core/theme/app_paddings.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../ayahs/domain/entities/ayah_by_ayah_entity.dart';
+import '../../../main/states/page_number_state.dart';
+import '../../../reader/data/args/reader_args.dart';
 import '../../../settings/states/reading_settings_state.dart';
 class FavoriteAyahItem extends StatelessWidget {
   const FavoriteAyahItem({
@@ -21,6 +24,14 @@ class FavoriteAyahItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final appColors = Theme.of(context).colorScheme;
     return GestureDetector(
+      onTap: () {
+        context.read<PageNumberState>().setPageNumber(ayahByAyahModel.ayahPageNumber);
+        Navigator.pushNamed(
+          context,
+          NamesRouter.pageReader,
+          arguments: ReaderArgs(pageNumber: ayahByAyahModel.ayahPageNumber),
+        );
+      },
       onLongPress: () {
         showModalBottomSheet(
           context: context,
