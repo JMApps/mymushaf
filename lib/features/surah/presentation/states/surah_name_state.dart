@@ -35,7 +35,6 @@ class SurahNameState extends ChangeNotifier {
 
   Future<void> _loadAllSurahs() async {
     _isLoading = true;
-    notifyListeners();
 
     try {
       _surahs = await _surahNameRepository.fetchAllSurahs();

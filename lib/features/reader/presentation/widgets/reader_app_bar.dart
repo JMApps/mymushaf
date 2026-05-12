@@ -55,7 +55,7 @@ class ReaderAppBar extends StatelessWidget {
             actions: [
               Selector<PageNumberState, int>(
                 selector: (_, s) => s.pageNumber,
-                builder: (_, page, __) => Consumer<BookmarksState>(
+                builder: (_, page, _) => Consumer<BookmarksState>(
                   builder: (context, bookmarksState, _) {
                     final isFavorite = bookmarksState.isFavoritePage(page);
                     return IconButton(

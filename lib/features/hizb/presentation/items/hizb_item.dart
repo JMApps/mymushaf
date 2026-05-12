@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../core/routes/names_router.dart';
 import '../../../../core/theme/app_paddings.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../main/states/page_number_state.dart';
+import '../../../reader/data/args/reader_args.dart';
 import '../../../surah/presentation/states/surah_name_state.dart';
 import '../../domain/entities/hizb_entity.dart';
 
@@ -26,9 +29,14 @@ class HizbItem extends StatelessWidget {
     final itemEvenColor = appColors.secondary.withAlpha(05);
     final surahFirstVerseKey = context.select<SurahNameState, String>((s) => s.surahByVerseKey(hizb.firstVerseKey, appLocale.ayah.toLowerCase()));
     return InkWell(
-      splashColor: appColors.inversePrimary.withAlpha(75),
-      focusColor: appColors.inversePrimary.withAlpha(55),
-      onTap: () async {},
+      onTap: () async {
+        context.read<PageNumberState>().setPageNumber(hizb.startPageNumber);
+        Navigator.pushNamed(
+          context,
+          NamesRouter.pageReader,
+          arguments: ReaderArgs(pageNumber: hizb.startPageNumber),
+        );
+      },
       child: Container(
         padding: AppPaddings.hrSmallVrLarge,
         decoration: BoxDecoration(

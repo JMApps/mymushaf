@@ -23,7 +23,6 @@ class HizbState extends ChangeNotifier {
 
   Future<void> _loadAllHizbs() async {
     _isLoading = true;
-    notifyListeners();
 
     try {
       _hizbs = await _hizbRepository.fetchAllHizbs();

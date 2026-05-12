@@ -98,47 +98,41 @@ abstract class AppLocalizations {
     Locale('ru'),
   ];
 
+  /// No description provided for @alwaysDisplayOn.
+  ///
+  /// In ru, this message translates to:
+  /// **'Дисплей всегда включён'**
+  String get alwaysDisplayOn;
+
   /// No description provided for @appName.
   ///
   /// In ru, this message translates to:
   /// **'Мой Мусхаф'**
   String get appName;
 
-  /// No description provided for @initializingData.
+  /// No description provided for @appTheme.
   ///
   /// In ru, this message translates to:
-  /// **'Инициализация данных…'**
-  String get initializingData;
+  /// **'Тема приложения'**
+  String get appTheme;
 
-  /// No description provided for @errorDbInit.
+  /// No description provided for @arabic.
   ///
   /// In ru, this message translates to:
-  /// **'Ошибка инициализации базы данных'**
-  String get errorDbInit;
+  /// **'Арабский'**
+  String get arabic;
 
-  /// No description provided for @retry.
+  /// No description provided for @arabicAyah.
   ///
   /// In ru, this message translates to:
-  /// **'Повторить попытку'**
-  String get retry;
+  /// **'Аят на арабском'**
+  String get arabicAyah;
 
-  /// No description provided for @surah.
+  /// No description provided for @arabicSurahName.
   ///
   /// In ru, this message translates to:
-  /// **'Сура'**
-  String get surah;
-
-  /// No description provided for @surahs.
-  ///
-  /// In ru, this message translates to:
-  /// **'Суры'**
-  String get surahs;
-
-  /// No description provided for @ayahs.
-  ///
-  /// In ru, this message translates to:
-  /// **'Аяты'**
-  String get ayahs;
+  /// **'Название суры на арабском'**
+  String get arabicSurahName;
 
   /// No description provided for @ayah.
   ///
@@ -146,17 +140,59 @@ abstract class AppLocalizations {
   /// **'Аят'**
   String get ayah;
 
-  /// No description provided for @juz.
+  /// No description provided for @ayahs.
   ///
   /// In ru, this message translates to:
-  /// **'Джуз'**
-  String get juz;
+  /// **'Аяты'**
+  String get ayahs;
 
-  /// No description provided for @juzs.
+  /// No description provided for @ayahsCount.
   ///
   /// In ru, this message translates to:
-  /// **'Джузы'**
-  String get juzs;
+  /// **'{count, plural, one{{count} аят} few{{count} аята} many{{count} аятов} other{{count} аята}}'**
+  String ayahsCount(int count);
+
+  /// No description provided for @ayahsTextSize.
+  ///
+  /// In ru, this message translates to:
+  /// **'Размер текста аята'**
+  String get ayahsTextSize;
+
+  /// No description provided for @bookmarks.
+  ///
+  /// In ru, this message translates to:
+  /// **'Избранное'**
+  String get bookmarks;
+
+  /// No description provided for @cancel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отмена'**
+  String get cancel;
+
+  /// No description provided for @defaultSettings.
+  ///
+  /// In ru, this message translates to:
+  /// **'Заводские настройки'**
+  String get defaultSettings;
+
+  /// No description provided for @delete.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить'**
+  String get delete;
+
+  /// No description provided for @deleteAllBookmarks.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить всё избранное'**
+  String get deleteAllBookmarks;
+
+  /// No description provided for @errorDbInit.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка инициализации базы данных'**
+  String get errorDbInit;
 
   /// No description provided for @hizb.
   ///
@@ -170,29 +206,23 @@ abstract class AppLocalizations {
   /// **'Хизбы'**
   String get hizbs;
 
-  /// No description provided for @bookmarks.
+  /// No description provided for @initializingData.
   ///
   /// In ru, this message translates to:
-  /// **'Избранное'**
-  String get bookmarks;
+  /// **'Инициализация данных…'**
+  String get initializingData;
 
-  /// No description provided for @settings.
+  /// No description provided for @juz.
   ///
   /// In ru, this message translates to:
-  /// **'Настройки'**
-  String get settings;
+  /// **'Джуз'**
+  String get juz;
 
-  /// No description provided for @delete.
+  /// No description provided for @juzs.
   ///
   /// In ru, this message translates to:
-  /// **'Удалить'**
-  String get delete;
-
-  /// No description provided for @deleteAllBookmarks.
-  ///
-  /// In ru, this message translates to:
-  /// **'Удалить все избранное'**
-  String get deleteAllBookmarks;
+  /// **'Джузы'**
+  String get juzs;
 
   /// No description provided for @listIsEmpty.
   ///
@@ -200,149 +230,11 @@ abstract class AppLocalizations {
   /// **'Список пуст'**
   String get listIsEmpty;
 
-  /// No description provided for @pageShort.
+  /// No description provided for @medina.
   ///
   /// In ru, this message translates to:
-  /// **'Стр.'**
-  String get pageShort;
-
-  /// No description provided for @recent.
-  ///
-  /// In ru, this message translates to:
-  /// **'Последние'**
-  String get recent;
-
-  /// No description provided for @pages.
-  ///
-  /// In ru, this message translates to:
-  /// **'Страницы'**
-  String get pages;
-
-  /// No description provided for @cancel.
-  ///
-  /// In ru, this message translates to:
-  /// **'Отмена'**
-  String get cancel;
-
-  /// No description provided for @page.
-  ///
-  /// In ru, this message translates to:
-  /// **'Страница'**
-  String get page;
-
-  /// No description provided for @defaultSettings.
-  ///
-  /// In ru, this message translates to:
-  /// **'Заводские настройки'**
-  String get defaultSettings;
-
-  /// No description provided for @reset.
-  ///
-  /// In ru, this message translates to:
-  /// **'Сброс'**
-  String get reset;
-
-  /// No description provided for @themeColor.
-  ///
-  /// In ru, this message translates to:
-  /// **'Цвет темы'**
-  String get themeColor;
-
-  /// No description provided for @selectThemeColor.
-  ///
-  /// In ru, this message translates to:
-  /// **'Выберите цвет темы'**
-  String get selectThemeColor;
-
-  /// No description provided for @themeSystem.
-  ///
-  /// In ru, this message translates to:
-  /// **'Системная'**
-  String get themeSystem;
-
-  /// No description provided for @themeLight.
-  ///
-  /// In ru, this message translates to:
-  /// **'Светлая'**
-  String get themeLight;
-
-  /// No description provided for @themeDark.
-  ///
-  /// In ru, this message translates to:
-  /// **'Темная'**
-  String get themeDark;
-
-  /// No description provided for @arabicSurahName.
-  ///
-  /// In ru, this message translates to:
-  /// **'Название суры на арабском'**
-  String get arabicSurahName;
-
-  /// No description provided for @translationSurahName.
-  ///
-  /// In ru, this message translates to:
-  /// **'Перевод названия суры'**
-  String get translationSurahName;
-
-  /// No description provided for @alwaysDisplayOn.
-  ///
-  /// In ru, this message translates to:
-  /// **'Дисплей всегда включен'**
-  String get alwaysDisplayOn;
-
-  /// No description provided for @appTheme.
-  ///
-  /// In ru, this message translates to:
-  /// **'Тема приложения'**
-  String get appTheme;
-
-  /// No description provided for @arabicAyah.
-  ///
-  /// In ru, this message translates to:
-  /// **'Аят на арабском'**
-  String get arabicAyah;
-
-  /// No description provided for @translationAyah.
-  ///
-  /// In ru, this message translates to:
-  /// **'Перевод аята'**
-  String get translationAyah;
-
-  /// No description provided for @ayahsTextSize.
-  ///
-  /// In ru, this message translates to:
-  /// **'Размер текста аята'**
-  String get ayahsTextSize;
-
-  /// No description provided for @arabic.
-  ///
-  /// In ru, this message translates to:
-  /// **'Арабский'**
-  String get arabic;
-
-  /// No description provided for @translation.
-  ///
-  /// In ru, this message translates to:
-  /// **'Перевод'**
-  String get translation;
-
-  /// No description provided for @semanticTranslation.
-  ///
-  /// In ru, this message translates to:
-  /// **'Смысловой перевод'**
-  String get semanticTranslation;
-
-  /// No description provided for @removedFromFavorite.
-  ///
-  /// In ru, this message translates to:
-  /// **'Удалено из изборанного'**
-  String get removedFromFavorite;
-
-  /// No description provided for @ayahsCount.
-  ///
-  /// In ru, this message translates to:
-  /// **'{count, plural, one{{count} аят} few{{count} аята} many{{count} аятов} other{{count} аята}}'**
-  String ayahsCount(int count);
+  /// **'Медина'**
+  String get medina;
 
   /// No description provided for @mecca.
   ///
@@ -350,11 +242,119 @@ abstract class AppLocalizations {
   /// **'Мекка'**
   String get mecca;
 
-  /// No description provided for @medina.
+  /// No description provided for @page.
   ///
   /// In ru, this message translates to:
-  /// **'Медина'**
-  String get medina;
+  /// **'Страница'**
+  String get page;
+
+  /// No description provided for @pageShort.
+  ///
+  /// In ru, this message translates to:
+  /// **'Стр.'**
+  String get pageShort;
+
+  /// No description provided for @pages.
+  ///
+  /// In ru, this message translates to:
+  /// **'Страницы'**
+  String get pages;
+
+  /// No description provided for @recent.
+  ///
+  /// In ru, this message translates to:
+  /// **'Последние'**
+  String get recent;
+
+  /// No description provided for @removedFromFavorite.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалено из избранного'**
+  String get removedFromFavorite;
+
+  /// No description provided for @reset.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сброс'**
+  String get reset;
+
+  /// No description provided for @retry.
+  ///
+  /// In ru, this message translates to:
+  /// **'Повторить попытку'**
+  String get retry;
+
+  /// No description provided for @semanticTranslation.
+  ///
+  /// In ru, this message translates to:
+  /// **'Смысловой перевод'**
+  String get semanticTranslation;
+
+  /// No description provided for @selectThemeColor.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выберите цвет темы'**
+  String get selectThemeColor;
+
+  /// No description provided for @settings.
+  ///
+  /// In ru, this message translates to:
+  /// **'Настройки'**
+  String get settings;
+
+  /// No description provided for @surah.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сура'**
+  String get surah;
+
+  /// No description provided for @surahs.
+  ///
+  /// In ru, this message translates to:
+  /// **'Суры'**
+  String get surahs;
+
+  /// No description provided for @themeColor.
+  ///
+  /// In ru, this message translates to:
+  /// **'Цвет темы'**
+  String get themeColor;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In ru, this message translates to:
+  /// **'Тёмная'**
+  String get themeDark;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In ru, this message translates to:
+  /// **'Светлая'**
+  String get themeLight;
+
+  /// No description provided for @themeSystem.
+  ///
+  /// In ru, this message translates to:
+  /// **'Системная'**
+  String get themeSystem;
+
+  /// No description provided for @translation.
+  ///
+  /// In ru, this message translates to:
+  /// **'Перевод'**
+  String get translation;
+
+  /// No description provided for @translationAyah.
+  ///
+  /// In ru, this message translates to:
+  /// **'Перевод аята'**
+  String get translationAyah;
+
+  /// No description provided for @translationSurahName.
+  ///
+  /// In ru, this message translates to:
+  /// **'Перевод названия суры'**
+  String get translationSurahName;
 }
 
 class _AppLocalizationsDelegate

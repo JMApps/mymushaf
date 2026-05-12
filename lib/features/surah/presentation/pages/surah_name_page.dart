@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mymushaf/core/theme/app_text_styles.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_paddings.dart';
+import '../../../../core/theme/app_text_styles.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/surah_name_entity.dart';
 import '../lists/surah_name_list.dart';
@@ -22,7 +22,6 @@ class SurahNamePage extends StatelessWidget {
     final isLoading = context.select<SurahNameState, bool>((s) => s.isLoading);
     final error = context.select<SurahNameState, Object?>((s) => s.error);
     final surahs = context.select<SurahNameState, List<SurahNameEntity>>((s) => s.surahs);
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,

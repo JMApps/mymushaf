@@ -16,8 +16,7 @@ class HizbPage extends StatelessWidget {
     final appLocale = AppLocalizations.of(context);
     final isLoading = context.select<HizbState, bool>((s) => s.isLoading);
     final error = context.select<HizbState, Object?>((s) => s.error);
-    final hizbs = context.select<HizbState, List<HizbEntity>>((s) => s.hizbs);
-
+    final allHizbs = context.select<HizbState, List<HizbEntity>>((s) => s.hizbs);
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -33,7 +32,7 @@ class HizbPage extends StatelessWidget {
           child: Center(child: Text('$e')),
         ),
         _ => HizbList(
-          hizbs: hizbs,
+          hizbs: allHizbs,
         ),
       },
     );

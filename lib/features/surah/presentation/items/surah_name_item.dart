@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mymushaf/core/routes/names_router.dart';
-import 'package:mymushaf/features/reader/data/args/reader_args.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/constants/font_families.dart';
+import '../../../../core/routes/names_router.dart';
 import '../../../../core/theme/app_paddings.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../main/states/page_number_state.dart';
+import '../../../reader/data/args/reader_args.dart';
 import '../../domain/entities/surah_name_entity.dart';
 
 class SurahNameItem extends StatelessWidget {
@@ -28,8 +28,6 @@ class SurahNameItem extends StatelessWidget {
     final itemOddColor = appColors.secondary.withAlpha(25);
     final itemEvenColor = appColors.secondary.withAlpha(05);
     return InkWell(
-      splashColor: appColors.inversePrimary.withAlpha(75),
-      focusColor: appColors.inversePrimary.withAlpha(55),
       onTap: () async {
         context.read<PageNumberState>().setPageNumber(surah.startPageNumber);
         Navigator.pushNamed(

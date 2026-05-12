@@ -23,7 +23,6 @@ class JuzState extends ChangeNotifier {
 
   Future<void> _loadAllJuzs() async {
     _isLoading = true;
-    notifyListeners();
 
     try {
       _juzs = await _juzRepository.fetchAllJuzs();

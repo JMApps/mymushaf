@@ -75,12 +75,7 @@ class PageMetaDataSourceImpl implements PageMetaLocalDataSource {
     return pagesMeta;
   }
 
-  List<int> _expandRanges({
-    required List<Map<String, Object?>> rows,
-    required String numberKey,
-    required String startPageKey,
-    required int totalPages,
-  }) {
+  List<int> _expandRanges({required List<Map<String, Object?>> rows, required String numberKey, required String startPageKey, required int totalPages}) {
     final List<int> result = List<int>.filled(totalPages, 0);
     if (rows.isEmpty) return result;
 

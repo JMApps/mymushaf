@@ -29,7 +29,7 @@ class AppSettingsPage extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const .only(bottom: kBottomNavigationBarHeight),
+        padding: const .only(bottom: kBottomNavigationBarHeight + AppSpacing.medium),
         child: Column(
           crossAxisAlignment: .stretch,
           children: [

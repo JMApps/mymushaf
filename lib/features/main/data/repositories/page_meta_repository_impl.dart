@@ -9,7 +9,7 @@ class PageMetaRepositoryImpl implements PageMetaRepository {
   PageMetaRepositoryImpl(this._localDataSource);
   @override
   Future<List<PageMetaEntity>> fetchAppPagesMeta() async {
-    final models = await _localDataSource.fetchAppPagesMeta();
-    return models.map((m) => m.pageMetaToEntity()).toList(growable: false);
+    final metaPages = await _localDataSource.fetchAppPagesMeta();
+    return metaPages.map((m) => m.pageMetaToEntity()).toList(growable: false);
   }
 }

@@ -33,7 +33,6 @@ class PageMetaState extends ChangeNotifier {
 
     _isLoading = true;
     _error = null;
-    notifyListeners();
 
     try {
       final List<PageMetaEntity> result = await _pageMetaRepository.fetchAppPagesMeta();

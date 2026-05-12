@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mymushaf/features/juz/presentation/widgets/to_hizb_list_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_paddings.dart';
@@ -8,6 +7,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/juz_entity.dart';
 import '../lists/juz_list.dart';
 import '../states/juz_state.dart';
+import '../widgets/to_hizb_list_button.dart';
 
 class JuzPage extends StatelessWidget {
   const JuzPage({
@@ -23,7 +23,6 @@ class JuzPage extends StatelessWidget {
     final isLoading = context.select<JuzState, bool>((s) => s.isLoading);
     final error = context.select<JuzState, Object?>((s) => s.error);
     final juzs = context.select<JuzState, List<JuzEntity>>((s) => s.juzs);
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,

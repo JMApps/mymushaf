@@ -13,7 +13,7 @@ class ToHizbsPageButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final appLocale = AppLocalizations.of(context);
     final isLoading = context.select<HizbState, bool>((s) => s.isLoading);
-    final hizbs = context.select<HizbState, List<HizbEntity>>((s) => s.hizbs);
+    final allHizbs = context.select<HizbState, List<HizbEntity>>((s) => s.hizbs);
     return isLoading ? const CircularProgressIndicator.adaptive() : IconButton(
       onPressed: () {
         showModalBottomSheet(
@@ -21,7 +21,7 @@ class ToHizbsPageButton extends StatelessWidget {
           useSafeArea: true,
           isScrollControlled: true,
           builder: (context) {
-            return HizbList(hizbs: hizbs);
+            return HizbList(hizbs: allHizbs);
           },
         );
       },
