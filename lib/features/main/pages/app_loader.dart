@@ -10,8 +10,8 @@ import '../../ayahs/presentation/states/ayah_by_ayah_state.dart';
 import '../../hizb/presentation/states/hizb_state.dart';
 import '../../juz/presentation/states/juz_state.dart';
 import '../../reader/presentation/states/layout_state.dart';
+import '../../settings/states/display_settings_state.dart';
 import '../../settings/states/locale_settings_state.dart';
-import '../../settings/states/theme_state.dart';
 import '../../surah/presentation/states/surah_name_state.dart';
 import '../states/page_meta_state.dart';
 import 'home_page.dart';
@@ -33,8 +33,8 @@ class _AppLoaderState extends State<AppLoader> {
 
   @override
   Widget build(BuildContext context) {
-    final themeState = context.watch<ThemeState>();
-    final theme = AppTheme(seedColor: themeState.seedColor);
+    final themeState = context.watch<DisplaySettingsState>();
+    final theme = AppTheme(seedColor: themeState.themeColor);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -44,9 +44,11 @@ class _AppLoaderState extends State<AppLoader> {
           create: (_) => SurahNameState(_deps.surahNameRepository),
         ),
         ChangeNotifierProvider(
+          lazy: false,
           create: (_) => JuzState(_deps.juzRepository),
         ),
         ChangeNotifierProvider(
+          lazy: false,
           create: (_) => HizbState(_deps.hizbRepository),
         ),
         ChangeNotifierProvider(
@@ -64,7 +66,7 @@ class _AppLoaderState extends State<AppLoader> {
         onGenerateRoute: AppRoutes.onRouteGenerator,
         theme: theme.lightTheme,
         darkTheme: theme.darkTheme,
-        themeMode: themeState.themeMode,
+        themeMode: themeState.appThemeMode,
         home: const HomePage(),
       ),
     );

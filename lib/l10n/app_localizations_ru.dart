@@ -75,6 +75,57 @@ class AppLocalizationsRu extends AppLocalizations {
   String get page => 'Страница';
 
   @override
+  String get defaultSettings => 'Заводские настройки';
+
+  @override
+  String get reset => 'Сброс';
+
+  @override
+  String get themeColor => 'Цвет темы';
+
+  @override
+  String get selectThemeColor => 'Выберите цвет темы';
+
+  @override
+  String get themeSystem => 'Системная';
+
+  @override
+  String get themeLight => 'Светлая';
+
+  @override
+  String get themeDark => 'Темная';
+
+  @override
+  String get arabicSurahName => 'Название суры на арабском';
+
+  @override
+  String get translationSurahName => 'Перевод названия суры';
+
+  @override
+  String get alwaysDisplayOn => 'Дисплей всегда включен';
+
+  @override
+  String get appTheme => 'Тема приложения';
+
+  @override
+  String get arabicAyah => 'Аят на арабском';
+
+  @override
+  String get translationAyah => 'Перевод аята';
+
+  @override
+  String get ayahsTextSize => 'Размер текста аята';
+
+  @override
+  String get arabic => 'Арабский';
+
+  @override
+  String get translation => 'Перевод';
+
+  @override
+  String get semanticTranslation => 'Смысловой перевод';
+
+  @override
   String get removedFromFavorite => 'Удалено из изборанного';
 
   @override

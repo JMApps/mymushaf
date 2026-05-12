@@ -75,6 +75,57 @@ class AppLocalizationsEn extends AppLocalizations {
   String get page => 'Page';
 
   @override
+  String get defaultSettings => 'Default settings';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
+  String get themeColor => 'Theme color';
+
+  @override
+  String get selectThemeColor => 'Select theme color';
+
+  @override
+  String get themeSystem => 'System';
+
+  @override
+  String get themeLight => 'Light';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get arabicSurahName => 'Arabic surah name';
+
+  @override
+  String get translationSurahName => 'Translation surah name';
+
+  @override
+  String get alwaysDisplayOn => 'Always display on';
+
+  @override
+  String get appTheme => 'App theme';
+
+  @override
+  String get arabicAyah => 'Ayah arabic';
+
+  @override
+  String get translationAyah => 'Translation ayah';
+
+  @override
+  String get ayahsTextSize => 'Ayahs text size';
+
+  @override
+  String get arabic => 'Arabic';
+
+  @override
+  String get translation => 'Translation';
+
+  @override
+  String get semanticTranslation => 'Semantic translation';
+
+  @override
   String get removedFromFavorite => 'Удалено из изборанного';
 
   @override

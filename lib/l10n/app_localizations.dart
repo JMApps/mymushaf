@@ -230,6 +230,108 @@ abstract class AppLocalizations {
   /// **'Страница'**
   String get page;
 
+  /// No description provided for @defaultSettings.
+  ///
+  /// In ru, this message translates to:
+  /// **'Заводские настройки'**
+  String get defaultSettings;
+
+  /// No description provided for @reset.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сброс'**
+  String get reset;
+
+  /// No description provided for @themeColor.
+  ///
+  /// In ru, this message translates to:
+  /// **'Цвет темы'**
+  String get themeColor;
+
+  /// No description provided for @selectThemeColor.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выберите цвет темы'**
+  String get selectThemeColor;
+
+  /// No description provided for @themeSystem.
+  ///
+  /// In ru, this message translates to:
+  /// **'Системная'**
+  String get themeSystem;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In ru, this message translates to:
+  /// **'Светлая'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In ru, this message translates to:
+  /// **'Темная'**
+  String get themeDark;
+
+  /// No description provided for @arabicSurahName.
+  ///
+  /// In ru, this message translates to:
+  /// **'Название суры на арабском'**
+  String get arabicSurahName;
+
+  /// No description provided for @translationSurahName.
+  ///
+  /// In ru, this message translates to:
+  /// **'Перевод названия суры'**
+  String get translationSurahName;
+
+  /// No description provided for @alwaysDisplayOn.
+  ///
+  /// In ru, this message translates to:
+  /// **'Дисплей всегда включен'**
+  String get alwaysDisplayOn;
+
+  /// No description provided for @appTheme.
+  ///
+  /// In ru, this message translates to:
+  /// **'Тема приложения'**
+  String get appTheme;
+
+  /// No description provided for @arabicAyah.
+  ///
+  /// In ru, this message translates to:
+  /// **'Аят на арабском'**
+  String get arabicAyah;
+
+  /// No description provided for @translationAyah.
+  ///
+  /// In ru, this message translates to:
+  /// **'Перевод аята'**
+  String get translationAyah;
+
+  /// No description provided for @ayahsTextSize.
+  ///
+  /// In ru, this message translates to:
+  /// **'Размер текста аята'**
+  String get ayahsTextSize;
+
+  /// No description provided for @arabic.
+  ///
+  /// In ru, this message translates to:
+  /// **'Арабский'**
+  String get arabic;
+
+  /// No description provided for @translation.
+  ///
+  /// In ru, this message translates to:
+  /// **'Перевод'**
+  String get translation;
+
+  /// No description provided for @semanticTranslation.
+  ///
+  /// In ru, this message translates to:
+  /// **'Смысловой перевод'**
+  String get semanticTranslation;
+
   /// No description provided for @removedFromFavorite.
   ///
   /// In ru, this message translates to:

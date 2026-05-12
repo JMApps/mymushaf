@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_paddings.dart';
 import '../../../settings/states/reading_settings_state.dart';
 
 class BasmallahItem extends StatelessWidget {
-  const BasmallahItem({
-    super.key,
-    required this.readingSettingsState,
-  });
-
-  final ReadingSettingsState readingSettingsState;
+  const BasmallahItem({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +15,7 @@ class BasmallahItem extends StatelessWidget {
         '\uFDFD',
         textDirection: TextDirection.rtl,
         style: TextStyle(
-          fontSize: readingSettingsState.ayahArabicTextSize + 5.0,
+          fontSize: context.read<ReadingSettingsState>().ayahArabicTextSize + 5.0,
           fontFamily: 'QCF BSML',
           height: 1,
         ),

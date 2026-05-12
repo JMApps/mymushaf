@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/constants/font_families.dart';
 import '../../../../core/theme/app_paddings.dart';
@@ -11,17 +12,16 @@ class AyahByAyahItem extends StatelessWidget {
   const AyahByAyahItem({
     super.key,
     required this.ayahByAyahModel,
-    required this.readingSettingsState,
     required this.index,
   });
 
   final AyahByAyahEntity ayahByAyahModel;
-  final ReadingSettingsState readingSettingsState;
   final int index;
 
   @override
   Widget build(BuildContext context) {
     final appColors = Theme.of(context).colorScheme;
+    final readingSettingsState = context.read<ReadingSettingsState>();
     return RepaintBoundary(
       child: GestureDetector(
         onLongPress: () {

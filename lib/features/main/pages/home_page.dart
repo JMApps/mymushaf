@@ -7,6 +7,7 @@ import '../../../core/theme/app_shapes.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../bookmarks/presentation/pages/bookmarks_page.dart';
 import '../../juz/presentation/pages/juz_page.dart';
+import '../../settings/pages/app_settings_page.dart';
 import '../../surah/presentation/pages/surah_name_page.dart';
 import '../states/main_state.dart';
 
@@ -34,7 +35,7 @@ class _HomePageState extends State<HomePage> {
       SurahNamePage(scrollController: _surahScrollController),
       const BookmarksPage(),
       JuzPage(scrollController: _juzScrollController),
-      const SizedBox.shrink(),
+      const AppSettingsPage(),
     ];
   }
 

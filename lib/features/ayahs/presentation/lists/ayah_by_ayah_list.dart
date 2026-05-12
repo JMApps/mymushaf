@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../../../../core/theme/app_paddings.dart';
 import '../../../reader/domain/entities/layout_entity.dart';
 import '../../../reader/domain/entities/line_type.dart';
-import '../../../settings/states/reading_settings_state.dart';
 import '../../domain/entities/ayah_by_ayah_entity.dart';
 import '../items/ayah_by_ayah_item.dart';
 import '../items/basmallah_item.dart';
@@ -46,7 +45,6 @@ class AyahByAyahList extends StatelessWidget {
 
   Widget _buildList(BuildContext context) {
     final ayahs = context.read<AyahByAyahState>().getPageAyahs(pageNumber);
-    final readingSettingsState = context.watch<ReadingSettingsState>();
     final headers = {
       for (final l in layouts)
         if (l.lineType == LineType.surahName) l.surahNumber!,
@@ -59,11 +57,10 @@ class AyahByAyahList extends StatelessWidget {
       itemCount: lines.length,
       itemBuilder: (context, index) => switch (lines[index]) {
         SurahLine(surahNumber: final n) => SurahHeaderItem(surahNumber: n),
-        BasmallahLine() => BasmallahItem(readingSettingsState: readingSettingsState),
-        AyahLine(ayah: final a, index: final i) => AyahByAyahItem(
-          ayahByAyahModel: a,
-          readingSettingsState: readingSettingsState,
-          index: i,
+        BasmallahLine() => const BasmallahItem(),
+        AyahLine(ayah: final ayahModel, index: final index) => AyahByAyahItem(
+          ayahByAyahModel: ayahModel,
+          index: index,
         ),
       },
     );

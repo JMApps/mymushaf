@@ -10,9 +10,10 @@ import 'features/main/states/database_init_state.dart';
 import 'features/main/states/main_state.dart';
 import 'features/main/states/page_number_state.dart';
 import 'features/reader/presentation/states/reader_app_bar_state.dart';
+import 'features/settings/states/display_settings_state.dart';
 import 'features/settings/states/locale_settings_state.dart';
 import 'features/settings/states/reading_settings_state.dart';
-import 'features/settings/states/theme_state.dart';
+import 'features/settings/states/settings_reset_coordinator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,10 +30,17 @@ void main() async {
         ChangeNotifierProvider(create: (_) => MainState()),
         ChangeNotifierProvider(create: (_) => ReaderAppBarState()),
         ChangeNotifierProvider(create: (_) => PageNumberState()),
-        ChangeNotifierProvider(create: (_) => ThemeState()),
         ChangeNotifierProvider(create: (_) => LocaleSettingsState()),
         ChangeNotifierProvider(create: (_) => ReadingSettingsState()),
+        ChangeNotifierProvider(create: (_) => DisplaySettingsState()),
         ChangeNotifierProvider(create: (_) => BookmarksState()),
+        Provider<SettingsResetCoordinator>(
+          create: (context) => SettingsResetCoordinator(
+            context.read<LocaleSettingsState>(),
+            context.read<DisplaySettingsState>(),
+            context.read<ReadingSettingsState>(),
+          ),
+        ),
       ],
       child: const RootPage(),
     ),

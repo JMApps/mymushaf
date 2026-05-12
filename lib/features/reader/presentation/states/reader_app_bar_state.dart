@@ -14,7 +14,6 @@ class ReaderAppBarState extends ChangeNotifier {
 
   void restoreSystemUI() {
     _showSystemUi();
-    notifyListeners();
   }
 
   void _showSystemUi() {

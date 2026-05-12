@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
-import 'package:mymushaf/core/constants/app_setting_strings.dart';
 
 import '../../../core/constants/app_constants.dart';
+import '../../../core/constants/app_setting_strings.dart';
 
 class ReadingSettingsState extends ChangeNotifier {
   final Box<dynamic> _appSettingsBox = Hive.box(AppSettingStrings.mainAppSettingsBox);
