@@ -69,6 +69,7 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
     return PageView.builder(
       controller: widget.pageController,
       reverse: true,
+      physics: const ClampingScrollPhysics(),
       allowImplicitScrolling: false,
       itemCount: AppConstants.totalMushafPageCount,
       onPageChanged: (int index) {
@@ -76,7 +77,9 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
         if (_currentPage == page) return;
         _currentPage = page;
         _pageNumberState.setPageNumber(page);
-        _readerPageState.loadWindow(page);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _readerPageState.loadWindow(page);
+        });
       },
       itemBuilder: (context, index) {
         final page = index + 1;
