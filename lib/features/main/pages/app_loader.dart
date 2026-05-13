@@ -9,6 +9,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../ayahs/presentation/states/ayah_by_ayah_state.dart';
 import '../../hizb/presentation/states/hizb_state.dart';
 import '../../juz/presentation/states/juz_state.dart';
+import '../../reader/presentation/states/glyph_state.dart';
 import '../../reader/presentation/states/layout_state.dart';
 import '../../settings/states/display_settings_state.dart';
 import '../../settings/states/locale_settings_state.dart';
@@ -56,6 +57,9 @@ class _AppLoaderState extends State<AppLoader> {
         ),
         ChangeNotifierProvider(
           create: (_) => LayoutState(_deps.layoutRepository),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => GlyphState(_deps.glyphRepository),
         ),
       ],
       child: MaterialApp(

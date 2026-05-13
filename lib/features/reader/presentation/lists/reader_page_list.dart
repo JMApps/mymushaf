@@ -7,6 +7,7 @@ import '../../../ayahs/presentation/states/ayah_by_ayah_state.dart';
 import '../../../bookmarks/presentation/states/bookmarks_state.dart';
 import '../../../main/states/page_number_state.dart';
 import '../items/read_item.dart';
+import '../states/glyph_state.dart';
 import '../states/layout_state.dart';
 
 class ReaderPageList extends StatefulWidget {
@@ -21,6 +22,7 @@ class ReaderPageList extends StatefulWidget {
 class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObserver {
   late final PageController _controller;
   late final LayoutState _layoutState;
+  late final GlyphState _glyphState;
   late final AyahByAyahState _ayahState;
   late final PageNumberState _pageNumberState;
 
@@ -29,6 +31,7 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
     super.initState();
     _controller = PageController(initialPage: widget.pageNumber - 1);
     _layoutState = context.read<LayoutState>();
+    _glyphState = context.read<GlyphState>();
     _ayahState = context.read<AyahByAyahState>();
     _pageNumberState = context.read<PageNumberState>();
     WidgetsBinding.instance.addObserver(this);
@@ -51,6 +54,7 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
 
   void _loadAll(int page) {
     _layoutState.loadPage(page);
+    _glyphState.loadPage(page);
     _ayahState.loadPage(page);
   }
 

@@ -147,8 +147,8 @@ class DatabaseHelper {
     );
 
     await txn.execute(
-      'CREATE INDEX IF NOT EXISTS idx_layouts_page '
-          'ON Table_of_layout(page_number)',
+      'CREATE INDEX IF NOT EXISTS idx_layout_page_line_words '
+          'ON Table_of_layout(page_number, line_number, first_word_id, last_word_id)',
     );
 
     await txn.execute(

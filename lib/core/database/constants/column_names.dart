@@ -30,4 +30,10 @@ class ColumnNames {
   static const String lineNumber = 'line_number';
   static const String lineType = 'line_type';
   static const String isCentered = 'is_centered';
+
+  static const String id = 'id';
+  static const String location = 'location';
+  static const String wordNumber = 'word_number';
+  static const String glyph = 'glyph';
+  static const String word = 'word';
 }
