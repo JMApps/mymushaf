@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import 'line_type.dart';
+import '../../../../core/enums/line_type.dart';
 
 class LayoutEntity extends Equatable {
   final int pageNumber;

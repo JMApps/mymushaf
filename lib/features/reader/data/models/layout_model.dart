@@ -1,5 +1,5 @@
 import '../../../../core/database/constants/column_names.dart';
-import '../../domain/entities/line_type.dart';
+import '../../../../core/enums/line_type.dart';
 
 class LayoutModel {
   final int pageNumber;

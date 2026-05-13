@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_paddings.dart';
 import '../../../reader/domain/entities/layout_entity.dart';
-import '../../../reader/domain/entities/line_type.dart';
+import '../../../../core/enums/line_type.dart';
 import '../../domain/entities/ayah_by_ayah_entity.dart';
 import '../items/ayah_by_ayah_item.dart';
 import '../items/basmallah_item.dart';

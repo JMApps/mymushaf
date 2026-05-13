@@ -10,19 +10,19 @@ class AyahByAyahRepositoryImpl implements AyahByAyahRepository {
 
   @override
   Future<List<AyahByAyahEntity>> fetchAyahsByPageNumber({required int pageNumber, required String translationColumn}) async {
-    final models = await _dataSource.fetchAyahsByPageNumber(pageNumber: pageNumber, translationColumn: translationColumn);
-    return models.map((m) => m.toEntity()).toList(growable: false);
+    final ayahsByPageNumber = await _dataSource.fetchAyahsByPageNumber(pageNumber: pageNumber, translationColumn: translationColumn);
+    return ayahsByPageNumber.map((m) => m.toEntity()).toList(growable: false);
   }
 
   @override
   Future<List<AyahByAyahEntity>> searchAyahs({required String query, required String translationColumn}) async {
-    final models = await _dataSource.searchAyahs(query: query, translationColumn: translationColumn);
-    return models.map((m) => m.toEntity()).toList(growable: false);
+    final searchResultAyahs = await _dataSource.searchAyahs(query: query, translationColumn: translationColumn);
+    return searchResultAyahs.map((m) => m.toEntity()).toList(growable: false);
   }
 
   @override
   Future<List<AyahByAyahEntity>> fetchAyahsByIds({required List<int> ayahIds, required String translationColumn}) async {
-    final models = await _dataSource.fetchAyahsByIds(ayahIds: ayahIds, translationColumn: translationColumn);
-    return models.map((m) => m.toEntity()).toList(growable: false);
+    final ayahsByIds = await _dataSource.fetchAyahsByIds(ayahIds: ayahIds, translationColumn: translationColumn);
+    return ayahsByIds.map((m) => m.toEntity()).toList(growable: false);
   }
 }

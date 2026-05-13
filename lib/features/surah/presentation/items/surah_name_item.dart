@@ -74,8 +74,6 @@ class SurahNameItem extends StatelessWidget {
                                 height: 1,
                               ),
                             ),
-
-                          if (settings.translation)
                             Row(
                               children: [
                                 Flexible(
