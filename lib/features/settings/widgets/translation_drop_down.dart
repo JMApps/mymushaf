@@ -35,7 +35,7 @@ class TranslationDropDown extends StatelessWidget {
               style: TextStyle(
                 fontWeight: selectedIndex == index ? FontWeight.bold : FontWeight.normal,
               ),
-              textAlign: TextAlign.center,
+              textAlign: .center,
             ),
           ),
         ),

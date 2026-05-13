@@ -38,7 +38,7 @@ class ThemeModeDropDown extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: value == index ? .bold : .normal,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: .center,
               ),
             ),
         ],

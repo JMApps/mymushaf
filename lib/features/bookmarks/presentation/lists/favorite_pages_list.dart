@@ -29,11 +29,12 @@ class _FavoritePagesListState extends State<FavoritePagesList> {
   Widget build(BuildContext context) {
     final appLocale = AppLocalizations.of(context);
     final bottomHeight = kBottomNavigationBarHeight + AppSpacing.medium;
+
     return Selector2<BookmarksState, PageMetaState, ({bool loading, Object? error, List pageMetas})>(
       selector: (_, bookmarksState, pageMetaState) => (
-        loading: pageMetaState.isLoading,
-        error: pageMetaState.error,
-        pageMetas: pageMetaState.resolvePages(bookmarksState.favoritePageIds),
+      loading: pageMetaState.isLoading,
+      error: pageMetaState.error,
+      pageMetas: pageMetaState.resolvePages(bookmarksState.favoritePageIds),
       ),
       builder: (context, state, _) {
         if (state.loading) {
@@ -44,7 +45,7 @@ class _FavoritePagesListState extends State<FavoritePagesList> {
           return Center(
             child: Padding(
               padding: AppPaddings.medium,
-              child: Text('$e', textAlign: .center),
+              child: Text('$e', textAlign: TextAlign.center),
             ),
           );
         }
@@ -56,7 +57,7 @@ class _FavoritePagesListState extends State<FavoritePagesList> {
               child: Text(
                 appLocale.listIsEmpty,
                 style: AppTextStyles.medium,
-                textAlign: .center,
+                textAlign: TextAlign.center,
               ),
             ),
           );
@@ -70,6 +71,7 @@ class _FavoritePagesListState extends State<FavoritePagesList> {
             itemCount: state.pageMetas.length,
             itemBuilder: (context, index) {
               final pageMetaModel = state.pageMetas[index];
+
               return FavoritePageItem(
                 pageMetaModel: pageMetaModel,
                 index: index,

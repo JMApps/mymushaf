@@ -30,7 +30,8 @@ class _LastFavoritePagesListState extends State<LastFavoritePagesList> {
     final appLocale = AppLocalizations.of(context);
     final bottomHeight = kBottomNavigationBarHeight + AppSpacing.medium;
 
-    return Selector2<BookmarksState, PageMetaState, ({bool loading, Object? error, List pageMetas})>(
+    return Selector2<BookmarksState, PageMetaState,
+        ({bool loading, Object? error, List pageMetas})>(
       selector: (_, bookmarksState, pageMetaState) => (
       loading: pageMetaState.isLoading,
       error: pageMetaState.error,
@@ -45,7 +46,7 @@ class _LastFavoritePagesListState extends State<LastFavoritePagesList> {
           return Center(
             child: Padding(
               padding: AppPaddings.medium,
-              child: Text('$e', textAlign: .center),
+              child: Text('$e', textAlign: TextAlign.center),
             ),
           );
         }
@@ -57,7 +58,7 @@ class _LastFavoritePagesListState extends State<LastFavoritePagesList> {
               child: Text(
                 appLocale.listIsEmpty,
                 style: AppTextStyles.medium,
-                textAlign: .center,
+                textAlign: TextAlign.center,
               ),
             ),
           );
@@ -71,6 +72,7 @@ class _LastFavoritePagesListState extends State<LastFavoritePagesList> {
             itemCount: state.pageMetas.length,
             itemBuilder: (context, index) {
               final pageMetaModel = state.pageMetas[index];
+
               return LastFavoritePageItem(
                 pageMetaModel: pageMetaModel,
                 index: index,

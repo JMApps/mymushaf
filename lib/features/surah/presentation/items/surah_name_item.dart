@@ -9,6 +9,7 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../main/states/page_number_state.dart';
 import '../../../reader/data/args/reader_args.dart';
+import '../../../settings/states/reading_settings_state.dart';
 import '../../domain/entities/surah_name_entity.dart';
 
 class SurahNameItem extends StatelessWidget {
@@ -28,7 +29,7 @@ class SurahNameItem extends StatelessWidget {
     final itemOddColor = appColors.secondary.withAlpha(25);
     final itemEvenColor = appColors.secondary.withAlpha(05);
     return InkWell(
-      onTap: () async {
+      onTap: () {
         context.read<PageNumberState>().setPageNumber(surah.startPageNumber);
         Navigator.pushNamed(
           context,
@@ -54,34 +55,50 @@ class SurahNameItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: .stretch,
                 children: [
-                  Text(
-                    FontFamilies.glyphForSurahNumber(surah.surahNumber),
-                    style: TextStyle(
-                      color: appColors.primary,
-                      fontFamily: FontFamilies.surahHeader,
-                      fontSize: 27.5,
-                      height: 1,
+                  Selector<ReadingSettingsState, ({bool arabic, bool translation})>(
+                    selector: (_, state) => (
+                    arabic: state.arabicNameSurah,
+                    translation: state.translationNameSurah,
                     ),
-                  ),
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Text(
-                          surah.nameTranscriptionRu,
-                          style: AppTextStyles.medium,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      Flexible(
-                        child: Text(
-                          ' (${surah.nameTranslationRu})',
-                          style: AppTextStyles.medium,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
+                    builder: (context, settings, _) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          if (settings.arabic)
+                            Text(
+                              FontFamilies.glyphForSurahNumber(surah.surahNumber),
+                              style: TextStyle(
+                                color: appColors.primary,
+                                fontFamily: FontFamilies.surahHeader,
+                                fontSize: 27.5,
+                                height: 1,
+                              ),
+                            ),
+
+                          if (settings.translation)
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    surah.nameTranscriptionRu,
+                                    style: AppTextStyles.medium,
+                                    maxLines: 1,
+                                    overflow: .ellipsis,
+                                  ),
+                                ),
+                                if (settings.translation) Flexible(
+                                  child: Text(
+                                    ' (${surah.nameTranslationRu})',
+                                    style: AppTextStyles.medium,
+                                    maxLines: 1,
+                                    overflow: .ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ),
+                        ],
+                      );
+                    },
                   ),
                   Text(
                     '${appLocale.ayahsCount(surah.ayahsCount).toString()} • ${surah.revelationPlace == 0 ? appLocale.mecca : appLocale.medina}',

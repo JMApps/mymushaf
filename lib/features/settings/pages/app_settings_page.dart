@@ -21,6 +21,7 @@ class AppSettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appLocale = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(appLocale.settings),
@@ -29,109 +30,148 @@ class AppSettingsPage extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const .only(bottom: kBottomNavigationBarHeight + AppSpacing.medium),
+        padding: const .only(
+          bottom: kBottomNavigationBarHeight + AppSpacing.medium * 2,
+        ),
         child: Column(
-          crossAxisAlignment: .stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Divider(indent: AppSpacing.medium, endIndent: AppSpacing.medium),
-            Consumer<ReadingSettingsState>(
-              builder: (BuildContext context, readingSettings, _) {
-                return Column(
-                  children: [
-                    SettingListTileItem(
-                      value: readingSettings.arabicNameSurah,
-                      title: appLocale.arabicSurahName,
-                      onChanged: (bool onChanged) {
-                        readingSettings.arabicNameSurah = onChanged;
-                      },
-                    ),
-                    SettingListTileItem(
-                      value: readingSettings.translationNameSurah,
-                      title: appLocale.translationSurahName,
-                      onChanged: (bool onChanged) {
-                        readingSettings.translationNameSurah = onChanged;
-                      },
-                    ),
-                  ],
-                );
-              },
-            ),
-            const Divider(indent: AppSpacing.medium, endIndent: AppSpacing.medium),
-            Consumer<DisplaySettingsState>(
-              builder: (BuildContext context, displaySettings, _) {
-                return Column(
-                  children: [
-                    SettingListTileItem(
-                      value: displaySettings.displayAlwaysOn,
-                      title: appLocale.alwaysDisplayOn,
-                      onChanged: (bool onChanged) {
-                        displaySettings.setDisplayAlwaysOn(onChanged);
-                      },
-                    ),
-                    const Divider(indent: AppSpacing.medium, endIndent: AppSpacing.medium),
-                    ThemeModeDropDown(
-                      value: displaySettings.appThemeModeIndex,
-                      title: appLocale.appTheme,
-                      onChanged: (int? index) {
-                        displaySettings.appThemeModeIndex = index!;
-                      },
-                    ),
-                    const Divider(indent: AppSpacing.medium, endIndent: AppSpacing.medium),
-                    ThemeColorPicker(
-                      color: displaySettings.themeColor,
-                      onChanged: (Color? color) {
-                        Navigator.pop(context);
-                        displaySettings.themeColor = color!;
-                      },
-                    ),
-                    const Divider(indent: AppSpacing.medium, endIndent: AppSpacing.medium),
-                  ],
-                );
-              },
-            ),
-            Consumer<LocaleSettingsState>(
-              builder: (context, localeSettings, _) {
-                return TranslationDropDown(
-                  selectedIndex: localeSettings.translationNameIndex,
-                  onChanged: (index) {
-                    localeSettings.translationNameIndex = index;
+            Selector<ReadingSettingsState, bool>(
+              selector: (_, state) => state.arabicNameSurah,
+              builder: (context, value, _) {
+                return SettingListTileItem(
+                  value: value,
+                  title: appLocale.arabicSurahName,
+                  onChanged: (newValue) {
+                    context.read<ReadingSettingsState>().arabicNameSurah = newValue;
                   },
                 );
               },
             ),
-            Consumer<ReadingSettingsState>(
-              builder: (context, readingSettings, _) {
-                return Column(
-                  children: [
-                    SettingListTileItem(
-                      value: readingSettings.isArabicAyahShow,
-                      title: appLocale.arabicAyah,
-                      onChanged: (onChanged) => readingSettings.isArabicAyahShow = onChanged,
-                    ),
-                    SettingListTileItem(
-                      value: readingSettings.isTranslationAyahShow,
-                      title: appLocale.translationAyah,
-                      onChanged: (onChanged) => readingSettings.isTranslationAyahShow = onChanged,
-                    ),
-                    const Divider(indent: AppSpacing.medium, endIndent: AppSpacing.medium),
-                    Padding(
-                      padding: AppPaddings.medium,
-                      child: Text(
-                        appLocale.ayahsTextSize,
-                        style: AppTextStyles.medium,
-                      ),
-                    ),
-                    AyahTextSizeSlider(
-                      title: appLocale.arabic,
-                      size: readingSettings.ayahArabicTextSize,
-                      onChanged: (double value) => readingSettings.ayahArabicTextSize = value,
-                    ),
-                    AyahTextSizeSlider(
-                      title: appLocale.translation,
-                      size: readingSettings.ayahTranslationTextSize,
-                      onChanged: (double value) => readingSettings.ayahTranslationTextSize = value,
-                    ),
-                  ],
+            Selector<ReadingSettingsState, bool>(
+              selector: (_, state) => state.translationNameSurah,
+              builder: (context, value, _) {
+                return SettingListTileItem(
+                  value: value,
+                  title: appLocale.translationSurahName,
+                  onChanged: (newValue) {
+                    context.read<ReadingSettingsState>().translationNameSurah = newValue;
+                  },
+                );
+              },
+            ),
+            const Divider(indent: AppSpacing.medium, endIndent: AppSpacing.medium),
+            Selector<DisplaySettingsState, bool>(
+              selector: (_, state) => state.displayAlwaysOn,
+              builder: (context, value, _) {
+                return SettingListTileItem(
+                  value: value,
+                  title: appLocale.alwaysDisplayOn,
+                  onChanged: (newValue) {
+                    context.read<DisplaySettingsState>().setDisplayAlwaysOn(newValue);
+                  },
+                );
+              },
+            ),
+            const Divider(indent: AppSpacing.medium, endIndent: AppSpacing.medium),
+            Selector<DisplaySettingsState, int>(
+              selector: (_, state) => state.appThemeModeIndex,
+              builder: (context, value, _) {
+                return ThemeModeDropDown(
+                  value: value,
+                  title: appLocale.appTheme,
+                  onChanged: (index) {
+                    if (index == null) return;
+
+                    context.read<DisplaySettingsState>().appThemeModeIndex =
+                        index;
+                  },
+                );
+              },
+            ),
+            const Divider(indent: AppSpacing.medium, endIndent: AppSpacing.medium),
+            Selector<DisplaySettingsState, Color>(
+              selector: (_, state) => state.themeColor,
+              builder: (context, color, _) {
+                return ThemeColorPicker(
+                  color: color,
+                  onChanged: (newColor) {
+                    if (newColor == null) return;
+                    Navigator.pop(context);
+                    context.read<DisplaySettingsState>().themeColor = newColor;
+                  },
+                );
+              },
+            ),
+            const Divider(indent: AppSpacing.medium, endIndent: AppSpacing.medium),
+            Selector<LocaleSettingsState, int>(
+              selector: (_, state) => state.translationNameIndex,
+              builder: (context, selectedIndex, _) {
+                return TranslationDropDown(
+                  selectedIndex: selectedIndex,
+                  onChanged: (index) {
+                    context.read<LocaleSettingsState>().translationNameIndex = index;
+                  },
+                );
+              },
+            ),
+            const Divider(indent: AppSpacing.medium, endIndent: AppSpacing.medium),
+            Selector<ReadingSettingsState, bool>(
+              selector: (_, state) => state.isArabicAyahShow,
+              builder: (context, value, _) {
+                return SettingListTileItem(
+                  value: value,
+                  title: appLocale.arabicAyah,
+                  onChanged: (newValue) {
+                    context.read<ReadingSettingsState>().isArabicAyahShow =
+                        newValue;
+                  },
+                );
+              },
+            ),
+            Selector<ReadingSettingsState, bool>(
+              selector: (_, state) => state.isTranslationAyahShow,
+              builder: (context, value, _) {
+                return SettingListTileItem(
+                  value: value,
+                  title: appLocale.translationAyah,
+                  onChanged: (newValue) {
+                    context.read<ReadingSettingsState>().isTranslationAyahShow = newValue;
+                  },
+                );
+              },
+            ),
+            const Divider(indent: AppSpacing.medium, endIndent: AppSpacing.medium),
+            Padding(
+              padding: AppPaddings.medium,
+              child: Text(
+                appLocale.ayahsTextSize,
+                style: AppTextStyles.medium,
+              ),
+            ),
+            Selector<ReadingSettingsState, double>(
+              selector: (_, state) => state.ayahArabicTextSize,
+              builder: (context, size, _) {
+                return AyahTextSizeSlider(
+                  title: appLocale.arabic,
+                  size: size,
+                  onChanged: (value) {
+                    context.read<ReadingSettingsState>().ayahArabicTextSize =
+                        value;
+                  },
+                );
+              },
+            ),
+            Selector<ReadingSettingsState, double>(
+              selector: (_, state) => state.ayahTranslationTextSize,
+              builder: (context, size, _) {
+                return AyahTextSizeSlider(
+                  title: appLocale.translation,
+                  size: size,
+                  onChanged: (value) {
+                    context.read<ReadingSettingsState>().ayahTranslationTextSize = value;
+                  },
                 );
               },
             ),
