@@ -38,10 +38,7 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
     _bookmarksState = context.read<BookmarksState>();
     WidgetsBinding.instance.addObserver(this);
     _currentPage = widget.pageNumber;
-    _readerPageState.loadWindow(
-      _currentPage,
-      AppConstants.totalMushafPageCount,
-    );
+    _readerPageState.loadWindow(_currentPage);
   }
 
   @override
@@ -49,18 +46,13 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
     super.didUpdateWidget(oldWidget);
     if (oldWidget.pageNumber != widget.pageNumber) {
       _currentPage = widget.pageNumber;
-      _readerPageState.loadWindow(
-        _currentPage,
-        AppConstants.totalMushafPageCount,
-      );
+      _readerPageState.loadWindow(_currentPage);
     }
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.inactive ||
-        state == AppLifecycleState.paused ||
-        state == AppLifecycleState.detached) {
+    if (state == AppLifecycleState.inactive || state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
       _bookmarksState.addLastOpenedPage(_pageNumberState.pageNumber);
     }
   }
@@ -72,17 +64,6 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
     super.dispose();
   }
 
-  void _onPageChanged(int index) {
-    final page = index + 1;
-    if (_currentPage == page) return;
-    _currentPage = page;
-    _pageNumberState.setPageNumber(page);
-    _readerPageState.loadWindow(
-      page,
-      AppConstants.totalMushafPageCount,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
@@ -90,7 +71,13 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
       reverse: true,
       allowImplicitScrolling: false,
       itemCount: AppConstants.totalMushafPageCount,
-      onPageChanged: _onPageChanged,
+      onPageChanged: (int index) {
+        final page = index + 1;
+        if (_currentPage == page) return;
+        _currentPage = page;
+        _pageNumberState.setPageNumber(page);
+        _readerPageState.loadWindow(page);
+      },
       itemBuilder: (context, index) {
         final page = index + 1;
 

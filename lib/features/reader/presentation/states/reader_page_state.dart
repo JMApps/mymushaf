@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/constants/app_device_locales.dart';
 import '../../../ayahs/domain/repositories/ayah_by_ayah_repository.dart';
 import '../../../settings/states/locale_settings_state.dart';
@@ -91,15 +92,15 @@ class ReaderPageState extends ChangeNotifier {
     }
   }
 
-  void loadWindow(int page, int totalPages) {
+  void loadWindow(int page) {
     final pages = <int>{};
 
     final previous = page - 1;
     final next = page + 1;
 
     if (previous >= 1) pages.add(previous);
-    if (page >= 1 && page <= totalPages) pages.add(page);
-    if (next <= totalPages) pages.add(next);
+    if (page >= 1 && page <= AppConstants.totalMushafPageCount) pages.add(page);
+    if (next <= AppConstants.totalMushafPageCount) pages.add(next);
 
     for (final p in pages) {
       loadPage(p);
