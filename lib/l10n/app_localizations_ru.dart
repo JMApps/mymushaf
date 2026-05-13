@@ -160,5 +160,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get goTo => 'Перейти к...';
 
   @override
+  String get searchAyahs => 'Поиск аятов';
+
+  @override
   String get translationSurahName => 'Перевод названия суры';
 }

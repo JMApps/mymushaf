@@ -29,6 +29,13 @@ class SurahNamePage extends StatelessWidget {
           appLocale.appName,
           style: AppTextStyles.medium,
         ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            tooltip: appLocale.searchAyahs,
+            icon: const Icon(Icons.search),
+          ),
+        ],
       ),
       body: switch ((isLoading, error)) {
         (true, _) => const Center(child: CircularProgressIndicator.adaptive()),

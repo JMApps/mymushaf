@@ -380,6 +380,12 @@ abstract class AppLocalizations {
   /// **'Перейти к...'**
   String get goTo;
 
+  /// No description provided for @searchAyahs.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поиск аятов'**
+  String get searchAyahs;
+
   /// No description provided for @translationSurahName.
   ///
   /// In ru, this message translates to:

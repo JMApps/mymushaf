@@ -158,5 +158,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goTo => 'Go to...';
 
   @override
+  String get searchAyahs => 'Search ayahs';
+
+  @override
   String get translationSurahName => 'Surah name translation';
 }
