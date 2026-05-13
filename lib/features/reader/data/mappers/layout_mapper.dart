@@ -6,6 +6,8 @@ extension LayoutMapper on LayoutModel {
     return LayoutEntity(
       pageNumber: pageNumber,
       lineNumber: lineNumber,
+      firstWordId: firstWordId,
+      lastWordId: lastWordId,
       lineType: lineType,
       isCentered: isCentered,
       surahNumber: surahNumber,

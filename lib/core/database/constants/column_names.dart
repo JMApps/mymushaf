@@ -29,6 +29,8 @@ class ColumnNames {
   static const String ayahPosition = 'ayah_position';
   static const String lineNumber = 'line_number';
   static const String lineType = 'line_type';
+  static const String firstWordId = 'first_word_id';
+  static const String lastWordId = 'last_word_id';
   static const String isCentered = 'is_centered';
 
   static const String id = 'id';

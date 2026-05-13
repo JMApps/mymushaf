@@ -1,89 +1,103 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
+import '../../../../core/enums/line_type.dart';
 import '../../../../core/theme/app_paddings.dart';
 import '../../../reader/domain/entities/layout_entity.dart';
-import '../../../../core/enums/line_type.dart';
 import '../../domain/entities/ayah_by_ayah_entity.dart';
 import '../items/ayah_by_ayah_item.dart';
 import '../items/basmallah_item.dart';
 import '../items/surah_header_item.dart';
-import '../states/ayah_by_ayah_state.dart';
 import 'page_line.dart';
 
 class AyahByAyahList extends StatelessWidget {
-  final int pageNumber;
-  final List<LayoutEntity> layouts;
-  final int? ayahPosition;
-
   const AyahByAyahList({
     super.key,
     required this.pageNumber,
     required this.layouts,
+    required this.ayahs,
     this.ayahPosition,
   });
 
+  final int pageNumber;
+  final List<LayoutEntity> layouts;
+  final List<AyahByAyahEntity> ayahs;
+  final int? ayahPosition;
+
   @override
   Widget build(BuildContext context) {
-    return Selector<AyahByAyahState, ({bool loading, Object? error, bool loaded})>(
-      selector: (_, s) => (
-      loading: s.isPageLoading(pageNumber),
-      error: s.getPageError(pageNumber),
-      loaded: s.isPageLoaded(pageNumber),
-      ),
-      builder: (context, state, _) => switch (state) {
-        (loading: true, error: _, loaded: _) => const Center(child: CircularProgressIndicator.adaptive()),
-        (loading: _, error: final e?, loaded: _) => Padding(
-          padding: AppPaddings.medium,
-          child: Center(child: Text('$e')),
-        ),
-        (loading: _, error: _, loaded: true) => _buildList(context),
-        _ => const SizedBox.shrink(),
-      },
-    );
-  }
+    if (ayahs.isEmpty) {
+      return const SizedBox.shrink();
+    }
 
-  Widget _buildList(BuildContext context) {
-    final ayahs = context.read<AyahByAyahState>().getPageAyahs(pageNumber);
-    final headers = {
-      for (final l in layouts)
-        if (l.lineType == LineType.surahName) l.surahNumber!,
-    };
-    final hasBasmallah = layouts.any((l) => l.lineType == LineType.basmallah);
-    final lines = _buildLines(ayahs, headers, hasBasmallah);
+    final lines = _buildLines(
+      layouts: layouts,
+      ayahs: ayahs,
+    );
 
     return ListView.builder(
       padding: AppPaddings.topMediumSmallOther,
       itemCount: lines.length,
-      itemBuilder: (context, index) => switch (lines[index]) {
-        SurahLine(surahNumber: final n) => SurahHeaderItem(surahNumber: n),
-        BasmallahLine() => const BasmallahItem(),
-        AyahLine(ayah: final ayahModel, index: final index) => AyahByAyahItem(
-          ayahByAyahModel: ayahModel,
-          index: index,
-        ),
+      itemBuilder: (context, index) {
+        final line = lines[index];
+
+        return switch (line) {
+          SurahLine(surahNumber: final surahNumber) => SurahHeaderItem(
+            surahNumber: surahNumber,
+          ),
+
+          BasmallahLine() => const BasmallahItem(),
+
+          AyahLine(ayah: final ayahModel, index: final ayahIndex) => AyahByAyahItem(
+            ayahByAyahModel: ayahModel,
+            index: ayahIndex,
+          ),
+        };
       },
     );
   }
 
-  static List<PageLine> _buildLines(List<AyahByAyahEntity> ayahs, Set<int> headers, bool hasBasmallah) {
+  static List<PageLine> _buildLines({required List<LayoutEntity> layouts, required List<AyahByAyahEntity> ayahs}) {
     final lines = <PageLine>[];
-    int? lastSurah;
 
-    if (headers.isEmpty && ayahs.isNotEmpty) {
-      lines.add(SurahLine(ayahs.first.surahNumber));
-      lastSurah = ayahs.first.surahNumber;
+    final surahsWithHeader = <int>{};
+    final surahsWithBasmallah = <int>{};
+
+    int? lastSurahHeader;
+
+    for (final layout in layouts) {
+      if (layout.lineType == LineType.surahName) {
+        final surahNumber = layout.surahNumber;
+
+        if (surahNumber != null) {
+          surahsWithHeader.add(surahNumber);
+          lastSurahHeader = surahNumber;
+        }
+        continue;
+      }
+
+      if (layout.lineType == LineType.basmallah) {
+        if (lastSurahHeader != null) {
+          surahsWithBasmallah.add(lastSurahHeader);
+        }
+        continue;
+      }
     }
+
+    int? currentSurah;
 
     for (var i = 0; i < ayahs.length; i++) {
       final ayah = ayahs[i];
+      final surahNumber = ayah.surahNumber;
 
-      if (ayah.surahNumber != lastSurah) {
-        lines.add(SurahLine(ayah.surahNumber));
-        if (headers.contains(ayah.surahNumber) && hasBasmallah && ayah.surahNumber != 1 && ayah.surahNumber != 9) {
+      final isNewSurah = currentSurah != surahNumber;
+
+      if (isNewSurah) {
+        lines.add(SurahLine(surahNumber));
+        final shouldShowBasmallah = surahsWithBasmallah.contains(surahNumber) && surahNumber != 1 && surahNumber != 9;
+        if (shouldShowBasmallah) {
           lines.add(const BasmallahLine());
         }
-        lastSurah = ayah.surahNumber;
+        currentSurah = surahNumber;
       }
 
       lines.add(AyahLine(ayah, i));

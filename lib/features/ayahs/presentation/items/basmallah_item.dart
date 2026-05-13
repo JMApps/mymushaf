@@ -12,7 +12,7 @@ class BasmallahItem extends StatelessWidget {
     return Padding(
       padding: AppPaddings.bottomMedium,
       child: Text(
-        '\uFDFD',
+        '﷽',
         textDirection: .rtl,
         style: TextStyle(
           fontSize: context.read<ReadingSettingsState>().ayahArabicTextSize + 5.0,
