@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/services.dart' show rootBundle;
@@ -11,6 +12,7 @@ class DatabaseHelper {
 
   static const String _dbFileName = 'mushaf_database.db';
   static const String _assetPath = 'assets/databases/$_dbFileName';
+
   static const int _dbVersion = 1;
 
   Database? _db;
@@ -18,7 +20,9 @@ class DatabaseHelper {
 
   Future<Database> get db {
     final existing = _db;
-    if (existing != null) return Future.value(existing);
+    if (existing != null && existing.isOpen) {
+      return Future.value(existing);
+    }
 
     final opening = _opening;
     if (opening != null) return opening;
@@ -34,6 +38,7 @@ class DatabaseHelper {
       final dbPath = p.join(dbDir, _dbFileName);
 
       await Directory(p.dirname(dbPath)).create(recursive: true);
+
       await _ensureDatabaseInstalled(dbPath);
 
       final database = await openDatabase(
@@ -44,8 +49,9 @@ class DatabaseHelper {
 
       _db = database;
       return database;
-    } catch (_) {
+    } catch (e, s) {
       _db = null;
+      log('Database open failed', error: e, stackTrace: s);
       rethrow;
     } finally {
       _opening = null;
@@ -61,16 +67,20 @@ class DatabaseHelper {
     }
 
     final isValid = await _isExistingDatabaseValid(dbPath);
+
     if (!isValid) {
-      await deleteDatabase(dbPath);
+      await _deleteCopiedDatabase(dbPath);
       await _installFreshFromAssets(dbPath);
       return;
     }
 
     final currentVersion = await _readDatabaseVersion(dbPath);
-    if (currentVersion >= _dbVersion) return;
 
-    await deleteDatabase(dbPath);
+    if (currentVersion == _dbVersion) {
+      return;
+    }
+
+    await _deleteCopiedDatabase(dbPath);
     await _installFreshFromAssets(dbPath);
   }
 
@@ -85,7 +95,12 @@ class DatabaseHelper {
       );
 
       await probe.rawQuery(
-        'SELECT name FROM sqlite_master WHERE type = ? LIMIT 1',
+        '''
+        SELECT name
+        FROM sqlite_master
+        WHERE type = ?
+        LIMIT 1
+        ''',
         ['table'],
       );
 
@@ -107,7 +122,7 @@ class DatabaseHelper {
         readOnly: true,
       );
 
-      return probe.getVersion();
+      return await probe.getVersion();
     } finally {
       await probe?.close();
     }
@@ -116,13 +131,15 @@ class DatabaseHelper {
   Future<void> _installFreshFromAssets(String dbPath) async {
     await _copyAssetDbTo(dbPath);
 
-    final rw = await openDatabase(
-      dbPath,
-      singleInstance: false,
-      readOnly: false,
-    );
+    Database? rw;
 
     try {
+      rw = await openDatabase(
+        dbPath,
+        singleInstance: false,
+        readOnly: false,
+      );
+
       await rw.transaction((txn) async {
         await _createIndexes(txn);
         await _createFts(txn);
@@ -130,59 +147,92 @@ class DatabaseHelper {
 
       await rw.execute('ANALYZE');
       await rw.setVersion(_dbVersion);
+    } catch (e, s) {
+      log('Fresh database install failed', error: e, stackTrace: s);
+
+      await rw?.close();
+      await _deleteCopiedDatabase(dbPath);
+
+      rethrow;
     } finally {
-      await rw.close();
+      await rw?.close();
     }
   }
 
   Future<void> _createIndexes(Transaction txn) async {
     await txn.execute(
-      'CREATE INDEX IF NOT EXISTS idx_glyphs_surah_ayah '
-          'ON Table_of_glyph(surah_number, ayah_number)',
+      '''
+      CREATE INDEX IF NOT EXISTS idx_glyphs_surah_ayah
+      ON Table_of_glyph(surah_number, ayah_number)
+      ''',
     );
 
     await txn.execute(
-      'CREATE INDEX IF NOT EXISTS idx_glyphs_location '
-          'ON Table_of_glyph(location)',
+      '''
+      CREATE INDEX IF NOT EXISTS idx_glyphs_location
+      ON Table_of_glyph(location)
+      ''',
     );
 
     await txn.execute(
-      'CREATE INDEX IF NOT EXISTS idx_layout_page_line_words '
-          'ON Table_of_layout(page_number, line_number, first_word_id, last_word_id)',
+      '''
+      CREATE INDEX IF NOT EXISTS idx_layout_page_line_words
+      ON Table_of_layout(
+        page_number,
+        line_number,
+        first_word_id,
+        last_word_id
+      )
+      ''',
     );
 
     await txn.execute(
-      'CREATE INDEX IF NOT EXISTS idx_ayahs_page_position '
-          'ON Table_of_ayah_by_ayah(page_number, ayah_position)',
+      '''
+      CREATE INDEX IF NOT EXISTS idx_ayahs_page_position
+      ON Table_of_ayah_by_ayah(ayah_page_number, ayah_position)
+      ''',
     );
 
     await txn.execute(
-      'CREATE INDEX IF NOT EXISTS idx_ayahs_verse_key '
-          'ON Table_of_ayah_by_ayah(verse_key)',
+      '''
+      CREATE INDEX IF NOT EXISTS idx_ayahs_verse_key
+      ON Table_of_ayah_by_ayah(verse_key)
+      ''',
     );
 
     await txn.execute(
-      'CREATE INDEX IF NOT EXISTS idx_translations_ayah_key '
-          'ON Table_of_translation(ayah_key)',
+      '''
+      CREATE INDEX IF NOT EXISTS idx_translations_ayah_key
+      ON Table_of_translation(ayah_key)
+      ''',
     );
   }
 
   Future<void> _createFts(Transaction txn) async {
-    await txn.execute('''
-      CREATE VIRTUAL TABLE IF NOT EXISTS fts_ayahs_arabic
-      USING fts4(ayah_normalized, tokenize=unicode61)
-    ''');
+    await txn.execute('DROP TABLE IF EXISTS fts_ayahs_arabic');
+    await txn.execute('DROP TABLE IF EXISTS fts_translations');
 
-    await txn.execute('DELETE FROM fts_ayahs_arabic');
+    await txn.execute(
+      '''
+      CREATE VIRTUAL TABLE fts_ayahs_arabic
+      USING fts4(
+        ayah_normalized,
+        tokenize=unicode61
+      )
+      ''',
+    );
 
-    await txn.execute('''
+    await txn.execute(
+      '''
       INSERT INTO fts_ayahs_arabic(rowid, ayah_normalized)
       SELECT ayah_id, ayah_normalized
       FROM Table_of_ayah_by_ayah
-    ''');
+      ''',
+    );
 
-    await txn.execute('''
-      CREATE VIRTUAL TABLE IF NOT EXISTS fts_translations
+    await txn.execute(
+      '''
+      CREATE VIRTUAL TABLE fts_translations
       USING fts4(
         ayah_ru_kuliev,
         ayah_ru_adel,
@@ -191,11 +241,11 @@ class DatabaseHelper {
         ayah_az,
         tokenize=unicode61
       )
-    ''');
+      ''',
+    );
 
-    await txn.execute('DELETE FROM fts_translations');
-
-    await txn.execute('''
+    await txn.execute(
+      '''
       INSERT INTO fts_translations(
         rowid,
         ayah_ru_kuliev,
@@ -212,17 +262,30 @@ class DatabaseHelper {
         ayah_uz,
         ayah_az
       FROM Table_of_translation
-    ''');
+      ''',
+    );
   }
 
   Future<void> _copyAssetDbTo(String dbPath) async {
     final data = await rootBundle.load(_assetPath);
+
     final bytes = data.buffer.asUint8List(
       data.offsetInBytes,
       data.lengthInBytes,
     );
 
-    await File(dbPath).writeAsBytes(bytes, flush: true);
+    final file = File(dbPath);
+
+    await file.parent.create(recursive: true);
+    await file.writeAsBytes(bytes, flush: true);
+  }
+
+  Future<void> _deleteCopiedDatabase(String dbPath) async {
+    await close();
+
+    if (await File(dbPath).exists()) {
+      await deleteDatabase(dbPath);
+    }
   }
 
   Future<void> close() async {
@@ -231,7 +294,7 @@ class DatabaseHelper {
     final database = _db;
     _db = null;
 
-    if (database != null) {
+    if (database != null && database.isOpen) {
       await database.close();
     }
   }
@@ -240,8 +303,7 @@ class DatabaseHelper {
     final dbDir = await getDatabasesPath();
     final dbPath = p.join(dbDir, _dbFileName);
 
-    await close();
-    await deleteDatabase(dbPath);
+    await _deleteCopiedDatabase(dbPath);
     await _installFreshFromAssets(dbPath);
 
     return db;
