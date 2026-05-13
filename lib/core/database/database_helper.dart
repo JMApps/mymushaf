@@ -29,21 +29,27 @@ class DatabaseHelper {
   }
 
   Future<Database> _open() async {
-    final dbDir = await getDatabasesPath();
-    final dbPath = p.join(dbDir, _dbFileName);
+    try {
+      final dbDir = await getDatabasesPath();
+      final dbPath = p.join(dbDir, _dbFileName);
 
-    await Directory(p.dirname(dbPath)).create(recursive: true);
-    await _ensureDatabaseInstalled(dbPath);
+      await Directory(p.dirname(dbPath)).create(recursive: true);
+      await _ensureDatabaseInstalled(dbPath);
 
-    final database = await openDatabase(
-      dbPath,
-      singleInstance: true,
-      readOnly: true,
-    );
+      final database = await openDatabase(
+        dbPath,
+        singleInstance: true,
+        readOnly: true,
+      );
 
-    _db = database;
-    _opening = null;
-    return database;
+      _db = database;
+      return database;
+    } catch (_) {
+      _db = null;
+      rethrow;
+    } finally {
+      _opening = null;
+    }
   }
 
   Future<void> _ensureDatabaseInstalled(String dbPath) async {
@@ -54,29 +60,74 @@ class DatabaseHelper {
       return;
     }
 
-    final probe = await openDatabase(dbPath, singleInstance: false);
-    final int currentVersion;
-    try {
-      currentVersion = await probe.getVersion();
-    } finally {
-      await probe.close();
+    final isValid = await _isExistingDatabaseValid(dbPath);
+    if (!isValid) {
+      await deleteDatabase(dbPath);
+      await _installFreshFromAssets(dbPath);
+      return;
     }
 
+    final currentVersion = await _readDatabaseVersion(dbPath);
     if (currentVersion >= _dbVersion) return;
 
     await deleteDatabase(dbPath);
     await _installFreshFromAssets(dbPath);
   }
 
+  Future<bool> _isExistingDatabaseValid(String dbPath) async {
+    Database? probe;
+
+    try {
+      probe = await openDatabase(
+        dbPath,
+        singleInstance: false,
+        readOnly: true,
+      );
+
+      await probe.rawQuery(
+        'SELECT name FROM sqlite_master WHERE type = ? LIMIT 1',
+        ['table'],
+      );
+
+      return true;
+    } catch (_) {
+      return false;
+    } finally {
+      await probe?.close();
+    }
+  }
+
+  Future<int> _readDatabaseVersion(String dbPath) async {
+    Database? probe;
+
+    try {
+      probe = await openDatabase(
+        dbPath,
+        singleInstance: false,
+        readOnly: true,
+      );
+
+      return probe.getVersion();
+    } finally {
+      await probe?.close();
+    }
+  }
+
   Future<void> _installFreshFromAssets(String dbPath) async {
     await _copyAssetDbTo(dbPath);
 
-    final rw = await openDatabase(dbPath, singleInstance: false);
+    final rw = await openDatabase(
+      dbPath,
+      singleInstance: false,
+      readOnly: false,
+    );
+
     try {
       await rw.transaction((txn) async {
         await _createIndexes(txn);
         await _createFts(txn);
       });
+
       await rw.execute('ANALYZE');
       await rw.setVersion(_dbVersion);
     } finally {
@@ -86,12 +137,34 @@ class DatabaseHelper {
 
   Future<void> _createIndexes(Transaction txn) async {
     await txn.execute(
-      'CREATE INDEX IF NOT EXISTS idx_glyphs_surah_ayah ON Table_of_glyph(surah_number, ayah_number)',
+      'CREATE INDEX IF NOT EXISTS idx_glyphs_surah_ayah '
+          'ON Table_of_glyph(surah_number, ayah_number)',
     );
-    await txn.execute('CREATE INDEX IF NOT EXISTS idx_glyphs_location ON Table_of_glyph(location)');
-    await txn.execute('CREATE INDEX IF NOT EXISTS idx_layouts_page ON Table_of_layout(page_number)');
-    await txn.execute('CREATE INDEX IF NOT EXISTS idx_ayahs_verse_key ON Table_of_ayah_by_ayah(verse_key)');
-    await txn.execute('CREATE INDEX IF NOT EXISTS idx_translations_ayah_key ON Table_of_translation(ayah_key)');
+
+    await txn.execute(
+      'CREATE INDEX IF NOT EXISTS idx_glyphs_location '
+          'ON Table_of_glyph(location)',
+    );
+
+    await txn.execute(
+      'CREATE INDEX IF NOT EXISTS idx_layouts_page '
+          'ON Table_of_layout(page_number)',
+    );
+
+    await txn.execute(
+      'CREATE INDEX IF NOT EXISTS idx_ayahs_page_position '
+          'ON Table_of_ayah_by_ayah(page_number, ayah_position)',
+    );
+
+    await txn.execute(
+      'CREATE INDEX IF NOT EXISTS idx_ayahs_verse_key '
+          'ON Table_of_ayah_by_ayah(verse_key)',
+    );
+
+    await txn.execute(
+      'CREATE INDEX IF NOT EXISTS idx_translations_ayah_key '
+          'ON Table_of_translation(ayah_key)',
+    );
   }
 
   Future<void> _createFts(Transaction txn) async {
@@ -99,18 +172,45 @@ class DatabaseHelper {
       CREATE VIRTUAL TABLE IF NOT EXISTS fts_ayahs_arabic
       USING fts4(ayah_normalized, tokenize=unicode61)
     ''');
+
+    await txn.execute('DELETE FROM fts_ayahs_arabic');
+
     await txn.execute('''
       INSERT INTO fts_ayahs_arabic(rowid, ayah_normalized)
-      SELECT ayah_id, ayah_normalized FROM Table_of_ayah_by_ayah
+      SELECT ayah_id, ayah_normalized
+      FROM Table_of_ayah_by_ayah
     ''');
 
     await txn.execute('''
       CREATE VIRTUAL TABLE IF NOT EXISTS fts_translations
-      USING fts4(ayah_ru_kuliev, ayah_ru_adel, ayah_kg, ayah_uz, ayah_az, tokenize=unicode61)
+      USING fts4(
+        ayah_ru_kuliev,
+        ayah_ru_adel,
+        ayah_kg,
+        ayah_uz,
+        ayah_az,
+        tokenize=unicode61
+      )
     ''');
+
+    await txn.execute('DELETE FROM fts_translations');
+
     await txn.execute('''
-      INSERT INTO fts_translations(rowid, ayah_ru_kuliev, ayah_ru_adel, ayah_kg, ayah_uz, ayah_az)
-      SELECT id, ayah_ru_kuliev, ayah_ru_adel, ayah_kg, ayah_uz, ayah_az
+      INSERT INTO fts_translations(
+        rowid,
+        ayah_ru_kuliev,
+        ayah_ru_adel,
+        ayah_kg,
+        ayah_uz,
+        ayah_az
+      )
+      SELECT
+        id,
+        ayah_ru_kuliev,
+        ayah_ru_adel,
+        ayah_kg,
+        ayah_uz,
+        ayah_az
       FROM Table_of_translation
     ''');
   }
@@ -121,13 +221,16 @@ class DatabaseHelper {
       data.offsetInBytes,
       data.lengthInBytes,
     );
+
     await File(dbPath).writeAsBytes(bytes, flush: true);
   }
 
   Future<void> close() async {
     _opening = null;
+
     final database = _db;
     _db = null;
+
     if (database != null) {
       await database.close();
     }

@@ -59,6 +59,7 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
     return PageView.builder(
       controller: _controller,
       reverse: true,
+      allowImplicitScrolling: false,
       itemCount: AppConstants.totalMushafPageCount,
       onPageChanged: (index) {
         final page = index + 1;

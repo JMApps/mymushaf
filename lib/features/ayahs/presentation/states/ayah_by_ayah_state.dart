@@ -7,28 +7,31 @@ import '../../domain/entities/ayah_by_ayah_entity.dart';
 import '../../domain/repositories/ayah_by_ayah_repository.dart';
 
 class AyahByAyahState extends ChangeNotifier {
-  final AyahByAyahRepository _ayahByAyahRepository;
-  final LocaleSettingsState _localeSettingsState;
-
   AyahByAyahState(this._ayahByAyahRepository, this._localeSettingsState) {
     _localeSettingsState.addListener(_onSettingsChanged);
   }
 
-  String get translationsColumn => AppDeviceLocales.ayahTranslations[_localeSettingsState.translationNameIndex].column;
-
-  void _onSettingsChanged() {
-    _pagesCache.clear();
-    _errorMap.clear();
-    _inFlight.clear();
-    _favoriteAyahs = const [];
-    notifyListeners();
-  }
+  final AyahByAyahRepository _ayahByAyahRepository;
+  final LocaleSettingsState _localeSettingsState;
 
   final Map<int, List<AyahByAyahEntity>> _pagesCache = {};
   final Map<int, Object?> _errorMap = {};
   final Set<int> _inFlight = {};
 
-  List<AyahByAyahEntity> getPageAyahs(int pageNumber) => _pagesCache[pageNumber] ?? const [];
+  Set<int> _activeWindow = const {};
+  int _generation = 0;
+
+  List<AyahByAyahEntity> _favoriteAyahs = const [];
+  bool _isFavoritesLoading = false;
+  Object? _favoritesError;
+
+  String get translationsColumn {
+    return AppDeviceLocales.ayahTranslations[_localeSettingsState.translationNameIndex].column;
+  }
+
+  List<AyahByAyahEntity> getPageAyahs(int pageNumber) {
+    return _pagesCache[pageNumber] ?? const [];
+  }
 
   bool isPageLoading(int pageNumber) => _inFlight.contains(pageNumber);
 
@@ -36,53 +39,71 @@ class AyahByAyahState extends ChangeNotifier {
 
   Object? getPageError(int pageNumber) => _errorMap[pageNumber];
 
-  Future<void> loadPage(int pageNumber) async {
-    _evict(pageNumber);
-
-    await _loadPage(pageNumber);
-
-    if (pageNumber > 1) _loadPage(pageNumber - 1);
-    if (pageNumber < AppConstants.totalMushafPageCount) _loadPage(pageNumber + 1);
-  }
-
-  Future<void> _loadPage(int pageNumber) async {
-    if (_pagesCache.containsKey(pageNumber) || !_inFlight.add(pageNumber)) return;
-
-    try {
-      _pagesCache[pageNumber] = await _ayahByAyahRepository.fetchAyahsByPageNumber(
-        pageNumber: pageNumber,
-        translationColumn: translationsColumn,
-      );
-      _errorMap.remove(pageNumber);
-    } catch (e) {
-      _errorMap[pageNumber] = e;
-    } finally {
-      _inFlight.remove(pageNumber);
-      notifyListeners();
-    }
-  }
-
-  void _evict(int activePageNumber) {
-    final keep = {
-      activePageNumber,
-      if (activePageNumber > 1) activePageNumber - 1,
-      if (activePageNumber < AppConstants.totalMushafPageCount) activePageNumber + 1,
-    };
-    _pagesCache.removeWhere((page, _) => !keep.contains(page));
-    _errorMap.removeWhere((page, _) => !keep.contains(page));
-  }
-
-  List<AyahByAyahEntity> _favoriteAyahs = const [];
-  bool _isFavoritesLoading = false;
-  Object? _favoritesError;
-
   List<AyahByAyahEntity> get favoriteAyahs => _favoriteAyahs;
 
   bool get isFavoritesLoading => _isFavoritesLoading;
 
   Object? get favoritesError => _favoritesError;
 
+  Future<void> loadPage(int pageNumber) async {
+    if (!_isValidPage(pageNumber)) return;
+
+    _generation++;
+    final generation = _generation;
+
+    _activeWindow = _buildWindow(pageNumber);
+    _evictOutsideActiveWindow();
+
+    await _loadPage(pageNumber, generation);
+
+    final previous = pageNumber - 1;
+    final next = pageNumber + 1;
+
+    if (_activeWindow.contains(previous)) {
+      unawaitedLoad(previous, generation);
+    }
+
+    if (_activeWindow.contains(next)) {
+      unawaitedLoad(next, generation);
+    }
+  }
+
+  void unawaitedLoad(int pageNumber, int generation) {
+    _loadPage(pageNumber, generation);
+  }
+
+  Future<void> _loadPage(int pageNumber, int generation) async {
+    if (!_activeWindow.contains(pageNumber)) return;
+    if (_pagesCache.containsKey(pageNumber)) return;
+    if (!_inFlight.add(pageNumber)) return;
+
+    final column = translationsColumn;
+
+    try {
+      final result = await _ayahByAyahRepository.fetchAyahsByPageNumber(
+        pageNumber: pageNumber,
+        translationColumn: column,
+      );
+
+      if (generation != _generation) return;
+      if (!_activeWindow.contains(pageNumber)) return;
+
+      _pagesCache[pageNumber] = result;
+      _errorMap.remove(pageNumber);
+    } catch (e) {
+      if (generation != _generation) return;
+      if (!_activeWindow.contains(pageNumber)) return;
+
+      _errorMap[pageNumber] = e;
+    } finally {
+      _inFlight.remove(pageNumber);
+      _evictOutsideActiveWindow();
+      notifyListeners();
+    }
+  }
+
   Future<void> loadFavoriteAyahs(List<int> ayahIds) async {
+    final generation = _generation;
     if (ayahIds.isEmpty) {
       _favoriteAyahs = const [];
       _favoritesError = null;
@@ -92,16 +113,26 @@ class AyahByAyahState extends ChangeNotifier {
     _isFavoritesLoading = true;
     _favoritesError = null;
 
+    final column = translationsColumn;
+
     try {
-      _favoriteAyahs = await _ayahByAyahRepository.fetchAyahsByIds(
+      final result = await _ayahByAyahRepository.fetchAyahsByIds(
         ayahIds: ayahIds,
-        translationColumn: translationsColumn,
+        translationColumn: column,
       );
+
+      if (generation != _generation) return;
+
+      _favoriteAyahs = result;
     } catch (e) {
+      if (generation != _generation) return;
+
       _favoritesError = e;
     } finally {
-      _isFavoritesLoading = false;
-      notifyListeners();
+      if (generation == _generation) {
+        _isFavoritesLoading = false;
+        notifyListeners();
+      }
     }
   }
 
@@ -110,6 +141,36 @@ class AyahByAyahState extends ChangeNotifier {
       query: query,
       translationColumn: translationsColumn,
     );
+  }
+
+  void _onSettingsChanged() {
+    _generation++;
+    _pagesCache.clear();
+    _errorMap.clear();
+    _inFlight.clear();
+    _favoriteAyahs = const [];
+    _favoritesError = null;
+    _isFavoritesLoading = false;
+    notifyListeners();
+  }
+
+  Set<int> _buildWindow(int activePageNumber) {
+    return {
+      activePageNumber,
+      if (activePageNumber > 1) activePageNumber - 1,
+      if (activePageNumber < AppConstants.totalMushafPageCount)
+        activePageNumber + 1,
+    };
+  }
+
+  void _evictOutsideActiveWindow() {
+    _pagesCache.removeWhere((page, _) => !_activeWindow.contains(page));
+    _errorMap.removeWhere((page, _) => !_activeWindow.contains(page));
+    _inFlight.removeWhere((page) => !_activeWindow.contains(page));
+  }
+
+  bool _isValidPage(int pageNumber) {
+    return pageNumber >= 1 && pageNumber <= AppConstants.totalMushafPageCount;
   }
 
   @override
