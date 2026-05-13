@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
-import 'package:mymushaf/features/main/states/translate_mode_state.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +9,7 @@ import 'features/main/pages/root_page.dart';
 import 'features/main/states/database_init_state.dart';
 import 'features/main/states/main_state.dart';
 import 'features/main/states/page_number_state.dart';
+import 'features/main/states/translate_mode_state.dart';
 import 'features/reader/presentation/states/reader_app_bar_state.dart';
 import 'features/settings/states/display_settings_state.dart';
 import 'features/settings/states/locale_settings_state.dart';

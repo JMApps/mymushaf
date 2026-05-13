@@ -71,6 +71,7 @@ class ToPageButton extends StatelessWidget {
           },
         );
       },
+      padding: .zero,
       tooltip: appLocale.goTo,
       icon: const Icon(Icons.auto_stories_outlined),
     );

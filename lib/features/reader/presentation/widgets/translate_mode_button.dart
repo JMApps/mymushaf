@@ -16,6 +16,8 @@ class TranslateModeButton extends StatelessWidget {
           onPressed: () {
             translationMode.toggleTranslateMode();
           },
+          padding: .zero,
+          visualDensity: .compact,
           tooltip: translationMode.translateMode ? appLocale.mushafPage : appLocale.semanticTranslation,
           icon: Icon(
             translationMode.translateMode ? Icons.menu_book_rounded : Icons.public_outlined,
