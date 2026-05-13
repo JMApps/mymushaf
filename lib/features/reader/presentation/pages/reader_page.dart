@@ -18,16 +18,19 @@ class ReaderPage extends StatefulWidget {
 
 class _ReaderPageState extends State<ReaderPage> {
   late final ReaderAppBarState _appBarState;
+  late final PageController _pageController;
 
   @override
   void initState() {
     super.initState();
+    _pageController = PageController(initialPage: widget.initialPage);
     _appBarState = context.read<ReaderAppBarState>();
   }
 
   @override
   void dispose() {
     _appBarState.restoreSystemUI();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -44,14 +47,17 @@ class _ReaderPageState extends State<ReaderPage> {
           child: Scaffold(
             extendBody: true,
             extendBodyBehindAppBar: true,
-            appBar: const PreferredSize(
-              preferredSize: Size.fromHeight(kToolbarHeight),
-              child: ReaderAppBar(),
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(kToolbarHeight),
+              child: ReaderAppBar(pageController: _pageController),
             ),
             body: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () => context.read<ReaderAppBarState>().toggleShowAppBar(),
-              child: ReaderPageList(pageNumber: widget.initialPage),
+              child: ReaderPageList(
+                pageController: _pageController,
+                pageNumber: widget.initialPage,
+              ),
             ),
           ),
         );

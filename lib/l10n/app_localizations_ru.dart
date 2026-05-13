@@ -115,6 +115,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get semanticTranslation => 'Смысловой перевод';
 
   @override
+  String get mushafPage => 'Страница мусхафа';
+
+  @override
   String get selectThemeColor => 'Выберите цвет темы';
 
   @override
@@ -143,6 +146,18 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get translationAyah => 'Перевод аята';
+
+  @override
+  String get addToFavorite => 'Добавить в избранное';
+
+  @override
+  String get removeFromFavorite => 'Удалить из избранного';
+
+  @override
+  String get jumpToPage => 'Перейти к странице';
+
+  @override
+  String get goTo => 'Перейти к...';
 
   @override
   String get translationSurahName => 'Перевод названия суры';

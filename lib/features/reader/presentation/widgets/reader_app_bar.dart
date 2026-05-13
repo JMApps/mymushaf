@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mymushaf/features/reader/presentation/widgets/to_page_button.dart';
+import 'package:mymushaf/features/reader/presentation/widgets/translate_mode_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_text_styles.dart';
@@ -10,7 +12,9 @@ import '../../../surah/presentation/states/surah_name_state.dart';
 import '../states/reader_app_bar_state.dart';
 
 class ReaderAppBar extends StatelessWidget {
-  const ReaderAppBar({super.key});
+  const ReaderAppBar({super.key, required this.pageController});
+
+  final PageController pageController;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +39,9 @@ class ReaderAppBar extends StatelessWidget {
                 final pageMeta = context.read<PageMetaState>().metaByPageNumber(page);
                 if (pageMeta == null) return Text('$page');
 
-                final surahName = context.read<SurahNameState>().surahByNumber(surahNumber: pageMeta.surahNumber);
+                final surahName = context.read<SurahNameState>().surahByNumber(
+                  surahNumber: pageMeta.surahNumber,
+                );
 
                 return Column(
                   crossAxisAlignment: .stretch,
@@ -60,11 +66,16 @@ class ReaderAppBar extends StatelessWidget {
                     final isFavorite = bookmarksState.isFavoritePage(page);
                     return IconButton(
                       onPressed: () => bookmarksState.toggleFavoritePage(pageNumber: page),
+                      padding: .zero,
+                      visualDensity: .compact,
+                      tooltip: isFavorite ? appLocale.removeFromFavorite : appLocale.addToFavorite,
                       icon: Icon(isFavorite ? Icons.bookmark : Icons.bookmark_border),
                     );
                   },
                 ),
               ),
+              const TranslateModeButton(),
+              ToPageButton(pageController: pageController),
             ],
           ),
         ),

@@ -39,6 +39,7 @@
   "reset": "Сброс",
   "retry": "Повторить попытку",
   "semanticTranslation": "Смысловой перевод",
+  "mushafPage": "Страница мусхафа",
   "selectThemeColor": "Выберите цвет темы",
   "settings": "Настройки",
   "surah": "Сура",
@@ -49,5 +50,9 @@
   "themeSystem": "Системная",
   "translation": "Перевод",
   "translationAyah": "Перевод аята",
+  "addToFavorite": "Добавить в избранное",
+  "removeFromFavorite": "Удалить из избранного",
+  "jumpToPage": "Перейти к странице",
+  "goTo": "Перейти к...",
   "translationSurahName": "Перевод названия суры"
 }

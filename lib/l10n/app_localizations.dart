@@ -290,6 +290,12 @@ abstract class AppLocalizations {
   /// **'Смысловой перевод'**
   String get semanticTranslation;
 
+  /// No description provided for @mushafPage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Страница мусхафа'**
+  String get mushafPage;
+
   /// No description provided for @selectThemeColor.
   ///
   /// In ru, this message translates to:
@@ -349,6 +355,30 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Перевод аята'**
   String get translationAyah;
+
+  /// No description provided for @addToFavorite.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавить в избранное'**
+  String get addToFavorite;
+
+  /// No description provided for @removeFromFavorite.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить из избранного'**
+  String get removeFromFavorite;
+
+  /// No description provided for @jumpToPage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Перейти к странице'**
+  String get jumpToPage;
+
+  /// No description provided for @goTo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Перейти к...'**
+  String get goTo;
 
   /// No description provided for @translationSurahName.
   ///

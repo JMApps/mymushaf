@@ -7,6 +7,7 @@ class AppPaddings {
   static const small = EdgeInsets.all(AppSpacing.small);
   static const medium = EdgeInsets.all(AppSpacing.medium);
   static const large = EdgeInsets.all(AppSpacing.large);
+  static const topMedium = EdgeInsets.only(top: AppSpacing.medium);
   static const withoutTopMedium = EdgeInsets.only(left: AppSpacing.medium, right: AppSpacing.medium, bottom: AppSpacing.medium);
   static const withoutRightSmall = EdgeInsets.only(left: AppSpacing.medium, top: AppSpacing.medium, bottom: AppSpacing.medium);
   static const hrSmallVrLarge = EdgeInsets.symmetric(horizontal: AppSpacing.small, vertical: AppSpacing.large);

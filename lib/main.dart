@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
+import 'package:mymushaf/features/main/states/translate_mode_state.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -30,6 +31,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => MainState()),
         ChangeNotifierProvider(create: (_) => ReaderAppBarState()),
         ChangeNotifierProvider(create: (_) => PageNumberState()),
+        ChangeNotifierProvider(create: (_) => TranslateModeState()),
         ChangeNotifierProvider(create: (_) => LocaleSettingsState()),
         ChangeNotifierProvider(create: (_) => ReadingSettingsState()),
         ChangeNotifierProvider(create: (_) => DisplaySettingsState()),

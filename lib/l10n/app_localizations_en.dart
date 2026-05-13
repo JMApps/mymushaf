@@ -113,6 +113,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get semanticTranslation => 'Semantic translation';
 
   @override
+  String get mushafPage => 'Mushaf page';
+
+  @override
   String get selectThemeColor => 'Select theme color';
 
   @override
@@ -141,6 +144,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get translationAyah => 'Ayah translation';
+
+  @override
+  String get addToFavorite => 'Add to favorite';
+
+  @override
+  String get removeFromFavorite => 'Remove from favorite';
+
+  @override
+  String get jumpToPage => 'Jump to page';
+
+  @override
+  String get goTo => 'Go to...';
 
   @override
   String get translationSurahName => 'Surah name translation';

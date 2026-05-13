@@ -39,6 +39,7 @@
   "reset": "Reset",
   "retry": "Retry",
   "semanticTranslation": "Semantic translation",
+  "mushafPage": "Mushaf page",
   "selectThemeColor": "Select theme color",
   "settings": "Settings",
   "surah": "Surah",
@@ -49,5 +50,9 @@
   "themeSystem": "System",
   "translation": "Translation",
   "translationAyah": "Ayah translation",
+  "addToFavorite": "Add to favorite",
+  "removeFromFavorite": "Remove from favorite",
+  "jumpToPage": "Jump to page",
+  "goTo": "Go to...",
   "translationSurahName": "Surah name translation"
 }

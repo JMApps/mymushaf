@@ -27,7 +27,7 @@ class HizbItem extends StatelessWidget {
     final appColors = Theme.of(context).colorScheme;
     final itemOddColor = appColors.secondary.withAlpha(25);
     final itemEvenColor = appColors.secondary.withAlpha(05);
-    final surahFirstVerseKey = context.select<SurahNameState, String>((s) => s.surahByVerseKey(hizb.firstVerseKey, appLocale.ayah.toLowerCase()));
+    final surahFirstVerseKey = context.select<SurahNameState, String?>((s) => s.surahByVerseKey(hizb.firstVerseKey, appLocale.ayah.toLowerCase()));
     return InkWell(
       onTap: () async {
         context.read<PageNumberState>().setPageNumber(hizb.startPageNumber);
@@ -56,7 +56,7 @@ class HizbItem extends StatelessWidget {
                 crossAxisAlignment: .stretch,
                 children: [
                   Text(
-                    surahFirstVerseKey,
+                    surahFirstVerseKey ?? '...',
                     style: AppTextStyles.medium,
                     maxLines: 1,
                     overflow: .ellipsis,

@@ -12,28 +12,31 @@ import '../states/layout_state.dart';
 
 class ReaderPageList extends StatefulWidget {
   final int pageNumber;
+  final PageController pageController;
 
-  const ReaderPageList({super.key, required this.pageNumber});
+  const ReaderPageList({
+    super.key,
+    required this.pageNumber,
+    required this.pageController,
+  });
 
   @override
   State<ReaderPageList> createState() => _ReaderPageListState();
 }
 
 class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObserver {
-  late final PageController _controller;
+  late final PageNumberState _pageNumberState;
   late final LayoutState _layoutState;
   late final GlyphState _glyphState;
   late final AyahByAyahState _ayahState;
-  late final PageNumberState _pageNumberState;
 
   @override
   void initState() {
     super.initState();
-    _controller = PageController(initialPage: widget.pageNumber - 1);
+    _pageNumberState = context.read<PageNumberState>();
+    _ayahState = context.read<AyahByAyahState>();
     _layoutState = context.read<LayoutState>();
     _glyphState = context.read<GlyphState>();
-    _ayahState = context.read<AyahByAyahState>();
-    _pageNumberState = context.read<PageNumberState>();
     WidgetsBinding.instance.addObserver(this);
     _loadAll(widget.pageNumber);
   }
@@ -48,7 +51,6 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _controller.dispose();
     super.dispose();
   }
 
@@ -61,7 +63,7 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
-      controller: _controller,
+      controller: widget.pageController,
       reverse: true,
       allowImplicitScrolling: false,
       itemCount: AppConstants.totalMushafPageCount,
@@ -72,15 +74,16 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
       },
       itemBuilder: (context, index) {
         final page = index + 1;
-
         return Selector<LayoutState, ({bool loading, Object? error, bool loaded})>(
           selector: (_, s) => (
-          loading: s.isPageLoading(page),
-          error: s.getPageError(page),
-          loaded: s.isPageLoaded(page),
+            loading: s.isPageLoading(page),
+            error: s.getPageError(page),
+            loaded: s.isPageLoaded(page),
           ),
           builder: (context, state, _) => switch (state) {
-            (loading: true, error: _, loaded: _) => const Center(child: CircularProgressIndicator.adaptive()),
+            (loading: true, error: _, loaded: _) => const Center(
+              child: CircularProgressIndicator.adaptive(),
+            ),
             (loading: _, error: final e?, loaded: _) => Padding(
               padding: AppPaddings.medium,
               child: Center(child: Text('$e')),
@@ -88,6 +91,7 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
             (loading: _, error: _, loaded: true) => ReadItem(
               pageNumber: page,
               layouts: _layoutState.getPageLayout(page),
+              glyphs: _glyphState.getPageGlyphs(page),
             ),
             _ => const SizedBox.shrink(),
           },
