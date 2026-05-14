@@ -6,6 +6,7 @@ sealed class PageLine {
 
 class SurahLine extends PageLine {
   final int surahNumber;
+
   const SurahLine(this.surahNumber);
 }
 
@@ -16,5 +17,6 @@ class BasmallahLine extends PageLine {
 class AyahLine extends PageLine {
   final AyahByAyahEntity ayah;
   final int index;
+
   const AyahLine(this.ayah, this.index);
 }

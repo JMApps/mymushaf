@@ -59,48 +59,41 @@ class AyahByAyahList extends StatelessWidget {
   static List<PageLine> _buildLines({required List<LayoutEntity> layouts, required List<AyahByAyahEntity> ayahs}) {
     final lines = <PageLine>[];
 
-    final surahsWithHeader = <int>{};
-    final surahsWithBasmallah = <int>{};
+    final sortedLayouts = [...layouts]
+      ..sort((a, b) => a.lineNumber.compareTo(b.lineNumber));
 
-    int? lastSurahHeader;
+    final sortedAyahs = [...ayahs]
+      ..sort((a, b) => a.ayahPosition.compareTo(b.ayahPosition));
 
-    for (final layout in layouts) {
-      if (layout.lineType == LineType.surahName) {
-        final surahNumber = layout.surahNumber;
+    var ayahIndex = 0;
 
-        if (surahNumber != null) {
-          surahsWithHeader.add(surahNumber);
-          lastSurahHeader = surahNumber;
-        }
-        continue;
-      }
+    for (final layout in sortedLayouts) {
+      switch (layout.lineType) {
+        case LineType.surahName:
+          final surahNumber = layout.surahNumber;
+          if (surahNumber != null) {
+            lines.add(SurahLine(surahNumber));
+          }
 
-      if (layout.lineType == LineType.basmallah) {
-        if (lastSurahHeader != null) {
-          surahsWithBasmallah.add(lastSurahHeader);
-        }
-        continue;
+        case LineType.basmallah:
+          lines.add(const BasmallahLine());
+
+        case LineType.ayah:
+          if (ayahIndex < sortedAyahs.length) {
+            final ayah = sortedAyahs[ayahIndex];
+            lines.add(AyahLine(ayah, ayahIndex));
+            ayahIndex++;
+          }
       }
     }
 
-    int? currentSurah;
+    final hasSurahNameFromLayout = sortedLayouts.any(
+          (layout) => layout.lineType == LineType.surahName,
+    );
 
-    for (var i = 0; i < ayahs.length; i++) {
-      final ayah = ayahs[i];
-      final surahNumber = ayah.surahNumber;
-
-      final isNewSurah = currentSurah != surahNumber;
-
-      if (isNewSurah) {
-        lines.add(SurahLine(surahNumber));
-        final shouldShowBasmallah = surahsWithBasmallah.contains(surahNumber) && surahNumber != 1 && surahNumber != 9;
-        if (shouldShowBasmallah) {
-          lines.add(const BasmallahLine());
-        }
-        currentSurah = surahNumber;
-      }
-
-      lines.add(AyahLine(ayah, i));
+    if (!hasSurahNameFromLayout && sortedAyahs.isNotEmpty) {
+      final currentSurahNumber = sortedAyahs.first.surahNumber;
+      lines.insert(0, SurahLine(currentSurahNumber));
     }
 
     return lines;
