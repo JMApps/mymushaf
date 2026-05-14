@@ -54,7 +54,7 @@ flutter:
     - family: PT Sans
       fonts:
         - asset: assets/fonts/pt_sans_regular.ttf
-    - family: QCF BSML
+    - family: QCF_BSML
       fonts:
         - asset: assets/fonts/qcf_bsml.ttf
     - family: Juz name

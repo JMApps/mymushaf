@@ -23,7 +23,7 @@ class _ReaderPageState extends State<ReaderPage> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: widget.initialPage);
+    _pageController = PageController(initialPage: widget.initialPage - 1);
     _appBarState = context.read<ReaderAppBarState>();
   }
 

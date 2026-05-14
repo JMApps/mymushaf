@@ -10,27 +10,28 @@ import '../../domain/repositories/layout_repository.dart';
 import 'reader_page_load_state.dart';
 
 class ReaderPageState extends ChangeNotifier {
-  final LayoutRepository _layoutRepository;
-  final GlyphRepository _glyphRepository;
-  final AyahByAyahRepository _ayahRepository;
-  final LocaleSettingsState _localeSettingsState;
-
   ReaderPageState({
     required LayoutRepository layoutRepository,
     required GlyphRepository glyphRepository,
     required AyahByAyahRepository ayahRepository,
     required LocaleSettingsState localeSettings,
-  })  : _layoutRepository = layoutRepository, _glyphRepository = glyphRepository, _ayahRepository = ayahRepository, _localeSettingsState = localeSettings;
+  })  : _layoutRepository = layoutRepository,
+        _glyphRepository = glyphRepository,
+        _ayahRepository = ayahRepository,
+        _localeSettingsState = localeSettings;
+
+  final LayoutRepository _layoutRepository;
+  final GlyphRepository _glyphRepository;
+  final AyahByAyahRepository _ayahRepository;
+  final LocaleSettingsState _localeSettingsState;
 
   final Map<int, ReaderPageLoadState> _pages = {};
   final Map<int, Future<void>> _runningLoads = {};
 
+  Set<int> _activeWindow = const {};
+
   ReaderPageLoadState getPageState(int page) {
     return _pages[page] ?? const ReaderPageLoadState.initial();
-  }
-
-  String get translationsColumn {
-    return AppDeviceLocales.ayahTranslations[_localeSettingsState.translationNameIndex].column;
   }
 
   ReaderPageData? getPageData(int page) {
@@ -49,7 +50,16 @@ class ReaderPageState extends ChangeNotifier {
     return _pages[page]?.error;
   }
 
+  String get translationsColumn {
+    final index = _localeSettingsState.translationNameIndex;
+    return AppDeviceLocales.ayahTranslations[index].column;
+  }
+
   Future<void> loadPage(int page) {
+    if (!_isValidPage(page)) {
+      return Future.value();
+    }
+
     if (isPageLoaded(page)) {
       return Future.value();
     }
@@ -67,14 +77,32 @@ class ReaderPageState extends ChangeNotifier {
 
   Future<void> _loadPageInternal(int page) async {
     _pages[page] = const ReaderPageLoadState.loading();
+
+    notifyListeners();
+
     try {
-      final layoutsFuture = _layoutRepository.fetchLayoutByPageNumber(pageNumber: page);
-      final glyphsFuture = _glyphRepository.fetchGlyphByPageNumber(pageNumber: page);
-      final ayahsFuture = _ayahRepository.fetchAyahsByPageNumber(pageNumber: page, translationColumn: translationsColumn);
+      final translationColumn = translationsColumn;
+
+      final layoutsFuture = _layoutRepository.fetchLayoutByPageNumber(
+        pageNumber: page,
+      );
+
+      final glyphsFuture = _glyphRepository.fetchGlyphByPageNumber(
+        pageNumber: page,
+      );
+
+      final ayahsFuture = _ayahRepository.fetchAyahsByPageNumber(
+        pageNumber: page,
+        translationColumn: translationColumn,
+      );
 
       final layouts = await layoutsFuture;
       final glyphs = await glyphsFuture;
       final ayahs = await ayahsFuture;
+
+      if (!_activeWindow.contains(page)) {
+        return;
+      }
 
       final data = ReaderPageData(
         pageNumber: page,
@@ -85,38 +113,59 @@ class ReaderPageState extends ChangeNotifier {
 
       _pages[page] = ReaderPageLoadState.loaded(data);
     } catch (e) {
-      _pages[page] = ReaderPageLoadState.error(e);
+      if (_activeWindow.contains(page)) {
+        _pages[page] = ReaderPageLoadState.error(e);
+      }
     } finally {
       _runningLoads.remove(page);
-      notifyListeners();
+
+      if (_activeWindow.contains(page)) {
+        notifyListeners();
+      }
     }
   }
 
   void loadWindow(int page) {
-    final pages = <int>{};
+    if (!_isValidPage(page)) return;
 
+    final pages = _buildWindow(page);
+
+    _activeWindow = pages;
+
+    _pages.removeWhere((pageNumber, _) {
+      return !pages.contains(pageNumber);
+    });
+
+    _runningLoads.removeWhere((pageNumber, _) {
+      return !pages.contains(pageNumber);
+    });
+
+    notifyListeners();
+
+    for (final pageNumber in pages) {
+      loadPage(pageNumber);
+    }
+  }
+
+  Set<int> _buildWindow(int page) {
     final previous = page - 1;
     final next = page + 1;
 
-    if (previous >= 1) pages.add(previous);
-    if (page >= 1 && page <= AppConstants.totalMushafPageCount) pages.add(page);
-    if (next <= AppConstants.totalMushafPageCount) pages.add(next);
-
-    for (final p in pages) {
-      loadPage(p);
-    }
-
-    keepOnlyPages(pages);
+    return <int>{
+      if (_isValidPage(previous)) previous,
+      if (_isValidPage(page)) page,
+      if (_isValidPage(next)) next,
+    };
   }
 
-  void keepOnlyPages(Set<int> pages) {
-    _pages.removeWhere((page, _) => !pages.contains(page));
-    _runningLoads.removeWhere((page, _) => !pages.contains(page));
+  bool _isValidPage(int page) {
+    return page >= 1 && page <= AppConstants.totalMushafPageCount;
   }
 
   void clear() {
     _pages.clear();
     _runningLoads.clear();
+    _activeWindow = const {};
     notifyListeners();
   }
 }

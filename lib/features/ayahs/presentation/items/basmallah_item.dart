@@ -10,13 +10,13 @@ class BasmallahItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: AppPaddings.bottomMedium,
+      padding: AppPaddings.bottomLarge,
       child: Text(
-        '﷽',
-        textDirection: .rtl,
+        'ﲚﲛﲞﲤ',
+        textDirection: .ltr,
         style: TextStyle(
           fontSize: context.read<ReadingSettingsState>().ayahArabicTextSize + 5.0,
-          fontFamily: 'QCF BSML',
+          fontFamily: 'QCF_BSML',
           height: 1,
         ),
         textAlign: .center,

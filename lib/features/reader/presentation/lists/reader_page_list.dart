@@ -10,20 +10,21 @@ import '../states/reader_page_load_state.dart';
 import '../states/reader_page_state.dart';
 
 class ReaderPageList extends StatefulWidget {
-  final int pageNumber;
-  final PageController pageController;
-
   const ReaderPageList({
     super.key,
     required this.pageNumber,
     required this.pageController,
   });
 
+  final int pageNumber;
+  final PageController pageController;
+
   @override
   State<ReaderPageList> createState() => _ReaderPageListState();
 }
 
-class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObserver {
+class _ReaderPageListState extends State<ReaderPageList>
+    with WidgetsBindingObserver {
   late final PageNumberState _pageNumberState;
   late final ReaderPageState _readerPageState;
   late final BookmarksState _bookmarksState;
@@ -33,35 +34,53 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
   @override
   void initState() {
     super.initState();
+
     _pageNumberState = context.read<PageNumberState>();
     _readerPageState = context.read<ReaderPageState>();
     _bookmarksState = context.read<BookmarksState>();
+
     WidgetsBinding.instance.addObserver(this);
+
     _currentPage = widget.pageNumber;
-    _readerPageState.loadWindow(_currentPage);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _readerPageState.loadWindow(_currentPage);
+    });
   }
 
   @override
   void didUpdateWidget(covariant ReaderPageList oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.pageNumber != widget.pageNumber) {
-      _currentPage = widget.pageNumber;
+
+    if (oldWidget.pageNumber == widget.pageNumber) return;
+
+    _currentPage = widget.pageNumber;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       _readerPageState.loadWindow(_currentPage);
-    }
+    });
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.inactive || state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
-      _bookmarksState.addLastOpenedPage(_pageNumberState.pageNumber);
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.paused ||
+        state == AppLifecycleState.detached) {
+      _saveLastOpenedPage();
     }
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _bookmarksState.addLastOpenedPage(_pageNumberState.pageNumber);
+    _saveLastOpenedPage();
     super.dispose();
+  }
+
+  void _saveLastOpenedPage() {
+    _bookmarksState.addLastOpenedPage(_pageNumberState.pageNumber);
   }
 
   @override
@@ -74,12 +93,13 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
       itemCount: AppConstants.totalMushafPageCount,
       onPageChanged: (int index) {
         final page = index + 1;
+
         if (_currentPage == page) return;
+
         _currentPage = page;
+
         _pageNumberState.setPageNumber(page);
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          _readerPageState.loadWindow(page);
-        });
+        _readerPageState.loadWindow(page);
       },
       itemBuilder: (context, index) {
         final page = index + 1;
@@ -96,7 +116,7 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
               );
             }
 
-            if (state.loading || !state.loaded) {
+            if (!state.loaded) {
               return const Center(
                 child: CircularProgressIndicator.adaptive(),
               );
