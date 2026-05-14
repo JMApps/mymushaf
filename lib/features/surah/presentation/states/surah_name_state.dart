@@ -24,7 +24,7 @@ class SurahNameState extends ChangeNotifier {
   bool get hasError => _error != null;
   int get totalSurahs => _surahs.length;
 
-  String? surahByVerseKey(String verseKey, String ayahTitle) {
+  String? surahByVerseKey(String surahTitle, String verseKey, String ayahTitle) {
     if (!isReady) return null;
 
     final parts = verseKey.split(':');
@@ -40,7 +40,7 @@ class SurahNameState extends ChangeNotifier {
     final surah = _surahByNumberMap[surahNumber];
     if (surah == null) return null;
 
-    return '${surah.nameTranscriptionRu}, $ayahTitle $ayahNumber';
+    return '$surahTitle ${surah.nameTranscriptionRu}, $ayahTitle $ayahNumber';
   }
 
   SurahNameEntity? surahByNumber({required int surahNumber}) {

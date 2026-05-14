@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/theme/app_paddings.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../search/presentation/delegates/search_ayahs_delegate.dart';
 import '../../domain/entities/surah_name_entity.dart';
 import '../lists/surah_name_list.dart';
 import '../states/surah_name_state.dart';
@@ -31,7 +32,12 @@ class SurahNamePage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: SearchAyahsDelegate(searchField: appLocale.searchAyahs),
+              );
+            },
             tooltip: appLocale.searchAyahs,
             icon: const Icon(Icons.search),
           ),

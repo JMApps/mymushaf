@@ -76,6 +76,7 @@ class CleanFavoritesButton extends StatelessWidget {
         );
       },
       tooltip: appLocale.deleteAllBookmarks,
+      color: appColors.secondary,
       icon: const Icon(Icons.delete_rounded),
     );
   }

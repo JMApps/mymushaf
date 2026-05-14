@@ -19,6 +19,7 @@ class ToPageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appLocale = AppLocalizations.of(context);
+    final appColors = Theme.of(context).colorScheme;
     return IconButton(
       onPressed: () {
         showModalBottomSheet(
@@ -73,6 +74,7 @@ class ToPageButton extends StatelessWidget {
       },
       padding: .zero,
       tooltip: appLocale.goTo,
+      color: appColors.secondary,
       icon: const Icon(Icons.auto_stories_outlined),
     );
   }

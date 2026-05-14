@@ -12,6 +12,7 @@ class ToHizbsPageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appLocale = AppLocalizations.of(context);
+    final appColors = Theme.of(context).colorScheme;
     final isLoading = context.select<HizbState, bool>((s) => s.isLoading);
     final allHizbs = context.select<HizbState, List<HizbEntity>>((s) => s.hizbs);
     return isLoading ? const CircularProgressIndicator.adaptive() : IconButton(
@@ -26,6 +27,7 @@ class ToHizbsPageButton extends StatelessWidget {
         );
       },
       tooltip: appLocale.hizbs,
+      color: appColors.secondary,
       icon: const Icon(Icons.pie_chart),
     );
   }

@@ -10,6 +10,7 @@ class TranslateModeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appLocale = AppLocalizations.of(context);
+    final appColors = Theme.of(context).colorScheme;
     return Consumer<TranslateModeState>(
       builder: (context, translationMode, _) {
         return IconButton(
@@ -19,6 +20,7 @@ class TranslateModeButton extends StatelessWidget {
           padding: .zero,
           visualDensity: .compact,
           tooltip: translationMode.translateMode ? appLocale.mushafPage : appLocale.semanticTranslation,
+          color: appColors.secondary,
           icon: Icon(
             translationMode.translateMode ? Icons.menu_book_rounded : Icons.public_outlined,
           ),

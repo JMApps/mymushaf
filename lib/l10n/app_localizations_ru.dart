@@ -46,6 +46,36 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String searchResults(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Найдено $count результата',
+      many: 'найдено $count результатов',
+      few: 'найдено $count результата',
+      one: 'найден $count результат',
+      zero: 'ничего не найдено',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String searchByQuery(String query, String matches) {
+    return 'По запросу «$query» $matches';
+  }
+
+  @override
+  String get enterSearchQuery => 'Введите запрос для поиска';
+
+  @override
+  String get searchNoResults => 'Ничего не найдено';
+
+  @override
+  String searchError(String error) {
+    return 'Ошибка поиска: $error';
+  }
+
+  @override
   String get ayahsTextSize => 'Размер текста аята';
 
   @override

@@ -16,6 +16,35 @@
       }
     }
   },
+  "searchResults": "{count, plural, =0{ничего не найдено} one{найден {count} результат} few{найдено {count} результата} many{найдено {count} результатов} other{Найдено {count} результата}}",
+  "@searchResults": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchByQuery": "По запросу «{query}» {matches}",
+  "@searchByQuery": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      },
+      "matches": {
+        "type": "String"
+      }
+    }
+  },
+  "enterSearchQuery": "Введите запрос для поиска",
+  "searchNoResults": "Ничего не найдено",
+  "searchError": "Ошибка поиска: {error}",
+  "@searchError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
   "ayahsTextSize": "Размер текста аята",
   "bookmarks": "Избранное",
   "cancel": "Отмена",

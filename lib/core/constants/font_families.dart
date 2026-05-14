@@ -5,6 +5,7 @@ class FontFamilies {
   static const String uthmanic = 'Uthmanic';
   static const String surahHeader = 'Surah name v2';
   static const String juzName = 'Juz name';
+  static const String notoNaskh = 'Noto Naskh';
 
   static String pageFont(int pageNumber) => 'p$pageNumber';
 

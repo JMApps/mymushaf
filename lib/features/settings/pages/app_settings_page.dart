@@ -83,9 +83,7 @@ class AppSettingsPage extends StatelessWidget {
                   title: appLocale.appTheme,
                   onChanged: (index) {
                     if (index == null) return;
-
-                    context.read<DisplaySettingsState>().appThemeModeIndex =
-                        index;
+                    context.read<DisplaySettingsState>().appThemeModeIndex = index;
                   },
                 );
               },
@@ -124,8 +122,7 @@ class AppSettingsPage extends StatelessWidget {
                   value: value,
                   title: appLocale.arabicAyah,
                   onChanged: (newValue) {
-                    context.read<ReadingSettingsState>().isArabicAyahShow =
-                        newValue;
+                    context.read<ReadingSettingsState>().isArabicAyahShow = newValue;
                   },
                 );
               },

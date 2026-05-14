@@ -39,8 +39,37 @@ class AppLocalizationsEn extends AppLocalizations {
       locale: localeName,
       other: '$count ayahs',
       one: '$count ayah',
+      zero: 'No ayahs',
     );
     return '$_temp0';
+  }
+
+  @override
+  String searchResults(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count results',
+      one: '$count result',
+      zero: 'no results',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String searchByQuery(String query, String matches) {
+    return 'Search results for «$query»: $matches';
+  }
+
+  @override
+  String get enterSearchQuery => 'Enter search query';
+
+  @override
+  String get searchNoResults => 'No results found';
+
+  @override
+  String searchError(String error) {
+    return 'Search error: $error';
   }
 
   @override

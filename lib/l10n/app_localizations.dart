@@ -152,6 +152,36 @@ abstract class AppLocalizations {
   /// **'{count, plural, one{{count} аят} few{{count} аята} many{{count} аятов} other{{count} аята}}'**
   String ayahsCount(int count);
 
+  /// No description provided for @searchResults.
+  ///
+  /// In ru, this message translates to:
+  /// **'{count, plural, =0{ничего не найдено} one{найден {count} результат} few{найдено {count} результата} many{найдено {count} результатов} other{Найдено {count} результата}}'**
+  String searchResults(int count);
+
+  /// No description provided for @searchByQuery.
+  ///
+  /// In ru, this message translates to:
+  /// **'По запросу «{query}» {matches}'**
+  String searchByQuery(String query, String matches);
+
+  /// No description provided for @enterSearchQuery.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите запрос для поиска'**
+  String get enterSearchQuery;
+
+  /// No description provided for @searchNoResults.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ничего не найдено'**
+  String get searchNoResults;
+
+  /// No description provided for @searchError.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка поиска: {error}'**
+  String searchError(String error);
+
   /// No description provided for @ayahsTextSize.
   ///
   /// In ru, this message translates to:

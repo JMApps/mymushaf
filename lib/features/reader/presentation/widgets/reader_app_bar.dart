@@ -19,8 +19,8 @@ class ReaderAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appLocale = AppLocalizations.of(context);
+    final appColors = Theme.of(context).colorScheme;
     final showAppBar = context.select<ReaderAppBarState, bool>((s) => s.showAppBar);
-
     return AnimatedSlide(
       duration: const Duration(milliseconds: 250),
       curve: Curves.easeInOut,
@@ -69,6 +69,7 @@ class ReaderAppBar extends StatelessWidget {
                       padding: .zero,
                       visualDensity: .compact,
                       tooltip: isFavorite ? appLocale.removeFromFavorite : appLocale.addToFavorite,
+                      color: appColors.secondary,
                       icon: Icon(isFavorite ? Icons.bookmark : Icons.bookmark_border),
                     );
                   },

@@ -8,11 +8,40 @@
   "arabicSurahName": "Arabic surah name",
   "ayah": "Ayah",
   "ayahs": "Ayahs",
-  "ayahsCount": "{count, plural, one{{count} ayah} other{{count} ayahs}}",
+  "ayahsCount": "{count, plural, =0{No ayahs} one{{count} ayah} other{{count} ayahs}}",
   "@ayahsCount": {
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "searchResults": "{count, plural, =0{no results} one{{count} result} other{{count} results}}",
+  "@searchResults": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchByQuery": "Search results for «{query}»: {matches}",
+  "@searchByQuery": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      },
+      "matches": {
+        "type": "String"
+      }
+    }
+  },
+  "enterSearchQuery": "Enter search query",
+  "searchNoResults": "No results found",
+  "searchError": "Search error: {error}",
+  "@searchError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
       }
     }
   },

@@ -63,3 +63,6 @@ flutter:
     - family: Surah name v2
       fonts:
         - asset: assets/fonts/surah_name_v2.ttf
+    - family: Noto Naskh
+      fonts:
+        - asset: assets/fonts/noto_naskh.ttf

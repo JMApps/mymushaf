@@ -79,7 +79,8 @@ class DefaultSettingsButton extends StatelessWidget {
         );
       },
       tooltip: appLocale.defaultSettings,
-      icon: const Icon(Icons.restart_alt_rounded),
+      color: appColors.secondary,
+      icon: const Icon(Icons.restore),
     );
   }
 }
