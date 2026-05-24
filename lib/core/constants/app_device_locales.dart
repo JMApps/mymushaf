@@ -9,6 +9,7 @@ class AppDeviceLocales {
     Locale('kg'),
     Locale('uz'),
     Locale('az'),
+    Locale('kk'),
   ];
 
   static const Map<String, int> defaultTranslationIndex = {
@@ -17,13 +18,15 @@ class AppDeviceLocales {
     'kg': 2,
     'uz': 3,
     'az': 4,
+    'kk': 5,
   };
 
   static const List<({String name, String column})> ayahTranslations = [
-    (name: 'Кулиев', column: 'ayah_ru_kuliev'),
-    (name: 'Абу Адель', column: 'ayah_ru_adel'),
-    (name: 'Kyrgyz', column: 'ayah_kg'),
-    (name: 'Uzbek', column: 'ayah_uz'),
-    (name: 'Azerbaijan', column: 'ayah_az'),
+    (name: '[RU] Кулиев', column: 'ayah_ru_kuliev'),
+    (name: '[RU] Абу Адель', column: 'ayah_ru_adel'),
+    (name: '[KG] Ш. Хакимов', column: 'ayah_kg'),
+    (name: '[UZ] М. Содик', column: 'ayah_uz'),
+    (name: '[AZ] А. Мусаев', column: 'ayah_az'),
+    (name: '[KK] Х. Алтай', column: 'ayah_kk'),
   ];
 }
