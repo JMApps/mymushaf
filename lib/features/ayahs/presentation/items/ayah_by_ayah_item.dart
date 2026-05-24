@@ -7,6 +7,7 @@ import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../reader/domain/entities/mushaf_page_row_entity.dart';
 import '../../../settings/states/reading_settings_state.dart';
+import '../widgets/ayah_item_option.dart';
 
 class AyahByAyahItem extends StatelessWidget {
   const AyahByAyahItem({
@@ -34,7 +35,11 @@ class AyahByAyahItem extends StatelessWidget {
         onLongPress: () {
           showModalBottomSheet(
             context: context,
-            builder: (ctx) => Container(),
+            builder: (ctx) => AyahItemOption(
+              mushafPageRowModel: row,
+              verseKey: verseKey,
+              ayahIndex: index,
+            ),
           );
         },
         child: Container(
@@ -60,7 +65,9 @@ class AyahByAyahItem extends StatelessWidget {
                 ),
                 child: Text(verseKey),
               ),
-              if (readingSettingsState.isArabicAyahShow && row.arabicAyah != null && row.arabicAyah!.isNotEmpty) ...[
+              if (readingSettingsState.isArabicAyahShow &&
+                  row.arabicAyah != null &&
+                  row.arabicAyah!.isNotEmpty) ...[
                 const SizedBox(height: AppSpacing.medium),
                 Align(
                   alignment: Alignment.centerRight,
@@ -76,7 +83,9 @@ class AyahByAyahItem extends StatelessWidget {
                   ),
                 ),
               ],
-              if (readingSettingsState.isTranslationAyahShow && row.translation != null && row.translation!.isNotEmpty) ...[
+              if (readingSettingsState.isTranslationAyahShow &&
+                  row.translation != null &&
+                  row.translation!.isNotEmpty) ...[
                 const SizedBox(height: AppSpacing.medium),
                 Text(
                   row.translation!,

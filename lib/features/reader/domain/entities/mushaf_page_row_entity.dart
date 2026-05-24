@@ -15,6 +15,7 @@ class MushafPageRowEntity extends Equatable {
   final int? glyphWordNumber;
   final String? glyph;
   final String? word;
+  final int? ayahId;
   final String? arabicAyah;
   final String? translation;
 
@@ -31,6 +32,7 @@ class MushafPageRowEntity extends Equatable {
     this.glyphWordNumber,
     this.glyph,
     this.word,
+    this.ayahId,
     this.arabicAyah,
     this.translation,
   });
@@ -49,6 +51,7 @@ class MushafPageRowEntity extends Equatable {
     glyphWordNumber,
     glyph,
     word,
+    ayahId,
     arabicAyah,
     translation,
   ];

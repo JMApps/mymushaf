@@ -16,6 +16,7 @@ extension MushafPageRowMapper on MushafPageRowModel {
       glyphWordNumber: glyphWordNumber,
       glyph: glyph,
       word: word,
+      ayahId: ayahId,
       arabicAyah: arabicAyah,
       translation: translation,
     );

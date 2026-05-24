@@ -39,6 +39,7 @@ class MushafPageDataSourceImpl implements MushafPageLocalDataSource {
         g.${ColumnNames.wordNumber},
         g.${ColumnNames.glyph},
         g.${ColumnNames.word},
+        a.ayah_id AS ayah_id,
         a.ayah AS arabic_ayah,
         t.$translationColumn AS translation
       FROM page_layout pl

@@ -14,6 +14,7 @@ class MushafPageRowModel {
   final int? glyphWordNumber;
   final String? glyph;
   final String? word;
+  final int? ayahId;
   final String? arabicAyah;
   final String? translation;
 
@@ -30,6 +31,7 @@ class MushafPageRowModel {
     this.glyphWordNumber,
     this.glyph,
     this.word,
+    this.ayahId,
     this.arabicAyah,
     this.translation,
   });
@@ -48,6 +50,7 @@ class MushafPageRowModel {
       glyphWordNumber: map[ColumnNames.wordNumber] as int?,
       glyph: map[ColumnNames.glyph] as String?,
       word: map[ColumnNames.word] as String?,
+      ayahId: map[ColumnNames.ayahId] as int?,
       arabicAyah: map['arabic_ayah'] as String?,
       translation: map['translation'] as String?,
     );
