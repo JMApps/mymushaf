@@ -11,30 +11,6 @@ class AyahByAyahDataSourceImpl implements AyahByAyahLocalDataSource {
   const AyahByAyahDataSourceImpl(this._database);
 
   @override
-  Future<List<AyahByAyahModel>> fetchAyahsByPageNumber({required int pageNumber, required String translationColumn}) async {
-    final result = await _database.rawQuery(
-      '''
-      SELECT
-        a.${ColumnNames.ayahId},
-        a.${ColumnNames.verseKey},
-        a.${ColumnNames.surahNumber},
-        a.${ColumnNames.ayahNumber},
-        a.${ColumnNames.ayah} AS ${ColumnNames.ayahArabic},
-        a.${ColumnNames.ayahPageNumber},
-        a.${ColumnNames.ayahPosition},
-        COALESCE(t.$translationColumn, '') AS ${ColumnNames.ayahTranslation}
-      FROM ${TableNames.tableOfAyah} a
-      LEFT JOIN ${TableNames.tableOfTranslations} t
-        ON t.id = a.${ColumnNames.ayahId}
-      WHERE a.${ColumnNames.ayahPageNumber} = ?
-      ORDER BY a.${ColumnNames.ayahPosition}
-      ''',
-      [pageNumber],
-    );
-    return result.map(AyahByAyahModel.fromMap).toList(growable: false);
-  }
-
-  @override
   Future<List<AyahByAyahModel>> searchAyahs({required String query, required String translationColumn}) async {
     final trimmed = query.trim();
     if (trimmed.isEmpty) return const [];
