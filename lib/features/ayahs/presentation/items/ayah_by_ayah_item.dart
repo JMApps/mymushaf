@@ -5,23 +5,30 @@ import '../../../../core/constants/font_families.dart';
 import '../../../../core/theme/app_paddings.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../reader/domain/entities/mushaf_page_row_entity.dart';
 import '../../../settings/states/reading_settings_state.dart';
-import '../../domain/entities/ayah_by_ayah_entity.dart';
 
 class AyahByAyahItem extends StatelessWidget {
   const AyahByAyahItem({
     super.key,
-    required this.ayahByAyahModel,
+    required this.row,
     required this.index,
   });
 
-  final AyahByAyahEntity ayahByAyahModel;
+  final MushafPageRowEntity row;
   final int index;
 
   @override
   Widget build(BuildContext context) {
     final appColors = Theme.of(context).colorScheme;
-    final readingSettingsState = context.read<ReadingSettingsState>();
+
+    final readingSettingsState = context.watch<ReadingSettingsState>();
+
+    final surahNumber = row.glyphSurahNumber ?? row.surahNumber;
+    final ayahNumber = row.glyphAyahNumber;
+
+    final verseKey = surahNumber != null && ayahNumber != null ? '$surahNumber:$ayahNumber' : '';
+
     return RepaintBoundary(
       child: GestureDetector(
         onLongPress: () {
@@ -41,25 +48,25 @@ class AyahByAyahItem extends StatelessWidget {
             ),
           ),
           child: Column(
-            crossAxisAlignment: .start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 width: 65,
                 padding: AppPaddings.small,
-                alignment: .center,
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: appColors.secondaryContainer.withAlpha(155),
                   borderRadius: AppRadius.small,
                 ),
-                child: Text(ayahByAyahModel.verseKey),
+                child: Text(verseKey),
               ),
-              if (readingSettingsState.isArabicAyahShow) ...[
+              if (readingSettingsState.isArabicAyahShow && row.arabicAyah != null && row.arabicAyah!.isNotEmpty) ...[
                 const SizedBox(height: AppSpacing.medium),
                 Align(
-                  alignment: .centerEnd,
+                  alignment: Alignment.centerRight,
                   child: Text(
-                    ayahByAyahModel.ayahArabic,
-                    textDirection: .rtl,
+                    row.arabicAyah!,
+                    textDirection: TextDirection.rtl,
                     style: TextStyle(
                       fontSize: readingSettingsState.ayahArabicTextSize,
                       fontFamily: FontFamilies.uthmanic,
@@ -69,10 +76,10 @@ class AyahByAyahItem extends StatelessWidget {
                   ),
                 ),
               ],
-              if (readingSettingsState.isTranslationAyahShow) ...[
+              if (readingSettingsState.isTranslationAyahShow && row.translation != null && row.translation!.isNotEmpty) ...[
                 const SizedBox(height: AppSpacing.medium),
                 Text(
-                  ayahByAyahModel.ayahTranslation,
+                  row.translation!,
                   style: TextStyle(
                     fontSize: readingSettingsState.ayahTranslationTextSize,
                     fontFamily: FontFamilies.ptSans,

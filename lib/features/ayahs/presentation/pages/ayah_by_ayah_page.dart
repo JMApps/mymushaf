@@ -10,7 +10,6 @@ class AyahByAyahPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => AyahByAyahList(
     pageNumber: pageNumber,
-    layouts: const [],
-    ayahs: const [],
+    rows: const [],
   );
 }

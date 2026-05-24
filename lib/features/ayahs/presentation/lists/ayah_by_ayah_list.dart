@@ -2,37 +2,31 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/enums/line_type.dart';
 import '../../../../core/theme/app_paddings.dart';
-import '../../../reader/domain/entities/layout_entity.dart';
-import '../../domain/entities/ayah_by_ayah_entity.dart';
+import '../../../reader/domain/entities/mushaf_page_row_entity.dart';
+import '../../domain/entities/page_line.dart';
 import '../items/ayah_by_ayah_item.dart';
 import '../items/basmallah_item.dart';
 import '../items/surah_header_item.dart';
-import 'page_line.dart';
 
 class AyahByAyahList extends StatelessWidget {
   const AyahByAyahList({
     super.key,
     required this.pageNumber,
-    required this.layouts,
-    required this.ayahs,
+    required this.rows,
     this.ayahPosition,
   });
 
   final int pageNumber;
-  final List<LayoutEntity> layouts;
-  final List<AyahByAyahEntity> ayahs;
+  final List<MushafPageRowEntity> rows;
   final int? ayahPosition;
 
   @override
   Widget build(BuildContext context) {
-    if (ayahs.isEmpty) {
+    if (rows.isEmpty) {
       return const SizedBox.shrink();
     }
 
-    final lines = _buildLines(
-      layouts: layouts,
-      ayahs: ayahs,
-    );
+    final lines = _buildLines(rows: rows);
 
     return ListView.builder(
       padding: AppPaddings.topMediumSmallOther,
@@ -47,8 +41,8 @@ class AyahByAyahList extends StatelessWidget {
 
           BasmallahLine() => const BasmallahItem(),
 
-          AyahLine(ayah: final ayahModel, index: final ayahIndex) => AyahByAyahItem(
-            ayahByAyahModel: ayahModel,
+          AyahLine(row: final row, index: final ayahIndex) => AyahByAyahItem(
+            row: row,
             index: ayahIndex,
           ),
         };
@@ -56,23 +50,26 @@ class AyahByAyahList extends StatelessWidget {
     );
   }
 
-  static List<PageLine> _buildLines({required List<LayoutEntity> layouts, required List<AyahByAyahEntity> ayahs}) {
+  static List<PageLine> _buildLines({
+    required List<MushafPageRowEntity> rows,
+  }) {
     final lines = <PageLine>[];
 
-    final sortedLayouts = [...layouts]
-      ..sort((a, b) => a.lineNumber.compareTo(b.lineNumber));
+    final sortedRows = [...rows]
+      ..sort((a, b) {
+        final lineCompare = a.lineNumber.compareTo(b.lineNumber);
+        if (lineCompare != 0) return lineCompare;
 
-    // Создаём Map: lineNumber -> ayah
-    final ayahsByLine = <int, AyahByAyahEntity>{
-      for (final ayah in ayahs) ayah.ayahPosition: ayah,
-    };
+        return (a.glyphId ?? 0).compareTo(b.glyphId ?? 0);
+      });
 
+    final handledAyahs = <String>{};
     var ayahIndex = 0;
 
-    for (final layout in sortedLayouts) {
-      switch (layout.lineType) {
+    for (final row in sortedRows) {
+      switch (row.lineType) {
         case LineType.surahName:
-          final surahNumber = layout.surahNumber;
+          final surahNumber = row.surahNumber;
           if (surahNumber != null) {
             lines.add(SurahLine(surahNumber));
           }
@@ -81,22 +78,33 @@ class AyahByAyahList extends StatelessWidget {
           lines.add(const BasmallahLine());
 
         case LineType.ayah:
-          final ayah = ayahsByLine[layout.lineNumber];
-          if (ayah != null) {
-            lines.add(AyahLine(ayah, ayahIndex));
-            ayahIndex++;
-          }
+          final surah = row.glyphSurahNumber;
+          final ayah = row.glyphAyahNumber;
+
+          if (surah == null || ayah == null) continue;
+
+          final key = '$surah:$ayah';
+
+          if (handledAyahs.contains(key)) continue;
+
+          handledAyahs.add(key);
+
+          lines.add(AyahLine(row, ayahIndex));
+          ayahIndex++;
       }
     }
 
-    // Fallback для названия суры
-    final hasSurahNameFromLayout = sortedLayouts.any(
-          (layout) => layout.lineType == LineType.surahName,
+    final hasSurahNameFromLayout = sortedRows.any(
+          (row) => row.lineType == LineType.surahName,
     );
 
-    if (!hasSurahNameFromLayout && ayahs.isNotEmpty) {
-      final currentSurahNumber = ayahs.first.surahNumber;
-      lines.insert(0, SurahLine(currentSurahNumber));
+    if (!hasSurahNameFromLayout && sortedRows.isNotEmpty) {
+      final currentSurahNumber =
+          sortedRows.first.glyphSurahNumber ?? sortedRows.first.surahNumber;
+
+      if (currentSurahNumber != null) {
+        lines.insert(0, SurahLine(currentSurahNumber));
+      }
     }
 
     return lines;

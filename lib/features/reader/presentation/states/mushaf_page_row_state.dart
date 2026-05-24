@@ -1,40 +1,35 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/constants/app_device_locales.dart';
-import '../../../ayahs/domain/repositories/ayah_by_ayah_repository.dart';
 import '../../../settings/states/locale_settings_state.dart';
-import '../../domain/entities/reader_page_data.dart';
-import '../../domain/repositories/glyph_repository.dart';
-import '../../domain/repositories/layout_repository.dart';
-import 'reader_page_load_state.dart';
+import '../../domain/entities/mushaf_page_row_entity.dart';
+import '../../domain/repositories/mushaf_page_repository.dart';
+import 'mushaf_page_load_state.dart';
 
-class ReaderPageState extends ChangeNotifier {
-  ReaderPageState({
-    required LayoutRepository layoutRepository,
-    required GlyphRepository glyphRepository,
-    required AyahByAyahRepository ayahRepository,
+class MushafPageRowState extends ChangeNotifier {
+  MushafPageRowState({
+    required MushafPageRepository pageRepository,
     required LocaleSettingsState localeSettings,
-  })  : _layoutRepository = layoutRepository,
-        _glyphRepository = glyphRepository,
-        _ayahRepository = ayahRepository,
-        _localeSettingsState = localeSettings;
+  }) : _pageRepository = pageRepository,
+       _localeSettingsState = localeSettings {
+    _localeSettingsState.addListener(_onTranslationChanged);
+  }
 
-  final LayoutRepository _layoutRepository;
-  final GlyphRepository _glyphRepository;
-  final AyahByAyahRepository _ayahRepository;
+  final MushafPageRepository _pageRepository;
   final LocaleSettingsState _localeSettingsState;
 
-  final Map<int, ReaderPageLoadState> _pages = {};
+  final Map<int, MushafPageLoadState> _pages = {};
   final Map<int, Future<void>> _runningLoads = {};
 
   Set<int> _activeWindow = const {};
+  String? _lastTranslationColumn;
 
-  ReaderPageLoadState getPageState(int page) {
-    return _pages[page] ?? const ReaderPageLoadState.initial();
+  MushafPageLoadState getPageState(int page) {
+    return _pages[page] ?? const MushafPageLoadState.initial();
   }
 
-  ReaderPageData? getPageData(int page) {
+  List<MushafPageRowEntity>? getPageData(int page) {
     return _pages[page]?.data;
   }
 
@@ -50,7 +45,7 @@ class ReaderPageState extends ChangeNotifier {
     return _pages[page]?.error;
   }
 
-  String get translationsColumn {
+  String get translationColumn {
     final index = _localeSettingsState.translationNameIndex;
     return AppDeviceLocales.ayahTranslations[index].column;
   }
@@ -76,45 +71,26 @@ class ReaderPageState extends ChangeNotifier {
   }
 
   Future<void> _loadPageInternal(int page) async {
-    _pages[page] = const ReaderPageLoadState.loading();
+    _pages[page] = const MushafPageLoadState.loading();
 
     notifyListeners();
 
     try {
-      final translationColumn = translationsColumn;
+      final translation = translationColumn;
 
-      final layoutsFuture = _layoutRepository.fetchLayoutByPageNumber(
+      final data = await _pageRepository.fetchMushafPageData(
         pageNumber: page,
+        translationColumn: translation,
       );
-
-      final glyphsFuture = _glyphRepository.fetchGlyphByPageNumber(
-        pageNumber: page,
-      );
-
-      final ayahsFuture = _ayahRepository.fetchAyahsByPageNumber(
-        pageNumber: page,
-        translationColumn: translationColumn,
-      );
-
-      final layouts = await layoutsFuture;
-      final glyphs = await glyphsFuture;
-      final ayahs = await ayahsFuture;
 
       if (!_activeWindow.contains(page)) {
         return;
       }
 
-      final data = ReaderPageData(
-        pageNumber: page,
-        layouts: layouts,
-        glyphs: glyphs,
-        ayahs: ayahs,
-      );
-
-      _pages[page] = ReaderPageLoadState.loaded(data);
+      _pages[page] = MushafPageLoadState.loaded(data);
     } catch (e) {
       if (_activeWindow.contains(page)) {
-        _pages[page] = ReaderPageLoadState.error(e);
+        _pages[page] = MushafPageLoadState.error(e);
       }
     } finally {
       _runningLoads.remove(page);
@@ -162,10 +138,39 @@ class ReaderPageState extends ChangeNotifier {
     return page >= 1 && page <= AppConstants.totalMushafPageCount;
   }
 
+  void _onTranslationChanged() {
+    final current = translationColumn;
+
+    if (_lastTranslationColumn != null && _lastTranslationColumn != current) {
+      _reloadActiveWindow();
+    }
+
+    _lastTranslationColumn = current;
+  }
+
+  Future<void> _reloadActiveWindow() async {
+    final pages = _activeWindow.toList();
+
+    _pages.clear();
+    _runningLoads.clear();
+
+    notifyListeners();
+
+    for (final page in pages) {
+      await loadPage(page);
+    }
+  }
+
   void clear() {
     _pages.clear();
     _runningLoads.clear();
     _activeWindow = const {};
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _localeSettingsState.removeListener(_onTranslationChanged);
+    super.dispose();
   }
 }

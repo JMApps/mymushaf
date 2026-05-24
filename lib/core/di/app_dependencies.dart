@@ -12,12 +12,9 @@ import '../../features/juz/domain/repositories/juz_repository.dart';
 import '../../features/main/data/data_sources/page_meta_data_source_impl.dart';
 import '../../features/main/data/repositories/page_meta_repository_impl.dart';
 import '../../features/main/domain/repositories/page_meta_repository.dart';
-import '../../features/reader/data/data_source/glyph_data_source_impl.dart';
-import '../../features/reader/data/data_source/layout_data_source_impl.dart';
-import '../../features/reader/data/repositories/glyph_repository_impl.dart';
-import '../../features/reader/data/repositories/layout_repository_impl.dart';
-import '../../features/reader/domain/repositories/glyph_repository.dart';
-import '../../features/reader/domain/repositories/layout_repository.dart';
+import '../../features/reader/data/data_source/mushaf_page_data_source_impl.dart';
+import '../../features/reader/data/repositories/mushaf_page_repository_impl.dart';
+import '../../features/reader/domain/repositories/mushaf_page_repository.dart';
 import '../../features/surah/data/data_sources/surah_local_data_source_impl.dart';
 import '../../features/surah/data/repositories/surah_name_repository_impl.dart';
 import '../../features/surah/domain/repositories/surah_name_repository.dart';
@@ -28,8 +25,7 @@ class AppDependencies {
   final JuzRepository juzRepository;
   final HizbRepository hizbRepository;
   final AyahByAyahRepository ayahByAyahRepository;
-  final LayoutRepository layoutRepository;
-  final GlyphRepository glyphRepository;
+  final MushafPageRepository mushafPageRepository;
 
   const AppDependencies._({
     required this.pageMetaRepository,
@@ -37,8 +33,7 @@ class AppDependencies {
     required this.juzRepository,
     required this.hizbRepository,
     required this.ayahByAyahRepository,
-    required this.layoutRepository,
-    required this.glyphRepository,
+    required this.mushafPageRepository,
   });
 
   factory AppDependencies.build(Database db) {
@@ -57,11 +52,8 @@ class AppDependencies {
     final ayahByAyahLocalDataSource = AyahByAyahDataSourceImpl(db);
     final ayahByAyahRepository = AyahByAyahRepositoryImpl(ayahByAyahLocalDataSource);
 
-    final layoutLocalDataSource = LayoutDataSourceImpl(db);
-    final layoutRepository = LayoutRepositoryImpl(layoutLocalDataSource);
-
-    final glyphLocalDataSource = GlyphDataSourceImpl(db);
-    final glyphRepository = GlyphRepositoryImpl(glyphLocalDataSource);
+    final mushafPageLocalDataSource = MushafPageDataSourceImpl(db);
+    final mushafPageRepository = MushafPageRepositoryImpl(mushafPageLocalDataSource);
 
     return AppDependencies._(
       pageMetaRepository: pageMetaRepository,
@@ -69,8 +61,7 @@ class AppDependencies {
       juzRepository: juzRepository,
       hizbRepository: hizbRepository,
       ayahByAyahRepository: ayahByAyahRepository,
-      layoutRepository: layoutRepository,
-      glyphRepository: glyphRepository,
+      mushafPageRepository: mushafPageRepository,
     );
   }
 }

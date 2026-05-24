@@ -1,22 +1,18 @@
-import '../../domain/entities/ayah_by_ayah_entity.dart';
+import '../../../../core/enums/line_type.dart';
+import '../../../reader/domain/entities/glyph_entity.dart';
 
-sealed class PageLine {
-  const PageLine();
-}
+class PageLine {
+  final int lineNumber;
+  final LineType lineType;
+  final bool isCentered;
+  final int? surahNumber;
+  final List<GlyphEntity> glyphs;
 
-class SurahLine extends PageLine {
-  final int surahNumber;
-
-  const SurahLine(this.surahNumber);
-}
-
-class BasmallahLine extends PageLine {
-  const BasmallahLine();
-}
-
-class AyahLine extends PageLine {
-  final AyahByAyahEntity ayah;
-  final int index;
-
-  const AyahLine(this.ayah, this.index);
+  const PageLine({
+    required this.lineNumber,
+    required this.lineType,
+    required this.isCentered,
+    this.surahNumber,
+    required this.glyphs,
+  });
 }

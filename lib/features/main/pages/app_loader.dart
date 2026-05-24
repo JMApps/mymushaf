@@ -9,7 +9,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../ayahs/presentation/states/ayah_by_ayah_state.dart';
 import '../../hizb/presentation/states/hizb_state.dart';
 import '../../juz/presentation/states/juz_state.dart';
-import '../../reader/presentation/states/reader_page_state.dart';
+import '../../reader/presentation/states/mushaf_page_row_state.dart';
 import '../../settings/states/display_settings_state.dart';
 import '../../settings/states/locale_settings_state.dart';
 import '../../surah/presentation/states/surah_name_state.dart';
@@ -52,10 +52,11 @@ class _AppLoaderState extends State<AppLoader> {
           create: (_) => HizbState(_deps.hizbRepository),
         ),
         ChangeNotifierProvider(
-          create: (_) => AyahByAyahState(_deps.ayahByAyahRepository, context.read<LocaleSettingsState>()),
+          create: (_) =>
+              AyahByAyahState(_deps.ayahByAyahRepository, context.read<LocaleSettingsState>()),
         ),
         ChangeNotifierProvider(
-          create: (_) => ReaderPageState(layoutRepository: _deps.layoutRepository, glyphRepository: _deps.glyphRepository, ayahRepository: _deps.ayahByAyahRepository, localeSettings: context.read<LocaleSettingsState>()),
+          create: (_) => MushafPageRowState(pageRepository: _deps.mushafPageRepository, localeSettings: context.read<LocaleSettingsState>()),
         ),
       ],
       child: MaterialApp(

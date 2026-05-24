@@ -7,6 +7,8 @@ class GlyphEntity extends Equatable {
   final int wordNumber;
   final String glyph;
   final String word;
+  final String? arabicAyah;
+  final String? translation;
 
   const GlyphEntity({
     required this.id,
@@ -15,6 +17,8 @@ class GlyphEntity extends Equatable {
     required this.wordNumber,
     required this.glyph,
     required this.word,
+    this.arabicAyah,
+    this.translation,
   });
 
   @override
@@ -25,5 +29,7 @@ class GlyphEntity extends Equatable {
     wordNumber,
     glyph,
     word,
+    arabicAyah,
+    translation,
   ];
 }
