@@ -24,7 +24,11 @@ class AppSettingsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(appLocale.settings),
+        centerTitle: false,
+        title: Text(
+          appLocale.settings,
+          style: AppTextStyles.medium,
+        ),
         actions: const [
           DefaultSettingsButton(),
         ],

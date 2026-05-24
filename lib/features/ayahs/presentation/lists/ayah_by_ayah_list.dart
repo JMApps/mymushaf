@@ -62,8 +62,10 @@ class AyahByAyahList extends StatelessWidget {
     final sortedLayouts = [...layouts]
       ..sort((a, b) => a.lineNumber.compareTo(b.lineNumber));
 
-    final sortedAyahs = [...ayahs]
-      ..sort((a, b) => a.ayahPosition.compareTo(b.ayahPosition));
+    // Создаём Map: lineNumber -> ayah
+    final ayahsByLine = <int, AyahByAyahEntity>{
+      for (final ayah in ayahs) ayah.ayahPosition: ayah,
+    };
 
     var ayahIndex = 0;
 
@@ -79,20 +81,21 @@ class AyahByAyahList extends StatelessWidget {
           lines.add(const BasmallahLine());
 
         case LineType.ayah:
-          if (ayahIndex < sortedAyahs.length) {
-            final ayah = sortedAyahs[ayahIndex];
+          final ayah = ayahsByLine[layout.lineNumber];
+          if (ayah != null) {
             lines.add(AyahLine(ayah, ayahIndex));
             ayahIndex++;
           }
       }
     }
 
+    // Fallback для названия суры
     final hasSurahNameFromLayout = sortedLayouts.any(
           (layout) => layout.lineType == LineType.surahName,
     );
 
-    if (!hasSurahNameFromLayout && sortedAyahs.isNotEmpty) {
-      final currentSurahNumber = sortedAyahs.first.surahNumber;
+    if (!hasSurahNameFromLayout && ayahs.isNotEmpty) {
+      final currentSurahNumber = ayahs.first.surahNumber;
       lines.insert(0, SurahLine(currentSurahNumber));
     }
 
