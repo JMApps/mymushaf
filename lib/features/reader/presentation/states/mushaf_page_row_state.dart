@@ -12,9 +12,12 @@ class MushafPageRowState extends ChangeNotifier {
     required MushafPageRepository pageRepository,
     required LocaleSettingsState localeSettings,
   }) : _pageRepository = pageRepository,
-       _localeSettingsState = localeSettings {
+        _localeSettingsState = localeSettings {
+    _lastTranslationColumn = translationColumn;
     _localeSettingsState.addListener(_onTranslationChanged);
   }
+
+  int _loadGeneration = 0;
 
   final MushafPageRepository _pageRepository;
   final LocaleSettingsState _localeSettingsState;
@@ -71,8 +74,9 @@ class MushafPageRowState extends ChangeNotifier {
   }
 
   Future<void> _loadPageInternal(int page) async {
-    _pages[page] = const MushafPageLoadState.loading();
+    final generation = _loadGeneration;
 
+    _pages[page] = const MushafPageLoadState.loading();
     notifyListeners();
 
     try {
@@ -83,19 +87,20 @@ class MushafPageRowState extends ChangeNotifier {
         translationColumn: translation,
       );
 
-      if (!_activeWindow.contains(page)) {
-        return;
-      }
+      if (generation != _loadGeneration) return;
+      if (!_activeWindow.contains(page)) return;
 
       _pages[page] = MushafPageLoadState.loaded(data);
     } catch (e) {
+      if (generation != _loadGeneration) return;
+
       if (_activeWindow.contains(page)) {
         _pages[page] = MushafPageLoadState.error(e);
       }
     } finally {
       _runningLoads.remove(page);
 
-      if (_activeWindow.contains(page)) {
+      if (generation == _loadGeneration && _activeWindow.contains(page)) {
         notifyListeners();
       }
     }
@@ -141,15 +146,16 @@ class MushafPageRowState extends ChangeNotifier {
   void _onTranslationChanged() {
     final current = translationColumn;
 
-    if (_lastTranslationColumn != null && _lastTranslationColumn != current) {
-      _reloadActiveWindow();
-    }
+    if (_lastTranslationColumn == current) return;
 
     _lastTranslationColumn = current;
+    _reloadActiveWindow();
   }
 
   Future<void> _reloadActiveWindow() async {
     final pages = _activeWindow.toList();
+
+    _loadGeneration++;
 
     _pages.clear();
     _runningLoads.clear();
@@ -157,7 +163,7 @@ class MushafPageRowState extends ChangeNotifier {
     notifyListeners();
 
     for (final page in pages) {
-      await loadPage(page);
+      loadPage(page);
     }
   }
 

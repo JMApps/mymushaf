@@ -25,24 +25,32 @@ class MushafGlyphPageList extends StatelessWidget {
 
     final lines = _buildLines(rows);
 
-    return ListView.builder(
-      padding: AppPaddings.topMediumSmallOther,
-      itemCount: lines.length,
-      itemBuilder: (context, index) {
-        final line = lines[index];
-
-        return switch (line) {
-          _SurahHeaderLine(:final surahNumber) => SurahHeaderItem(
-            surahNumber: surahNumber,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SizedBox(
+          height: constraints.maxHeight,
+          child: Center(
+            child: SingleChildScrollView(
+              padding: AppPaddings.topMediumSmallOther,
+              child: Column(
+                crossAxisAlignment: .stretch,
+                children: [
+                  for (final line in lines)
+                    switch (line) {
+                      _SurahHeaderLine(:final surahNumber) => SurahHeaderItem(
+                        surahNumber: surahNumber,
+                      ),
+                      _BasmallahLine() => const BasmallahItem(),
+                      _GlyphLine(:final rows) => MushafGlyphLineItem(
+                        pageNumber: pageNumber,
+                        rows: rows,
+                      ),
+                    },
+                ],
+              ),
+            ),
           ),
-
-          _BasmallahLine() => const BasmallahItem(),
-
-          _GlyphLine(:final rows) => MushafGlyphLineItem(
-            pageNumber: pageNumber,
-            rows: rows,
-          ),
-        };
+        );
       },
     );
   }

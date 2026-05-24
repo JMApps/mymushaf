@@ -15,7 +15,7 @@ class BasmallahItem extends StatelessWidget {
         'ﲚﲛﲞﲤ',
         textDirection: .ltr,
         style: TextStyle(
-          fontSize: context.read<ReadingSettingsState>().ayahArabicTextSize + 5.0,
+          fontSize: context.read<ReadingSettingsState>().ayahArabicTextSize,
           fontFamily: 'QCF_BSML',
           height: 1,
         ),
