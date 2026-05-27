@@ -88,10 +88,11 @@ class FavoritePageItem extends StatelessWidget {
             ),
             const SizedBox(width: AppSpacing.medium),
             Text(
-              pageMetaModel.pageNumber.toString(),
-              style: TextStyle(
+              '${appLocale.pageShort}\n${pageMetaModel.pageNumber}',
+              style: AppTextStyles.small.copyWith(
                 color: appColors.secondary,
               ),
+              textAlign: .center,
             ),
             const SizedBox(width: AppSpacing.small),
           ],

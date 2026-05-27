@@ -72,10 +72,11 @@ class HizbItem extends StatelessWidget {
             ),
             const SizedBox(width: AppSpacing.medium),
             Text(
-              hizb.startPageNumber.toString(),
+              '${appLocale.pageShort}\n${hizb.startPageNumber}',
               style: AppTextStyles.small.copyWith(
                 color: appColors.secondary,
               ),
+              textAlign: .center,
             ),
             const SizedBox(width: AppSpacing.small),
           ],

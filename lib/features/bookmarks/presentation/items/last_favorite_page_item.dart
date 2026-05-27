@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/routes/names_router.dart';
 import '../../../../core/theme/app_paddings.dart';
 import '../../../../core/theme/app_spacing.dart';
+import '../../../../core/theme/app_text_styles.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../main/domain/entities/page_meta_entity.dart';
 import '../../../main/states/page_number_state.dart';
@@ -72,10 +73,11 @@ class LastFavoritePageItem extends StatelessWidget {
             ),
             const SizedBox(width: AppSpacing.medium),
             Text(
-              pageMetaModel.pageNumber.toString(),
-              style: TextStyle(
+              '${appLocale.pageShort}\n${pageMetaModel.pageNumber}',
+              style: AppTextStyles.small.copyWith(
                 color: appColors.secondary,
               ),
+              textAlign: .center,
             ),
             const SizedBox(width: AppSpacing.small),
           ],

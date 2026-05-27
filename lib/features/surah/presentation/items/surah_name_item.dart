@@ -109,10 +109,11 @@ class SurahNameItem extends StatelessWidget {
             ),
             const SizedBox(width: AppSpacing.medium),
             Text(
-              surah.startPageNumber.toString(),
+              '${appLocale.pageShort}\n${surah.startPageNumber}',
               style: AppTextStyles.small.copyWith(
                 color: appColors.secondary,
               ),
+              textAlign: .center,
             ),
             const SizedBox(width: AppSpacing.small),
           ],

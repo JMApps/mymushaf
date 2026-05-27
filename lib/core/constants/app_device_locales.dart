@@ -22,7 +22,7 @@ class AppDeviceLocales {
   };
 
   static const List<({String name, String column})> ayahTranslations = [
-    (name: '[RU] Кулиев', column: 'ayah_ru_kuliev'),
+    (name: '[RU] Э. Кулиев', column: 'ayah_ru_kuliev'),
     (name: '[RU] Абу Адель', column: 'ayah_ru_adel'),
     (name: '[KG] Ш. Хакимов', column: 'ayah_kg'),
     (name: '[UZ] М. Содик', column: 'ayah_uz'),

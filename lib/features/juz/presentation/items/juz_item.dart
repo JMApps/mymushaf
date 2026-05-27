@@ -72,10 +72,11 @@ class JuzItem extends StatelessWidget {
             ),
             const SizedBox(width: AppSpacing.medium),
             Text(
-              juz.startPageNumber.toString(),
+              '${appLocale.pageShort}\n${juz.startPageNumber}',
               style: AppTextStyles.small.copyWith(
                 color: appColors.secondary,
               ),
+              textAlign: .center,
             ),
             const SizedBox(width: AppSpacing.small),
           ],
