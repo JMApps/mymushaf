@@ -24,7 +24,7 @@
       }
     }
   },
-  "searchByQuery": "Search results for «{query}»: {matches}",
+  "searchByQuery": "Search results for«{query}»:\n{matches}",
   "@searchByQuery": {
     "placeholders": {
       "query": {

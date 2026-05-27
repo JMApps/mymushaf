@@ -20,9 +20,9 @@ class HighlightedAyahText extends StatelessWidget {
   Widget build(BuildContext context) {
     final appColors = Theme.of(context).colorScheme;
 
-    final style = isArabic ? const TextStyle(
+    final style = isArabic ? TextStyle(
       fontSize: 21.0,
-      fontFamily: FontFamilies.notoNaskh,
+      fontFamily: isArabic ? FontFamilies.uthmanic : FontFamilies.notoNaskh,
       height: 2.5,
       letterSpacing: 0,
     ) : AppTextStyles.medium;

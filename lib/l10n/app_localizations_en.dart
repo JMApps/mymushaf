@@ -58,7 +58,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String searchByQuery(String query, String matches) {
-    return 'Search results for «$query»: $matches';
+    return 'Search results for«$query»:\n$matches';
   }
 
   @override

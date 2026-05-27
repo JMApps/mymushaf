@@ -30,7 +30,6 @@ class SearchResultsHeader extends StatelessWidget {
         appLocale.searchByQuery(query, matchesText),
         style: AppTextStyles.medium,
         textAlign: .center,
-        maxLines: 1,
         overflow: .ellipsis,
       ),
     );

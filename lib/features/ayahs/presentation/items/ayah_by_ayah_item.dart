@@ -36,7 +36,8 @@ class AyahByAyahItem extends StatelessWidget {
           showModalBottomSheet(
             context: context,
             builder: (ctx) => AyahItemOption(
-              mushafPageRowModel: row,
+              ayahId: row.ayahId!,
+              wholeAyah: '${row.arabicAyah}\n\n${row.translation}',
               verseKey: verseKey,
               ayahIndex: index,
             ),

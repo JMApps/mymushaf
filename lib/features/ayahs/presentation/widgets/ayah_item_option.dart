@@ -7,18 +7,19 @@ import '../../../../core/theme/app_paddings.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../bookmarks/presentation/states/bookmarks_state.dart';
-import '../../../reader/domain/entities/mushaf_page_row_entity.dart';
 import '../../../surah/presentation/states/surah_name_state.dart';
 
 class AyahItemOption extends StatelessWidget {
   const AyahItemOption({
     super.key,
-    required this.mushafPageRowModel,
+    required this.ayahId,
+    required this.wholeAyah,
     required this.verseKey,
     required this.ayahIndex,
   });
 
-  final MushafPageRowEntity mushafPageRowModel;
+  final int ayahId;
+  final String wholeAyah;
   final String verseKey;
   final int ayahIndex;
 
@@ -27,7 +28,7 @@ class AyahItemOption extends StatelessWidget {
     final appColors = Theme.of(context).colorScheme;
     final appLocale = AppLocalizations.of(context);
     final surahFirstVerseKey = context.select<SurahNameState, String?>((s) => s.surahByVerseKey(appLocale.surah, verseKey, appLocale.ayah.toLowerCase()));
-    final wholeAyah = '${mushafPageRowModel.arabicAyah}\n\n${mushafPageRowModel.translation}\n\n$surahFirstVerseKey';
+    final endWholeAyah = '$wholeAyah\n\n$surahFirstVerseKey';
     return Padding(
       padding: AppPaddings.withoutTopMedium,
       child: Row(
@@ -45,13 +46,13 @@ class AyahItemOption extends StatelessWidget {
           ),
 
           Selector<BookmarksState, bool>(
-            selector: (_, state) => state.isFavoriteAyah(mushafPageRowModel.ayahId!),
+            selector: (_, state) => state.isFavoriteAyah(ayahId),
             builder: (context, isFavorite, child) {
               return IconButton(
                 onPressed: () {
                   Navigator.pop(context);
                   context.read<BookmarksState>().toggleFavoriteAyah(
-                    ayahId: mushafPageRowModel.ayahId!,
+                    ayahId: ayahId,
                   );
                 },
                 icon: Icon(isFavorite ? Icons.bookmark_rounded : Icons.bookmark_border_rounded,
@@ -63,7 +64,7 @@ class AyahItemOption extends StatelessWidget {
           IconButton(
             onPressed: () {
               Navigator.pop(context);
-              Pasteboard.writeText(wholeAyah);
+              Pasteboard.writeText(endWholeAyah);
             },
             icon: const Icon(Icons.copy_rounded),
           ),
@@ -73,7 +74,7 @@ class AyahItemOption extends StatelessWidget {
               Navigator.pop(context);
               await SharePlus.instance.share(
                 ShareParams(
-                  text: wholeAyah,
+                  text: endWholeAyah,
                   sharePositionOrigin: const Rect.fromLTWH(1, 1, 1, 1),
                 ),
               );

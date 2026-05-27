@@ -161,7 +161,7 @@ abstract class AppLocalizations {
   /// No description provided for @searchByQuery.
   ///
   /// In ru, this message translates to:
-  /// **'По запросу «{query}» {matches}'**
+  /// **'По запросу«{query}»\n{matches}'**
   String searchByQuery(String query, String matches);
 
   /// No description provided for @enterSearchQuery.

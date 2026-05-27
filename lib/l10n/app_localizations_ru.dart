@@ -61,7 +61,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String searchByQuery(String query, String matches) {
-    return 'По запросу «$query» $matches';
+    return 'По запросу«$query»\n$matches';
   }
 
   @override

@@ -24,7 +24,7 @@
       }
     }
   },
-  "searchByQuery": "По запросу «{query}» {matches}",
+  "searchByQuery": "По запросу«{query}»\n{matches}",
   "@searchByQuery": {
     "placeholders": {
       "query": {
