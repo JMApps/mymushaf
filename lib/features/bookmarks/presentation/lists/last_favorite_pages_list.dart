@@ -28,7 +28,7 @@ class _LastFavoritePagesListState extends State<LastFavoritePagesList> {
   @override
   Widget build(BuildContext context) {
     final appLocale = AppLocalizations.of(context);
-    final bottomHeight = kBottomNavigationBarHeight + AppSpacing.medium;
+    final bottomHeight = kBottomNavigationBarHeight + AppSpacing.medium * 2;
 
     return Selector2<BookmarksState, PageMetaState,
         ({bool loading, Object? error, List pageMetas})>(

@@ -26,6 +26,7 @@ class ReaderAppBarState extends ChangeNotifier {
         systemNavigationBarContrastEnforced: false,
       ),
     );
+    _showAppBar = true;
   }
 
   void _hideSystemUi() {

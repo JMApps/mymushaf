@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:mymushaf/core/theme/app_radius.dart';
 import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
@@ -57,8 +60,8 @@ class _HomePageState extends State<HomePage> {
 
     controller.animateTo(
       0,
-      duration: const Duration(milliseconds: 450),
-      curve: Curves.easeOutCubic,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.bounceIn,
     );
   }
 
@@ -92,38 +95,52 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           child: Card(
+            color: Colors.transparent,
+            elevation: 0,
             margin: AppPaddings.withoutTopMedium,
             shape: AppShapes.large,
-            child: SalomonBottomBar(
-              itemShape: AppShapes.large,
-              selectedItemColor: appColors.primary,
-              unselectedItemColor: appColors.onSurface.withAlpha(175),
-              items: [
-                SalomonBottomBarItem(
-                  icon: const Icon(Icons.line_style_rounded),
-                  title: Text(appLocale.surahs),
+            child: ClipRRect(
+              borderRadius: AppRadius.large,
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 12.5, sigmaY: 12.5),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: appColors.surface.withValues(alpha: 0.65),
+                    borderRadius: AppRadius.large,
+                  ),
+                  child: SalomonBottomBar(
+                    itemShape: AppShapes.medium,
+                    selectedItemColor: appColors.primary,
+                    unselectedItemColor: appColors.onSurface.withAlpha(185),
+                    items: [
+                      SalomonBottomBarItem(
+                        icon: const Icon(Icons.line_style_rounded),
+                        title: Text(appLocale.surahs),
+                      ),
+                      SalomonBottomBarItem(
+                        icon: const Icon(Icons.bookmark_rounded),
+                        title: Text(appLocale.bookmarks),
+                      ),
+                      SalomonBottomBarItem(
+                        icon: const Icon(Icons.circle_rounded),
+                        title: Text(appLocale.juzs),
+                      ),
+                      SalomonBottomBarItem(
+                        icon: const Icon(Icons.settings_rounded),
+                        title: Text(appLocale.settings),
+                      ),
+                    ],
+                    currentIndex: currentNavigatorIndex,
+                    onTap: (int index) {
+                      if (currentNavigatorIndex != index) {
+                        context.read<MainState>().setBottomNavigatorIndex(index);
+                      } else {
+                        _scrollCurrentTabToTop(index);
+                      }
+                    },
+                  ),
                 ),
-                SalomonBottomBarItem(
-                  icon: const Icon(Icons.bookmark_rounded),
-                  title: Text(appLocale.bookmarks),
-                ),
-                SalomonBottomBarItem(
-                  icon: const Icon(Icons.circle_rounded),
-                  title: Text(appLocale.juzs),
-                ),
-                SalomonBottomBarItem(
-                  icon: const Icon(Icons.settings_rounded),
-                  title: Text(appLocale.settings),
-                ),
-              ],
-              currentIndex: currentNavigatorIndex,
-              onTap: (int index) {
-                if (currentNavigatorIndex != index) {
-                  context.read<MainState>().setBottomNavigatorIndex(index);
-                } else {
-                  _scrollCurrentTabToTop(index);
-                }
-              },
+              ),
             ),
           ),
         ),

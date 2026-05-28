@@ -25,7 +25,7 @@ class _FavoriteAyahsListState extends State<FavoriteAyahsList> {
     super.initState();
     _bookmarksState = context.read<BookmarksState>();
     _bookmarksState.addListener(_onFavoritesChanged);
-    _load();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _load());
   }
 
   @override
@@ -44,7 +44,7 @@ class _FavoriteAyahsListState extends State<FavoriteAyahsList> {
   @override
   Widget build(BuildContext context) {
     final appLocale = AppLocalizations.of(context);
-    final bottomHeight = kBottomNavigationBarHeight + AppSpacing.medium;
+    final bottomHeight = kBottomNavigationBarHeight + AppSpacing.medium * 2;
     return Selector<AyahByAyahState, ({bool loading, Object? error, List<AyahByAyahEntity> ayahs})>(
       selector: (_, s) => (
       loading: s.isFavoritesLoading,
