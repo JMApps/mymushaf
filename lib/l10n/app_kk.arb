@@ -1,0 +1,88 @@
+{
+  "@@locale": "kk",
+  "alwaysDisplayOn": "Экран әрқашан қосулы",
+  "appName": "Менің Мұсхафым",
+  "appTheme": "Қолданба тақырыбы",
+  "arabic": "Арабша",
+  "arabicAyah": "Аятты арабша",
+  "arabicSurahName": "Сүренің арабша атауы",
+  "ayah": "Аят",
+  "ayahs": "Аяттар",
+  "ayahsCount": "{count, plural, one{{count} аят} few{{count} аят} many{{count} аят} other{{count} аят}}",
+  "@ayahsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchResults": "{count, plural, =0{ештеңе табылмады} one{{count} нәтиже табылды} few{{count} нәтиже табылды} many{{count} нәтиже табылды} other{{count} нәтиже табылды}}",
+  "@searchResults": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchByQuery": "«{query}» сұранысы бойынша↵{matches}",
+  "@searchByQuery": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      },
+      "matches": {
+        "type": "String"
+      }
+    }
+  },
+  "enterSearchQuery": "Іздеу үшін сұраныс енгізіңіз",
+  "searchNoResults": "Ештеңе табылмады",
+  "searchError": "Іздеу қатесі: {error}",
+  "@searchError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "ayahsTextSize": "Аят мәтінінің өлшемі",
+  "bookmarks": "Таңдаулылар",
+  "cancel": "Бас тарту",
+  "defaultSettings": "Зауыттық параметрлер",
+  "delete": "Жою",
+  "deleteAllBookmarks": "Барлық таңдаулыларды жою",
+  "errorDbInit": "Деректер қорын инициализациялау қатесі",
+  "hizb": "Хизб",
+  "hizbs": "Хизбтер",
+  "initializingData": "Деректер инициализациялануда…",
+  "juz": "Жүз",
+  "juzs": "Жүздер",
+  "listIsEmpty": "Тізім бос",
+  "medina": "Мәдина",
+  "mecca": "Мекке",
+  "page": "Бет",
+  "pageShort": "Б.",
+  "pages": "Беттер",
+  "recent": "Соңғы",
+  "removedFromFavorite": "Таңдаулылардан жойылды",
+  "reset": "Қалпына келтіру",
+  "retry": "Қайталап көру",
+  "semanticTranslation": "Мағыналық аударма",
+  "mushafPage": "Мұсхаф беті",
+  "selectThemeColor": "Тақырып түсін таңдаңыз",
+  "settings": "Параметрлер",
+  "surah": "Сүре",
+  "surahs": "Сүрелер",
+  "themeColor": "Тақырып түсі",
+  "themeDark": "Қараңғы",
+  "themeLight": "Жарық",
+  "themeSystem": "Жүйелік",
+  "translation": "Аударма",
+  "translationAyah": "Аяттың аудармасы",
+  "addToFavorite": "Таңдаулыларға қосу",
+  "removeFromFavorite": "Таңдаулылардан жою",
+  "jumpToPage": "Бетке өту",
+  "goTo": "Өту…",
+  "searchAyahs": "Аяттарды іздеу",
+  "translationSurahName": "Сүре атауының аудармасы"
+}

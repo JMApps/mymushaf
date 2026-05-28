@@ -1,0 +1,88 @@
+{
+  "@@locale": "az",
+  "alwaysDisplayOn": "Ekran həmişə açıq",
+  "appName": "Mənim Müshəfim",
+  "appTheme": "Tətbiq mövzusu",
+  "arabic": "Ərəbcə",
+  "arabicAyah": "Ayəni ərəbcə",
+  "arabicSurahName": "Surənin ərəbcə adı",
+  "ayah": "Ayə",
+  "ayahs": "Ayələr",
+  "ayahsCount": "{count, plural, one{{count} ayə} few{{count} ayə} many{{count} ayə} other{{count} ayə}}",
+  "@ayahsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchResults": "{count, plural, =0{heç nə tapılmadı} one{{count} nəticə tapıldı} few{{count} nəticə tapıldı} many{{count} nəticə tapıldı} other{{count} nəticə tapıldı}}",
+  "@searchResults": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchByQuery": "«{query}» sorğusu üzrə↵{matches}",
+  "@searchByQuery": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      },
+      "matches": {
+        "type": "String"
+      }
+    }
+  },
+  "enterSearchQuery": "Axtarmaq üçün sorğu daxil edin",
+  "searchNoResults": "Heç nə tapılmadı",
+  "searchError": "Axtarış xətası: {error}",
+  "@searchError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "ayahsTextSize": "Ayə mətninin ölçüsü",
+  "bookmarks": "Sevimlilər",
+  "cancel": "Ləğv et",
+  "defaultSettings": "Zavod parametrləri",
+  "delete": "Sil",
+  "deleteAllBookmarks": "Bütün sevimlileri sil",
+  "errorDbInit": "Verilənlər bazasının işə salınması xətası",
+  "hizb": "Hizb",
+  "hizbs": "Hizblar",
+  "initializingData": "Məlumatlar işə salınır…",
+  "juz": "Cüz",
+  "juzs": "Cüzlər",
+  "listIsEmpty": "Siyahı boşdur",
+  "medina": "Mədinə",
+  "mecca": "Məkkə",
+  "page": "Səhifə",
+  "pageShort": "S.",
+  "pages": "Səhifələr",
+  "recent": "Son",
+  "removedFromFavorite": "Sevimlilərdən silindi",
+  "reset": "Sıfırla",
+  "retry": "Yenidən cəhd et",
+  "semanticTranslation": "Mənalı tərcümə",
+  "mushafPage": "Müshəf səhifəsi",
+  "selectThemeColor": "Mövzu rəngini seçin",
+  "settings": "Parametrlər",
+  "surah": "Surə",
+  "surahs": "Surələr",
+  "themeColor": "Mövzu rəngi",
+  "themeDark": "Tünd",
+  "themeLight": "Açıq",
+  "themeSystem": "Sistem",
+  "translation": "Tərcümə",
+  "translationAyah": "Ayənin tərcüməsi",
+  "addToFavorite": "Sevimlilərə əlavə et",
+  "removeFromFavorite": "Sevimlilərdən sil",
+  "jumpToPage": "Səhifəyə keç",
+  "goTo": "Keç…",
+  "searchAyahs": "Ayələri axtar",
+  "translationSurahName": "Surə adının tərcüməsi"
+}
