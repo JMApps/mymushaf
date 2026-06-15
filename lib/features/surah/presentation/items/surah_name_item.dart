@@ -81,7 +81,6 @@ class SurahNameItem extends StatelessWidget {
                                     surah.nameTranscriptionRu,
                                     style: AppTextStyles.medium,
                                     maxLines: 1,
-                                    overflow: .ellipsis,
                                   ),
                                 ),
                                 if (settings.translation) Flexible(
