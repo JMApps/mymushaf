@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mymushaf/features/reader/presentation/widgets/to_page_button.dart';
-import 'package:mymushaf/features/reader/presentation/widgets/translate_mode_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_text_styles.dart';
@@ -10,6 +8,7 @@ import '../../../main/states/page_meta_state.dart';
 import '../../../main/states/page_number_state.dart';
 import '../../../surah/presentation/states/surah_name_state.dart';
 import '../states/reader_app_bar_state.dart';
+import 'to_page_button.dart';
 
 class ReaderAppBar extends StatelessWidget {
   const ReaderAppBar({super.key, required this.pageController});
@@ -75,7 +74,7 @@ class ReaderAppBar extends StatelessWidget {
                   },
                 ),
               ),
-              const TranslateModeButton(),
+              // const TranslateModeButton(),
               ToPageButton(pageController: pageController),
             ],
           ),

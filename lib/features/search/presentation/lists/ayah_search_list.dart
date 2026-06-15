@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_spacing.dart';
 import '../../../ayahs/domain/entities/ayah_by_ayah_entity.dart';
 import '../items/search_ayah_item.dart';
 
@@ -17,9 +16,7 @@ class AyahSearchList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: const .only(
-        bottom: kBottomNavigationBarHeight + AppSpacing.medium * 2,
-      ),
+      padding: .zero,
       itemCount: searchResultList.length,
       itemBuilder: (context, index) {
         final ayah = searchResultList[index];

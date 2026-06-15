@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -68,6 +70,16 @@ class _AppLoaderState extends State<AppLoader> {
         theme: theme.lightTheme,
         darkTheme: theme.darkTheme,
         themeMode: themeState.appThemeMode,
+        builder: (context, child) {
+          return SafeArea(
+            top: false,
+            left: false,
+            right: false,
+            bottom: Platform.isAndroid,
+            maintainBottomViewPadding: true,
+            child: child ?? const SizedBox.shrink(),
+          );
+        },
         home: const HomePage(),
       ),
     );
