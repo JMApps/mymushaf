@@ -6,7 +6,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_az.dart';
-import 'app_localizations_en.dart';
 import 'app_localizations_kg.dart';
 import 'app_localizations_kk.dart';
 import 'app_localizations_ru.dart';
@@ -98,7 +97,6 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('az'),
-    Locale('en'),
     Locale('kg'),
     Locale('kk'),
     Locale('ru'),
@@ -440,7 +438,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['az', 'en', 'kg', 'kk', 'ru'].contains(locale.languageCode);
+      <String>['az', 'kg', 'kk', 'ru'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -451,8 +449,6 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'az':
       return AppLocalizationsAz();
-    case 'en':
-      return AppLocalizationsEn();
     case 'kg':
       return AppLocalizationsKg();
     case 'kk':

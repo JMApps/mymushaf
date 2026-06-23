@@ -5,7 +5,6 @@ class AppDeviceLocales {
 
   static const List<Locale> appLocales = [
     Locale('ru'),
-    Locale('en'),
     Locale('kg'),
     Locale('uz'),
     Locale('az'),
@@ -14,11 +13,10 @@ class AppDeviceLocales {
 
   static const Map<String, int> defaultTranslationIndex = {
     'ru': 0,
-    'en': 1,
-    'kg': 2,
-    'uz': 3,
-    'az': 4,
-    'kk': 5,
+    'kg': 1,
+    'uz': 2,
+    'az': 3,
+    'kk': 4,
   };
 
   static const List<({String name, String column})> ayahTranslations = [
