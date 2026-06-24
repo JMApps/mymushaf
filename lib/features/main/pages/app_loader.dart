@@ -66,6 +66,7 @@ class _AppLoaderState extends State<AppLoader> {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         onGenerateTitle: (context) => AppLocalizations.of(context).appName,
+        locale: context.watch<LocaleSettingsState>().appLocale,
         onGenerateRoute: AppRoutes.onRouteGenerator,
         theme: theme.lightTheme,
         darkTheme: theme.darkTheme,

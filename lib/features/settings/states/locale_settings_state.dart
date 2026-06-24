@@ -18,6 +18,8 @@ class LocaleSettingsState extends ChangeNotifier {
 
   int get appLocaleIndex => _appLocaleIndex;
 
+  Locale get appLocale => AppDeviceLocales.appLocales[_appLocaleIndex];
+
   set appLocaleIndex(int index) {
     if (index < 0 || index >= AppDeviceLocales.appLocales.length) return;
     if (_appLocaleIndex == index) return;
