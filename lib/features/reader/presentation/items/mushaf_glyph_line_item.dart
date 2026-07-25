@@ -31,7 +31,7 @@ class MushafGlyphLineItem extends StatelessWidget {
         textAlign: .center,
         style: TextStyle(
           fontFamily: family,
-          fontSize: 22,
+          fontSize: 20,
           height: 1.9,
         ),
       ),
