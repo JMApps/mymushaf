@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../core/constants/font_families.dart';
-import '../../../settings/states/reading_settings_state.dart';
 import '../../domain/entities/mushaf_page_row_entity.dart';
+import '../states/mushaf_page_font_state.dart';
 
 class MushafGlyphLineItem extends StatelessWidget {
   const MushafGlyphLineItem({
@@ -17,20 +16,23 @@ class MushafGlyphLineItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final readingSettings = context.read<ReadingSettingsState>();
+    final fontState = context.watch<MushafPageFontState>();
+    final family = fontState.getFontFamily(pageNumber);
 
-    final text = rows.map((row) => row.word).whereType<String>().join('\u202F');
+    if (family == null) {
+      return const SizedBox.shrink();
+    }
 
+    final text = rows.map((row) => row.glyph).whereType<String>().join('\u202F');
     return RepaintBoundary(
       child: Text(
         text,
         textDirection: .rtl,
         textAlign: .center,
         style: TextStyle(
-          fontFamily: FontFamilies.uthmanic,
-          fontSize: readingSettings.ayahArabicTextSize - 2,
-          height: 1.95,
-          letterSpacing: 0,
+          fontFamily: family,
+          fontSize: 22,
+          height: 1.9,
         ),
       ),
     );

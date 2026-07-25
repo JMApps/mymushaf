@@ -6,6 +6,7 @@ import '../../../../core/theme/app_paddings.dart';
 import '../../../bookmarks/presentation/states/bookmarks_state.dart';
 import '../../../main/states/page_number_state.dart';
 import '../items/read_item.dart';
+import '../states/mushaf_page_font_state.dart';
 import '../states/mushaf_page_load_state.dart';
 import '../states/mushaf_page_row_state.dart';
 
@@ -26,6 +27,7 @@ class ReaderPageList extends StatefulWidget {
 class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObserver {
   late final PageNumberState _pageNumberState;
   late final MushafPageRowState _mushafPageRowState;
+  late final MushafPageFontState _mushafPageFontState;
   late final BookmarksState _bookmarksState;
 
   late int _currentPage;
@@ -36,6 +38,7 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
 
     _pageNumberState = context.read<PageNumberState>();
     _mushafPageRowState = context.read<MushafPageRowState>();
+    _mushafPageFontState = context.read<MushafPageFontState>();
     _bookmarksState = context.read<BookmarksState>();
 
     WidgetsBinding.instance.addObserver(this);
@@ -46,6 +49,7 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       _mushafPageRowState.loadWindow(_currentPage);
+      _mushafPageFontState.loadWindow(_currentPage);
     });
   }
 
@@ -83,6 +87,7 @@ class _ReaderPageListState extends State<ReaderPageList> with WidgetsBindingObse
 
         _pageNumberState.setPageNumber(page);
         _mushafPageRowState.loadWindow(page);
+        _mushafPageFontState.loadWindow(page);
       },
       itemBuilder: (context, index) {
         final page = index + 1;

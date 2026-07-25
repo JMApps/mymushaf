@@ -10,6 +10,7 @@ import 'features/main/states/database_init_state.dart';
 import 'features/main/states/main_state.dart';
 import 'features/main/states/page_number_state.dart';
 import 'features/main/states/translate_mode_state.dart';
+import 'features/reader/presentation/states/mushaf_page_font_state.dart';
 import 'features/reader/presentation/states/reader_app_bar_state.dart';
 import 'features/settings/states/display_settings_state.dart';
 import 'features/settings/states/locale_settings_state.dart';
@@ -35,6 +36,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => LocaleSettingsState()),
         ChangeNotifierProvider(create: (_) => ReadingSettingsState()),
         ChangeNotifierProvider(create: (_) => DisplaySettingsState()),
+        ChangeNotifierProvider(create: (_) => MushafPageFontState()),
         ChangeNotifierProvider(create: (_) => BookmarksState()),
         Provider<SettingsResetCoordinator>(
           create: (context) => SettingsResetCoordinator(
